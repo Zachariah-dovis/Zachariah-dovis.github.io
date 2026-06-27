@@ -9,17 +9,6 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,500;6..72,700;6..72,800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
-  <script>
-    window.MathJax = {
-      tex: {
-        inlineMath: [['$', '$'], ['\\(', '\\)']],
-        displayMath: [['$$', '$$'], ['\\[', '\\]']],
-        processEscapes: true
-      },
-      svg: { fontCache: 'global' }
-    };
-  </script>
-  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 </head>
 <body>
   <div class="grain" aria-hidden="true"></div>
@@ -30,89 +19,23 @@
     </a>
     <nav class="nav" aria-label="Primary navigation">
       <a href="index.html#about">About</a>
-      <a href="index.html#blog">Blog</a>
+      <a href="blog.html">Blog</a>
       <a href="https://github.com/Zachariah-dovis" target="_blank" rel="noopener">GitHub</a>
     </nav>
   </header>
-  
-<main id="top" class="page-shell">
-  <section class="hero" aria-labelledby="hero-title">
-    <p class="eyebrow">Personal Website</p>
-    <h1 id="hero-title">Zachariah Zhang</h1>
-    <p class="hero-text">Notes on randomness, computation, probability, algorithms, convex geometry, and mathematical thinking.</p>
-  </section>
 
-  <section class="two-column-layout" aria-label="About and Blog">
-    <aside class="panel about-panel" id="about" aria-labelledby="about-title">
-      <p class="eyebrow">About</p>
-      <h2 id="about-title">About</h2>
-      <p>
-        I am interested in high-dimensional phenomena, algorithms, probability, convex geometry, and the mathematical structures behind computation.
-      </p>
-      <p>
-        This website is a local archive for my writing: technical notes, reading reflections, problem collections, and unfinished ideas around randomness and computation.
-      </p>
-      <div class="about-links" aria-label="External links">
-        <a href="https://github.com/Zachariah-dovis" target="_blank" rel="noopener">GitHub</a>
-        <a href="mailto:your.email@example.com">Email</a>
-      </div>
-      <div class="about-note">
-        <strong>Note.</strong> Replace the email placeholder in <code>index.html</code> when you are ready to publish your contact information.
-      </div>
-    </aside>
-
-    <section class="panel blog-panel" id="blog" aria-labelledby="blog-title">
-      <div class="panel-heading">
-        <div>
-          <p class="eyebrow">Blog</p>
-          <h2 id="blog-title">Randomness and Computation</h2>
-        </div>
-        <span class="post-count">7 posts</span>
-      </div>
-      <p class="blog-intro">
-        Migrated from the Notion export into local GitHub Pages HTML. Posts open as pages under this website; they are not external Notion redirects.
-      </p>
-      <label class="search-label" for="post-search">Search posts</label>
-      <input id="post-search" class="post-search" type="search" placeholder="Search by title or topic..." />
-      <div class="post-list" id="post-list">
-        <article class="post-card" data-title="some interesting problems in hf interviews" data-tag="problems">
-  <div class="post-meta"><span>Problems</span><span>·</span><span>local HTML</span></div>
-  <h3>Some Interesting Problems in HF interviews</h3>
-  <p>1. Construct a one-to-one mapping (bijection) from [0,1] to (0,1)</p>
-  <a class="post-link" href="posts/some-interesting-problems-in-hf-interviews.html">Read on this site</a>
-</article><article class="post-card" data-title="functional analysis for markov chain mixing time" data-tag="markov chains">
-  <div class="post-meta"><span>Markov Chains</span><span>·</span><span>local HTML</span></div>
-  <h3>Functional Analysis for Markov Chain Mixing Time</h3>
-  <p>Mixing Time Bounds via Functional Analysis</p>
-  <a class="post-link" href="posts/functional-analysis-for-markov-chain-mixing-time.html">Read on this site</a>
-</article><article class="post-card" data-title="random series and slln" data-tag="probability">
-  <div class="post-meta"><span>Probability</span><span>·</span><span>local HTML</span></div>
-  <h3>Random Series and SLLN</h3>
-  <p>In calculus, we study the convergence properties of series. Similarly, in probability theory, we are interested in the convergence of series of random variables. Consider the series:</p>
-  <a class="post-link" href="posts/random-series-and-slln.html">Read on this site</a>
-</article><article class="post-card" data-title="polytopes in high dimension" data-tag="high dimension">
-  <div class="post-meta"><span>High Dimension</span><span>·</span><span>local HTML</span></div>
-  <h3>Polytopes in High Dimension</h3>
-  <p>The notion of &quot;High Dimensional&quot; is playing an increasingly important role in Probability Theory and Theoretical Computer Science. High-dimensional objects are unexpectedly interesting because they often contra…</p>
-  <a class="post-link" href="posts/polytopes-in-high-dimension.html">Read on this site</a>
-</article><article class="post-card" data-title="models in statistical physics and some algorithmic correlations" data-tag="statistical physics">
-  <div class="post-meta"><span>Statistical Physics</span><span>·</span><span>local HTML</span></div>
-  <h3>Models in Statistical Physics and some algorithmic correlations</h3>
-  <p>Let q ∈ \N be an integer satisfying q ≥ 2. A q-spin system is specified by a graph G = (V, E), a nonnegative symmetric interaction matrix \mathbf A ∈ \R^{q×q}{≥0}, and a nonnegative vector of external fields \m…</p>
-  <a class="post-link" href="posts/models-in-statistical-physics-and-some-algorithmic-correlations.html">Read on this site</a>
-</article><article class="post-card" data-title="some interesting examples related to probability" data-tag="probability">
-  <div class="post-meta"><span>Probability</span><span>·</span><span>local HTML</span></div>
-  <h3>Some interesting examples related to probability</h3>
-  <p>This page will be updated persistently.</p>
-  <a class="post-link" href="posts/some-interesting-examples-related-to-probability.html">Read on this site</a>
-</article><article class="post-card" data-title="resources on optimization theory" data-tag="optimization">
-  <div class="post-meta"><span>Optimization</span><span>·</span><span>local HTML</span></div>
-  <h3>Resources on Optimization Theory</h3>
-  <p>From my point of view, the modern optimization theory contains three most important frameworks——first order methods, cutting plane methods and interior point methods.</p>
-  <a class="post-link" href="posts/resources-on-optimization-theory.html">Read on this site</a>
-</article>
-      </div>
-    </section>
+<main id="top" class="page-shell home-shell">
+  <section class="panel about-landing" id="about" aria-labelledby="about-title">
+    <p class="eyebrow">About</p>
+    <h1 id="about-title">Zachariah Zhang</h1>
+    <p class="hero-text">
+      I am interested in high-dimensional phenomena, algorithms, probability, convex geometry, and the mathematical structures behind computation. Recently I graduated from Peking University with a Bachelor of Science degree.
+    </p>
+    <div class="about-links" aria-label="Links">
+      <a href="https://github.com/Zachariah-dovis" target="_blank" rel="noopener">GitHub</a>
+      <a href="mailto:zachariah.dovis@gmail.com">Email</a>
+      <a href="blog.html">Blog</a>
+    </div>
   </section>
 </main>
 
