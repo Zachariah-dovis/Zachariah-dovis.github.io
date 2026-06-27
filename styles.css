@@ -319,25 +319,27 @@ h1, h2, h3 { margin: 0; letter-spacing: -0.045em; }
   padding-top: 42px;
 }
 .about-landing {
-  width: min(860px, 100%);
+  width: 100%;
   padding: clamp(30px, 7vw, 72px);
 }
 .about-landing h1, .blog-page h1 {
   font-family: Newsreader, Georgia, serif;
-  font-size: clamp(3.8rem, 11vw, 8.8rem);
-  line-height: 0.88;
+  line-height: 0.94;
   font-weight: 800;
-  letter-spacing: -0.06em;
+  letter-spacing: -0.055em;
+}
+.about-landing h1 {
+  font-size: clamp(3.4rem, 7.2vw, 6.6rem);
 }
 .about-landing .hero-text {
-  max-width: 760px;
+  max-width: 860px;
   margin-top: 28px;
 }
 .blog-shell {
   width: min(980px, calc(100% - 36px));
 }
 .blog-page h1 {
-  font-size: clamp(3rem, 7vw, 6rem);
+  font-size: clamp(2.7rem, 5.4vw, 4.9rem);
 }
 .blog-page .post-list {
   margin-top: 22px;
@@ -347,7 +349,10 @@ h1, h2, h3 { margin: 0; letter-spacing: -0.045em; }
     min-height: auto;
     padding-top: 28px;
   }
-  .about-landing h1, .blog-page h1 {
-    font-size: clamp(3.2rem, 17vw, 5rem);
+  .about-landing h1 {
+    font-size: clamp(3rem, 15vw, 4.8rem);
+  }
+  .blog-page h1 {
+    font-size: clamp(2.8rem, 14vw, 4.4rem);
   }
 }
