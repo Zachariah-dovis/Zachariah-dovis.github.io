@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="In calculus, we study the convergence properties of series. Similarly, in probability theory, we are interested in the convergence of series of random variables. Consider the series:" />
+  <title>Random Series and SLLN · Zachariah Zhang</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,500;6..72,700;6..72,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css" />
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+  <header class="site-header">
+    <a class="brand" href="../index.html" aria-label="Zachariah Zhang home">
+      <span class="brand-mark">Z</span>
+      <span>Zachariah Zhang</span>
+    </a>
+    <nav class="nav" aria-label="Primary navigation">
+      <a href="../index.html#about">About</a>
+      <a href="../index.html#blog">Blog</a>
+      <a href="https://github.com/Zachariah-dovis" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+  </header>
+  
+<main class="article-shell">
+  <article class="article-card">
+    <a class="back-link" href="../index.html#blog">← Back to Blog</a>
+    <p class="eyebrow">Probability</p>
+    <h1>Random Series and SLLN</h1>
+    <p class="article-lede">In calculus, we study the convergence properties of series. Similarly, in probability theory, we are interested in the convergence of series of random variables. Consider the series:</p>
+    <div class="article-content">
+      
+<h3 id="random-series">Random Series</h3>
+<p>In calculus, we study the convergence properties of series. Similarly, in probability theory, we are interested in the convergence of series of random variables. Consider the series:</p>
+<p><span class="math display">\[
+\sum_{n=1}^\infty \frac{Z_n}{n}
+\]</span></p>
+<p>where each <span class="math inline">\(Z_n\)</span> is an independent and identically distributed (i.i.d.) random variable taking values in <span class="math inline">\(\{ -1, 1 \}\)</span> with equal probability (i.e., <span class="math inline">\(\mathbb P(Z_n=1)=\mathbb P(Z_n=−1)=\frac 12\)</span>).</p>
+<p><strong>Question:</strong> How can we determine the convergence properties of this series? Specifically, does the series converge almost surely, in mean square, or in distribution?</p>
+<p>To answer the question, we prove the following theorem:</p>
+<p><strong><em>Theorem 1(Three-series theorem)</em>.</strong> Let <span class="math inline">\(X_1, X_2, . . .\)</span> be independent. Let <span class="math inline">\(A &gt; 0\)</span> and <span class="math inline">\(Y_n = X_n\mathbb 1_{\{|X_n|≤A\}}\)</span>. In order for <span class="math inline">\(\sum_n X_n\)</span> to converge a.s., it is necessary and sufficient that:</p>
+<p><span class="math display">\[
+\sum_{n=1}^\infty\mathbb{P}[|X_n|&gt;A]&lt;+\infty,\tag{1}
+\]</span></p>
+<p><span class="math display">\[
+\sum_{n=1}^\infty\mathbb{E}[Y_n]\textit{ converges},\tag{2}
+\]</span></p>
+<p>and</p>
+<p><span class="math display">\[
+\sum_{n=1}^\infty\mathrm{Var}[Y_n]&lt;+\infty.\tag{3}
+\]</span></p>
+<p><strong><em>Remark. This theorem controls the convergence of <span class="math inline">\(X_n\)</span> via a real number <span class="math inline">\(A\)</span> and another series <span class="math inline">\(Y_n\)</span>, we could simply view (1) as the condition to control the terms in <span class="math inline">\(X_n\)</span> which is greater than <span class="math inline">\(A\)</span>.</em></strong></p>
+<p><strong>Sufficiency</strong></p>
+<p><strong><em>Lemma 2(First Borel-Cantelli lemma (BC1)).</em></strong> Let <span class="math inline">\((A_n)_n\)</span> be a sequence of events. If</p>
+<p><span class="math display">\[
+\sum_n\mathbb{P}[A_n]&lt;+\infty,
+\]</span></p>
+<p>then</p>
+<p><span class="math display">\[
+\mathbb{P}[A_n\text{ i.}o.]=0.
+\]</span></p>
+<p><strong>Proof.</strong> We claim it suffices to prove that</p>
+<p><span class="math display">\[
+\sum_n(Y_n-\mathbb{E}[Y_n])\text{ converges.}
+\]</span></p>
+<p>Indeed, suppose that this is the case, then by (2) it follows that</p>
+<p><span class="math display">\[
+\sum_nY_n\text{ converges.}
+\]</span></p>
+<p>By (1) and (BC1),</p>
+<p><span class="math display">\[
+\sum_nX_n\text{ converges.}
+\]</span></p>
+<p>In order to prove the claim, we show the following:</p>
+<p><strong><em>Theorem 3(Zero-mean series theorem).</em></strong> Let <span class="math inline">\(X_1, X_2, . . .\)</span> be independent with mean <span class="math inline">\(0\)</span>. If</p>
+<p><span class="math display">\[
+\sum_n\mathrm{Var}[X_n]&lt;+\infty
+\]</span></p>
+<p>then <span class="math inline">\(S_n = \sum_{k\le n} X_k\)</span> converges a.s.</p>
+<p><strong>Proof.</strong> For <span class="math inline">\(M &gt; 0\)</span>, let</p>
+<p><span class="math display">\[
+w_M\equiv\sup_{n,m\geq M}|S_n-S_m|\downarrow w_\infty.
+\]</span></p>
+<p>By a Cauchy-type argument it suffices to prove that, for all <span class="math inline">\(\epsilon &gt; 0\)</span>,</p>
+<p><span class="math display">\[
+\mathbb{P}[w_\infty&gt;2\varepsilon]=\mathbb{P}[\cap_M\{w_M&gt;2\varepsilon\}]=\lim_M\mathbb{P}[w_M&gt;2\varepsilon]=0,
+\]</span></p>
+<p>To argue about the sup we prove the following:</p>
+<p><strong><em>Theorem 4(Kolmogorov’s maximal inequality)</em></strong>. Let <span class="math inline">\(X_1, X_2, . . .\)</span> be independent with <span class="math inline">\(0\)</span> mean and finite variance. Then</p>
+<p><span class="math display">\[
+\mathbb{P}\left[\max_{1\leq k\leq n}|S_k|\geq x\right]\leq\frac{\mathrm{Var}[S_n]}{x^2}.
+\]</span></p>
+<p>Note that this is a strengthening of Chebyshev’s inequality for sums of independent RVs.</p>
+<p><strong>Proof.</strong> The trick is to divide the event of interest into when it first occurs. Let</p>
+<p><span class="math display">\[
+A_k=\{|S_k|\geq x\text{ but }|S_j|&lt;x\text{ for }j&lt;k\}.
+\]</span></p>
+<p>Then, using independence of <span class="math inline">\(S_k\mathbb 1_{A_k}\)</span> and <span class="math inline">\((S_n−S_k)\)</span> and the fact that <span class="math inline">\(\mathbb E[S_n−S_k] = 0\)</span>,</p>
+<p><span class="math display">\[
+\begin{aligned}\mathbb{E}[S_n^2]&amp; \geq\sum_{k=1}^n\mathbb{E}[S_n^2;A_k] \\&amp;=\sum_{k=1}^n\mathbb{E}[S_k^2+2S_k(S_n-S_k)+(S_n-S_k)^2;A_k] \\&amp;\geq\sum_{k=1}^n\mathbb{E}[S_k^2;A_k] \\&amp;\geq\sum_{k=1}^nx^2\mathbb{P}[A_k] \\ &amp;\ge x^2\mathbb{P}\left[\max_{1\leq k\leq n}|S_k|\geq x\right].\end{aligned}
+\]</span></p>
+<p>Going back to the previous proof, note that Kolmogorov’s maximal inequality implies</p>
+<p><span class="math display">\[
+\mathbb{P}\left[\max_{M\leq m\leq N}|S_m-S_M|&gt;\varepsilon\right]\leq\frac{\mathrm{Var}[S_N-S_M]}{\varepsilon^2}\leq\frac{\sum_{m\geq M+1}\mathrm{Var}[X_m]}{\varepsilon^2},
+\]</span></p>
+<p>so taking a limit when <span class="math inline">\(N \to +\infty\)</span> then <span class="math inline">\(M \to +\infty\)</span> and using continuity</p>
+<p><span class="math display">\[
+\mathbb{P}\left[\sup_{m\geq M}|S_m-S_M|&gt;\varepsilon\right]\to0,\quad\mathrm{as~}M\to+\infty.
+\]</span></p>
+<p>Finally, note that</p>
+<p><span class="math display">\[
+\mathbb{P}[w_M&gt;2\varepsilon]\leq\mathbb{P}\left[\sup_{m\geq M}|S_m-S_M|&gt;\varepsilon\right]\to0,
+\]</span></p>
+<p>using <span class="math inline">\(|S_n − S_m| \leq |S_n − S_M| + |S_m − S_M|\)</span>.</p>
+<p><strong>Necessity</strong></p>
+<p><strong><em>Lemma 5(Second Borel-Cantelli lemma (BC2)).</em></strong> If the events <span class="math inline">\((A_n)_n\)</span> <strong>are independent, then </strong><span class="math inline">\(\sum_n\mathbb P[A_n] = +\infty\)</span> implies <span class="math inline">\(\mathbb P[A_n\ i.o.] = 1\)</span>.</p>
+<p><strong>Proof.</strong> Suppose <span class="math inline">\(\sum_n X_n\)</span> converges. Then <span class="math inline">\(X_n \to 0\)</span> and by (BC2), for all <span class="math inline">\(A &gt; 0\)</span>, (1) holds and <span class="math inline">\(\sum_n Y_n\)</span> converges as well. We use symmetrization. If <span class="math inline">\(Z\)</span> is a RV and <span class="math inline">\(\tilde Z\)</span> is an independent copy. Then we let <span class="math inline">\(Z^\circ = Z −\tilde Z\)</span>. We will show below that the convergence of a zero-mean, uniformly bounded random series implies the convergence of the second moments. Then</p>
+<p><span class="math display">\[
+\begin{aligned}
+\sum_nY_n^\circ\text{ converges}&amp; \Longrightarrow\sum_n\mathrm{Var}[Y_n]=\frac12\sum_n\mathrm{Var}[Y_n^\circ]&lt;+\infty  \\
+&amp;\Longrightarrow\sum_n(Y_n-\mathbb{E}[Y_n])\text{ converges} \\
+&amp;\Longrightarrow\sum_n\mathbb{E}[Y_n]\text{ converges.}
+\end{aligned}
+\]</span></p>
+<p>The statement above will follow from the following maximal inequality:</p>
+<p><strong><em>Theorem 6.</em></strong> Let <span class="math inline">\(X_1, X_2, . . .\)</span> be independent with zero mean, finite variance and <span class="math inline">\(\mathbb P[X_i \leq c] = 1\)</span> for some <span class="math inline">\(c &gt; 0\)</span>. Then</p>
+<p><span class="math display">\[
+\mathbb{P}\left[\max_{1\leq k\leq n}|S_k|\geq x\right]\geq1-\frac{(c+x)^2}{\mathrm{Var}[S_n]}.
+\]</span></p>
+<p><strong>Proof.</strong> Let <span class="math inline">\(A\)</span> be the event above and define <span class="math inline">\(A_k\)</span> as before. On the one hand, noting that on <span class="math inline">\(A_k\)</span> we have <span class="math inline">\(|S_k| \leq c + x\)</span> and arguing as before,</p>
+<p><span class="math display">\[
+\begin{aligned}\mathbb{E}[S_{n}^{2};A]&amp; =\sum_k\mathbb{E}[S_k^2+(S_n-S_k)^2;A_k] \\&amp;\leq\mathbb{P}[A]\left((c+x)^2+\sum_{k=1}^n\mathbb{E}[X_k^2]\right) \\&amp;=\mathbb{P}[A]\left((c+x)^2+\mathbb{E}[S_n^2]\right).\end{aligned}
+\]</span></p>
+<p>On the other hand,</p>
+<p><span class="math display">\[
+\mathbb{E}[S_n^2;A]=\mathbb{E}[S_n^2]-\mathbb{E}[S_n^2;A^c]\geq\mathbb{E}[S_n^2]-x^2\mathbb{P}[A^c].
+\]</span></p>
+<p>Rearranging gives the result.</p>
+<p>Finally if we had <span class="math inline">\(\sum_n \text{Var}[Y_n] = +\infty\)</span>, the previous inequality (used as before) would give</p>
+<p><span class="math display">\[
+\mathbb{P}\left[\sup_{k\geq M}|S_n-S_M|&gt;\varepsilon\right]=1,
+\]</span></p>
+<p>for all <span class="math inline">\(M &gt; 0\)</span>—a contradiction!</p>
+<p>Finally, we conclude the proof of Theorem 1.</p>
+<p>Now we could solve the problem at the beginning as follows:</p>
+<p>Take <span class="math inline">\(A &gt; 1\)</span>. Then <span class="math inline">\(X_n = Y_n = n^{−1}Z_n\)</span> and <span class="math inline">\(\mathbb E[Y_n] = 0\)</span> for all <span class="math inline">\(n\)</span>. Therefore it suffices to check (3). Note that</p>
+<p><span class="math display">\[
+\sum_n\mathrm{Var}[X_n]=\sum_n\mathbb{E}[X_n^2]=\sum_n\frac1{n^2}&lt;+\infty.
+\]</span></p>
+<p>Theorefore, the random series converge almost surely.</p>
+<h3 id="a-second-proof-of-the-slln">A Second Proof of the SLLN</h3>
+<p>An interesting application of random series is that it could give us a proof of Strong Law Large Numbers which is different from the classical proof.</p>
+<p>We begin with the following lemma:</p>
+<p><strong><em>Lemma 7(Kronecker’s lemma).</em></strong> If <span class="math inline">\(a_n \uparrow +\infty\)</span> and <span class="math inline">\(\sum_n \frac{x_n}{a_n}\)</span> converges then</p>
+<p><span class="math display">\[
+\frac1{a_n}\sum_{m=1}^nx_m\to0.
+\]</span></p>
+<p><strong>Proof.</strong> Let <span class="math inline">\(b_m = \sum^m_{k=1} x_k/a_k\)</span>. Noting that</p>
+<p><span class="math display">\[
+x_m=a_m(b_m-b_{m-1}),
+\]</span></p>
+<p>we have (setting <span class="math inline">\(a_0=b_0=0\)</span>)</p>
+<p><span class="math display">\[
+\begin{aligned}\frac1{a_n}\sum_{m=1}^nx_m&amp; =\frac1{a_n}\left(\sum_{m=1}^na_mb_m-\sum_{m=1}^na_mb_{m-1}\right) \\&amp;=\frac1{a_n}\left(a_nb_n+\sum_{m=1}^na_{m-1}b_{m-1}-\sum_{m=1}^na_mb_{m-1}\right) \\&amp;=b_n-\sum_{m=1}^n\frac{a_m-a_{m-1}}{a_n}b_{m-1}.\end{aligned}
+\]</span></p>
+<p>Since <span class="math inline">\(b_n \to b_\infty &lt; +\infty\)</span> and the <span class="math inline">\(a_n\)</span>’s are non-decreasing, the average on the RHS converges to <span class="math inline">\(b_\infty\)</span>.</p>
+<p>Now, we are ready to give the proof of SLLN.</p>
+<p><strong><em>Theorem 8(Strong Law of Large Numbers).</em></strong> Let <span class="math inline">\(X_1, X_2, . . .\)</span> be pairwise independent IID with <span class="math inline">\(\mathbb E|X_1| &lt; +\infty\)</span>. Let <span class="math inline">\(S_n = \sum_{k\leq n} X_k\)</span> and <span class="math inline">\(\mu =\mathbb E[X_1]\)</span>. Then</p>
+<p><span class="math display">\[
+\frac{S_n}n\to\mu,\quad a.s.
+\]</span></p>
+<p><strong>Proof.</strong> We would apply the following simple Lemma:</p>
+<p><strong><em>Lemma 9.</em></strong> If <span class="math inline">\(Y \geq 0\)</span> and <span class="math inline">\(p &gt; 0\)</span>, then</p>
+<p><span class="math display">\[
+\mathbb E[Y^p]=\int_0^\infty py^{p-1}\mathbb{P}[Y&gt;y]\mathrm{d}y.
+\]</span></p>
+<p>Let <span class="math inline">\(Y_k = X_k\mathbb 1_{\{|X_k|\le k\}}\)</span> and <span class="math inline">\(T_n = \sum_{k\le n} Y_k\)</span>. (Note that the <span class="math inline">\(Y_i\)</span>’s are not identically distributed.) By integrating and using the above Lemma,</p>
+<p><span class="math display">\[
+\sum_{k=1}^{+\infty}\mathbb{P}[|X_k|&gt;k]\leq\mathbb{E}|X_1|&lt;+\infty,
+\]</span></p>
+<p>(BC1) implies that it suffices to prove <span class="math inline">\(n^{−1}T_n \to \mu\)</span>.</p>
+<p>Now, we claim that</p>
+<p><span class="math display">\[
+\sum_{i=1}^{+\infty}\frac{\mathrm{Var}[Y_i]}{i^2}\leq\mathbb{E}|X_1|&lt;+\infty.
+\]</span></p>
+<p><strong>Proof.</strong> By Fubini’s theorem</p>
+<p><span class="math display">\[
+\begin{aligned}\sum_{i=1}^{+\infty}\frac{\mathrm{Var}[Y_i]}{i^2}&amp; \leq\sum_{i=1}^{+\infty}\frac{\mathbb{E}[Y_i^2]}{i^2} \\&amp;=\sum_{i=1}^{+\infty}\frac1{i^2}\int_0^\infty2y\mathbb{P}[|Y_i|&gt;y]\mathrm{d}y \\&amp;=\sum_{i=1}^{+\infty}\frac1{i^2}\int_0^\infty\mathbb{1}_{\{y\leq i\}}2y\mathbb{P}[|Y_i|&gt;y]\mathrm{d}y \\&amp;=\int_0^\infty\left(2y\sum_{i=1}^{+\infty}\frac1{i^2}\mathbb{1}_{\{y\leq i\}}\right)\mathbb{P}[|Y_i|&gt;y]\mathrm{d}y \\&amp;\leq\int_0^\infty C^{\prime}\mathbb{P}[|Y_i|&gt;y]\mathrm{d}y \\&amp;\leq C^{\prime}\mathbb{E}|X_1|,\end{aligned}
+\]</span></p>
+<p>where the second to last inequality follows by integrating.</p>
+<p>This implies, from Theorem 3, (or from the Three-Series Theorem with <span class="math inline">\(A &gt; 2\)</span>),</p>
+<p><span class="math display">\[
+\sum_k\frac{Y_k-\mathbb{E}[Y_k]}k\quad\text{converges a.s.}
+\]</span></p>
+<p>From a simple calculation we prove <span class="math inline">\(n^{−1}T_n \to \mu\)</span>, thereby concluding the proof of SLLN.</p>
+<h3 id="references">References</h3>
+<p>All of the content in this blog post comes from the <a href="https://people.math.wisc.edu/~roch/grad-prob/index.html" rel="noopener noreferrer" target="_blank">Lecture Notes</a> by <a href="https://people.math.wisc.edu/~roch/" rel="noopener noreferrer" target="_blank">Sebastien Roch</a>. I only adjust the order and some minor mistakes.</p>
+
+    </div>
+    <nav class="article-pagination" aria-label="Post pagination">
+      <a href="functional-analysis-for-markov-chain-mixing-time.html">← Functional Analysis for Markov Chain Mixing Time</a>
+      <a href="polytopes-in-high-dimension.html">Polytopes in High Dimension →</a>
+    </nav>
+  </article>
+  <aside class="article-sidebar" aria-label="Blog archive">
+    <p class="eyebrow">Archive</p>
+    <h2>Randomness and Computation</h2>
+    <div class="mini-post-list"><a href="some-interesting-problems-in-hf-interviews.html">Some Interesting Problems in HF interviews</a>
+<a href="functional-analysis-for-markov-chain-mixing-time.html">Functional Analysis for Markov Chain Mixing Time</a>
+<a href="random-series-and-slln.html">Random Series and SLLN</a>
+<a href="polytopes-in-high-dimension.html">Polytopes in High Dimension</a>
+<a href="models-in-statistical-physics-and-some-algorithmic-correlations.html">Models in Statistical Physics and some algorithmic correlations</a>
+<a href="some-interesting-examples-related-to-probability.html">Some interesting examples related to probability</a>
+<a href="resources-on-optimization-theory.html">Resources on Optimization Theory</a></div>
+  </aside>
+</main>
+
+  <footer class="site-footer">
+    <p>© <span id="year"></span> Zachariah Zhang · Randomness and Computation</p>
+  </footer>
+  <script src="../script.js"></script>
+</body>
+</html>

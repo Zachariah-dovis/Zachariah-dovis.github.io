@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="1. Construct a one-to-one mapping (bijection) from [0,1] to (0,1)" />
+  <title>Some Interesting Problems in HF interviews · Zachariah Zhang</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,500;6..72,700;6..72,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css" />
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+  <header class="site-header">
+    <a class="brand" href="../index.html" aria-label="Zachariah Zhang home">
+      <span class="brand-mark">Z</span>
+      <span>Zachariah Zhang</span>
+    </a>
+    <nav class="nav" aria-label="Primary navigation">
+      <a href="../index.html#about">About</a>
+      <a href="../index.html#blog">Blog</a>
+      <a href="https://github.com/Zachariah-dovis" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+  </header>
+  
+<main class="article-shell">
+  <article class="article-card">
+    <a class="back-link" href="../index.html#blog">← Back to Blog</a>
+    <p class="eyebrow">Problems</p>
+    <h1>Some Interesting Problems in HF interviews</h1>
+    <p class="article-lede">1. Construct a one-to-one mapping (bijection) from [0,1] to (0,1)</p>
+    <div class="article-content">
+      
+<blockquote>
+<p><em>This blog post is incomplete and currently being written.</em></p>
+<ol type="1">
+<li>Construct a one-to-one mapping (bijection) from <span class="math inline">\([0,1]\)</span> to <span class="math inline">\((0,1)\)</span></li>
+</ol>
+</blockquote>
+<p><span class="math inline">\(f(x)=\begin{cases}\frac12&amp;x=0\\\frac13&amp;x=1\\\frac1{n+3}&amp;x=q_n\text{ (rational in }(0,1),\text{enumerated)}\\x&amp;x\text{ irrational in }[0,1]&amp;\end{cases}\)</span></p>
+<p><span class="math inline">\(f(x)=\begin{cases}\frac{1}{2},&amp;x=0,\\\frac{1}{3},&amp;x=1,\\\frac{1}{n+2},&amp;x=\frac{1}{n}\text{ for }n=2,3,4,\dots,\\x,&amp;\text{otherwise.}\end{cases}\)</span></p>
+<ol type="1">
+<li>Suppose there is a black-box machine representing a polynomial function</li>
+</ol>
+<p><span class="math inline">\(f(x)=a_nx^n+a_{n-1}x^{n-1}+\cdots+a_1x+a_0.\)</span></p>
+<p>where <span class="math inline">\(n\)</span> is unknown and both the input <span class="math inline">\(x\)</span> and all coefficients <span class="math inline">\(a_i\)</span> are positive integers. Each time we input a positive integer, the machine returns <span class="math inline">\(f(x)\)</span>. Design a method to recover the entire polynomial. What is the minimum number of input-output queries needed?</p>
+<p><strong>Solution</strong>: The idea is to interpret the polynomial value as a number written in a suitable base.</p>
+<p>First, input <span class="math inline">\(x=1\)</span>. Then the machine returns <span class="math inline">\(f(1)=a_n+a_{n-1}+\cdots+a_1+a_0\)</span>. Define <span class="math inline">\(B=f(1)+1\)</span>.</p>
+<p>Since all coefficients <span class="math inline">\(a_i\)</span> are positive integers, we have <span class="math inline">\(a_i \le f(1) &lt; B\)</span> for each coefficient <span class="math inline">\(a_i\)</span>.</p>
+<p>Next, input <span class="math inline">\(x=B=f(1)+1\)</span>. The machine returns <span class="math inline">\(f(B)=a_nB^n+a_{n-1}B^{n-1}+\cdots+a_1B+a_0.\)</span></p>
+<p>Because every coefficient satisfies <span class="math inline">\(0&lt;a_i&lt;B\)</span>, this expression is exactly the base-<span class="math inline">\(B\)</span> representation of <span class="math inline">\(f(B)\)</span>, whose digits are</p>
+<p><span class="math inline">\(a_0,a_1,\dots,a_n.\)</span> So we can recover the coefficients by repeatedly dividing <span class="math inline">\(f(B)\)</span> by <span class="math inline">\(B\)</span> and taking remainders: <span class="math inline">\(a_0 = f(B)\bmod B\)</span>, then divide by <span class="math inline">\(B\)</span>, take the next remainder to get <span class="math inline">\(a_1\)</span>, and so on.</p>
+<p>Thus two queries are enough.</p>
+
+    </div>
+    <nav class="article-pagination" aria-label="Post pagination">
+      <span></span>
+      <a href="functional-analysis-for-markov-chain-mixing-time.html">Functional Analysis for Markov Chain Mixing Time →</a>
+    </nav>
+  </article>
+  <aside class="article-sidebar" aria-label="Blog archive">
+    <p class="eyebrow">Archive</p>
+    <h2>Randomness and Computation</h2>
+    <div class="mini-post-list"><a href="some-interesting-problems-in-hf-interviews.html">Some Interesting Problems in HF interviews</a>
+<a href="functional-analysis-for-markov-chain-mixing-time.html">Functional Analysis for Markov Chain Mixing Time</a>
+<a href="random-series-and-slln.html">Random Series and SLLN</a>
+<a href="polytopes-in-high-dimension.html">Polytopes in High Dimension</a>
+<a href="models-in-statistical-physics-and-some-algorithmic-correlations.html">Models in Statistical Physics and some algorithmic correlations</a>
+<a href="some-interesting-examples-related-to-probability.html">Some interesting examples related to probability</a>
+<a href="resources-on-optimization-theory.html">Resources on Optimization Theory</a></div>
+  </aside>
+</main>
+
+  <footer class="site-footer">
+    <p>© <span id="year"></span> Zachariah Zhang · Randomness and Computation</p>
+  </footer>
+  <script src="../script.js"></script>
+</body>
+</html>

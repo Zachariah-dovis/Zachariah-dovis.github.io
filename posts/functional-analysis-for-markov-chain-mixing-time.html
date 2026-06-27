@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Mixing Time Bounds via Functional Analysis" />
+  <title>Functional Analysis for Markov Chain Mixing Time · Zachariah Zhang</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,500;6..72,700;6..72,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css" />
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+  <header class="site-header">
+    <a class="brand" href="../index.html" aria-label="Zachariah Zhang home">
+      <span class="brand-mark">Z</span>
+      <span>Zachariah Zhang</span>
+    </a>
+    <nav class="nav" aria-label="Primary navigation">
+      <a href="../index.html#about">About</a>
+      <a href="../index.html#blog">Blog</a>
+      <a href="https://github.com/Zachariah-dovis" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+  </header>
+  
+<main class="article-shell">
+  <article class="article-card">
+    <a class="back-link" href="../index.html#blog">← Back to Blog</a>
+    <p class="eyebrow">Markov Chains</p>
+    <h1>Functional Analysis for Markov Chain Mixing Time</h1>
+    <p class="article-lede">Mixing Time Bounds via Functional Analysis</p>
+    <div class="article-content">
+      
+<blockquote>
+<p><em>This blog post is incomplete and currently being written.</em></p>
+</blockquote>
+<h3 id="mixing-time-bounds-via-functional-analysis">Mixing Time Bounds via Functional Analysis</h3>
+<p><strong>Problem Statement.</strong> Let <span class="math inline">\(\mu\)</span> be a probability distribution on some state space <span class="math inline">\(\Omega\)</span>, and let <span class="math inline">\(\mathsf P\)</span> be a Markov chain on <span class="math inline">\(\Omega\)</span> which is reversible w.r.t. <span class="math inline">\(\mu\)</span>. Our goal is to study the total variation mixing time of <span class="math inline">\(\mathsf P\)</span>, which controls how efficient it is to use <span class="math inline">\(\mathsf P\)</span> as a sampler. The classical approaches contain the path coupling methods and the Poincaré Inequalities/spectral gap methods to control the mixing time <span class="math inline">\(T_{\text{mix}}\)</span>. Both of these are instantiations of a much more general strategy.</p>
+<p><strong><em>Theorem 1.</em></strong> Show that some other measure of “distance” between probability measures <span class="math inline">\(\mathscr D(\cdot \| \cdot)\)</span> contracts under every application of <span class="math inline">\(\mathsf P\)</span>. In other words, for some <span class="math inline">\(0 &lt; \alpha &lt; 1\)</span> which is not too small, we have</p>
+<p><span class="math display">\[
+\mathscr{D}(\nu\mathsf{P}\parallel\mu)\leq(1-\alpha)\cdot\mathscr{D}(\nu\parallel\mu),\quad\forall\textit{ probability measures }\nu\textit{ on }\Omega.\tag{1}
+\]</span></p>
+<p><strong><em>Fact 2.</em></strong> If (1) holds for some <span class="math inline">\(\mathscr D(\cdot \| \cdot)\)</span> such that <span class="math inline">\(\mathscr D(\nu \| \mu) \leq\epsilon\)</span> implies <span class="math inline">\(\|\mu − \nu\|_{\text{TV}} \leq O(\epsilon^c )\)</span> for some <span class="math inline">\(c &gt; 0\)</span>, then</p>
+<p><span class="math display">\[
+\mathrm{T}_{\mathrm{mix}}(\epsilon)\leq O\left(\frac1\alpha\log\left(\frac{\max_{x\in\Omega}\mathscr{D}(\delta_x\parallel\mu)}\epsilon\right)\right)
+\]</span></p>
+<p>Of course, if <span class="math inline">\(\mathscr D(\cdot \| \cdot)\)</span> is total variation distance itself, then we immediately get rapid mixing. However, TV-distance isn’t very easy to work with in general, and it very well could decay in a highly irregular manner. So, we typically pick a nicer “smoother” <span class="math inline">\(\mathscr D(\cdot\|\cdot)\)</span> such that (1) holds and we make quantifiable progress in every single step.(Actually this is exactly we did when considering sampling from some spin systems). Here are two examples:</p>
+<p><strong><em>Example 3(Bubley–Dyer Path Coupling).</em></strong> If we endow <span class="math inline">\(\Omega\)</span> with the structure of an undirected graph <span class="math inline">\((\Omega, E)\)</span>, then we can take <span class="math inline">\(\mathscr D(\nu \| \mu)\)</span> to be the Wasserstein distance (or transportation distance)</p>
+<p><span class="math display">\[
+\mathscr{W}_1(\mu,\nu)\stackrel{\mathsf{def}}{=}\inf_\xi\mathbb{E}_{(x,y)\thicksim\xi}[\mathrm{dist}(x,y)],
+\]</span></p>
+<p>w.r.t. the shortest path metric <span class="math inline">\(\text{dist}(x, y)\)</span> in <span class="math inline">\((\Omega, E)\)</span>, where the infimum is over all couplings <span class="math inline">\(\xi\)</span> of <span class="math inline">\(\mu, \nu\)</span>. By composing couplings along shortest paths, to show <span class="math inline">\(\mathscr W_1(\mu\mathsf P, \nu\mathsf P) \leq (1−\alpha)·\mathscr W_1(\mu, \nu)\)</span>, it suffices to prove that for every pair of neighboring states <span class="math inline">\((x,y)\in E\subseteq\binom{\Omega}{2}\)</span>, we have <span class="math inline">\(\mathscr{W}_1(\delta_x\mathsf{P},\delta_y\mathsf{P})\leq1{-}\alpha\)</span>. This dramatically simplifies the task of proving mixing time upper bounds. In this context, the number <span class="math inline">\(\alpha\)</span> is sometimes called the coarse Ricci curvature (or Ollivier–Ricci curvature) of the measure metric space <span class="math inline">\((\Omega, E, \mathsf P)\)</span> [Oll09]. We also have the trivial bound <span class="math inline">\(\mathscr{W}_1(\mu\mathsf{P},\nu\mathsf{P})\leq\text{diam}(\Omega,E)\)</span>. Note that since <span class="math inline">\(\text{dist}(\cdot, \cdot)\)</span> takes values in <span class="math inline">\(\N\)</span>, we always have <span class="math inline">\(\mathscr{W}_1(\mu,\nu)\geq\left\|\mu-\nu\right\|_{\mathsf{TV}}\)</span>. Furthermore, if we took <span class="math inline">\(E=\binom{\Omega}{2}\)</span> so that <span class="math inline">\(\text{dist}(\cdot,\cdot)\)</span> becomes the discrete metric, then <span class="math inline">\(\mathscr W_1\)</span> is exactly TV-distance. However, if <span class="math inline">\(\Omega\)</span> has product structure for instance, we can do much better by using Hamming distance.</p>
+<p><strong><em>Example 4(Poincaré Inequality).</em></strong> If we take <span class="math inline">\(\mathscr D(\nu \| \mu)\)</span> to be <span class="math inline">\(\chi^2(\nu\parallel\mu)=\mathrm{Var}_\mu\left(\frac{d\nu}{d\mu}\right)\)</span>, then contraction (1) follows from the Poincaré Inequality</p>
+<p><span class="math display">\[
+\gamma\cdot\mathrm{Var}_\mu(f)\leq\mathcal{E}_\mathsf{P}(f,f),\quad\forall f:\Omega\to\mathbb{R},
+\]</span></p>
+<p>where recall</p>
+<p><span class="math display">\[
+\mathcal{E}_{\mathsf{P}}(f,f)=\langle f,(\mathsf{Id}-\mathsf{P})f\rangle_\mu=\frac12\sum_{x,y\in\Omega}\mu(x)\mathsf{P}(x\to y)\cdot(f(x)-f(y))^2
+\]</span></p>
+<p>is the Dirichlet form of <span class="math inline">\(\mathsf P\)</span>. The best choice of <span class="math inline">\(\gamma\)</span> is the (absolute) spectral gap of <span class="math inline">\(\mathsf P\)</span>. Combining this with the comparison <span class="math inline">\(\|\mu − ν\|^2_{\text{TV}} ≤\frac1 4 \chi^2 (\nu \|\mu)\)</span> implies rapid mixing assuming a Poincaré Inequality holds with a good <span class="math inline">\(\gamma\)</span>.</p>
+<p><strong>(Modified) Logarithmic Sobolev Inequalities</strong></p>
+<p>Path coupling is very useful in practice, and in many settings (e.g. graph colorings and the ferromagnetic Ising model) gives optimal nearly-linear mixing time. However, there are natural rapidly mixing Markov chains on non-contrived state spaces for which no such argument can certify this rapid mixing [KR01]. The spectral gap in a concrete sense fully “characterizes” the mixing time up to polynomial factors. However, in many settings of interest (e.g. Gibbs distributions), even if one were to obtain the best possible bound on <span class="math inline">\(\gamma\)</span>, it would still give an extraneous factor of <span class="math inline">\(n\)</span> due to the initial distance <span class="math inline">\(\max_{x\in\Omega }\chi^2 (\delta_x \| \mu) = \frac{1}{\mu_{\text{min}}}\)</span>, which is often exponentially large in <span class="math inline">\(n\)</span>. So at the very best, we’d get a suboptimal <span class="math inline">\(O(n^2 )\)</span>-mixing, without even accounting for possible additional losses in bounding <span class="math inline">\(\gamma\)</span>.</p>
+<p>To remedy this situation, we turn to the KL-divergence (or relative entropy).</p>
+<p><span class="math display">\[
+\mathscr{D}_{\mathrm{KL}}(\nu\parallel\mu)\overset{\mathsf{def}}{\operatorname*{=}}\sum_{x\in\Omega}\nu(x)\log\frac{\nu(x)}{\mu(x)}.
+\]</span></p>
+<p>More generally, for a nonnegative function <span class="math inline">\(f : \Omega \to \R_{\geq0}\)</span>, define</p>
+<p><span class="math display">\[
+\mathrm{Ent}_\mu(f)\stackrel{\mathsf{def}}{=}\mathbb{E}_\mu[f\log f]-\mathbb{E}_\mu[f]\log\mathbb{E}_\mu[f].
+\]</span></p>
+<p>One could also consider the <span class="math inline">\(\Phi\)</span>-divergences/<span class="math inline">\(\Phi\)</span>-entropies given by <span class="math inline">\(\text{Ent}^\Phi_\mu (f)\overset{def}{=}\mathbb E_{x∼\mu} [\Phi(f(x))] − \Phi (\mathbb E_{x∼\mu}[f(x)])\)</span> for convex <span class="math inline">\(\Phi\)</span>.</p>
+<p>Note that <span class="math inline">\(\mathscr D_{\text{KL}}(\nu \| \mu) = \text{Ent}_\mu\left(\frac{dν }{d\mu}\right)\)</span><em>.</em> Moreover<em>,</em> <span class="math inline">\(\max_{x\in\Omega}\mathscr D_{\text{KL}}(\delta_x \| \mu) = \log\frac{1}{\mu_{\text{min}}}\)</span>, which is an exponential improvement over what we get using <span class="math inline">\(\chi^2 (\nu \| \mu)\)</span>. We now study the decay of <span class="math inline">\(\mathscr D_{\text{KL}}(\nu \| \mu)\)</span> w.r.t. <span class="math inline">\(\mathsf P\)</span>, which is captured by the following functional analytic quantities.</p>
+<p><strong><em>Definition 5(Standard/Modified Log-Sobolev Inequalities).</em></strong> Let <span class="math inline">\(\mathsf P\)</span> be a Markov chain which is reversible w.r.t. a distribution <span class="math inline">\(\mu\)</span> on a domain <span class="math inline">\(\Omega\)</span>. We say <span class="math inline">\(\mathsf P\)</span> satisfies a (standard) log-Sobolev inequality with constant <span class="math inline">\(\kappa\)</span> if</p>
+<p><span class="math display">\[
+\kappa\cdot\mathrm{Ent}_\mu(f)\leq\mathcal{E}_\mathsf{P}\left(\sqrt{f},\sqrt{f}\right),\quad\forall f:\Omega\to\mathbb{R}_{\geq0}.
+\]</span></p>
+<p>We say <span class="math inline">\(\mathsf P\)</span> satisfies a modified log-Sobolev inequality with constant <span class="math inline">\(ϱ\)</span> if</p>
+<p><span class="math display">\[
+\varrho\cdot\mathrm{Ent}_\mu(f)\leq\mathcal{E}_\mathsf{P}(f,\log f),\quad\forall f:\Omega\to\mathbb{R}_{\geq0}.
+\]</span></p>
+<p><strong><em>Remark 6.</em></strong> Unlike its modified counterpart, it was previously observed e.g. in [HS20] that <span class="math inline">\(\kappa(\mathsf P)\)</span> is sensitive to <span class="math inline">\(\mu_{\text{min}}\)</span>. In particular,</p>
+<p><span class="math display">\[
+\kappa(\mathsf{P})\leq\min_{x\in\operatorname{supp}(\mu)}\frac{\mathcal{E}_{\mathsf{P}}\left(\sqrt{\mathbb{I}_x},\sqrt{\mathbb{I}_x}\right)}{\operatorname{Ent}_{\mu}\left(\mathbb{I}_x\right)}=\min_{x\in\operatorname{supp}(\mu)}\frac{\mu(x)\cdot(1-\mathsf{P}(x\to x))}{\mu(x)\log\frac1{\mu(x)}}\leq\frac1{\log\frac1{\mu_{\min}}}.
+\]</span></p>
+<p>While this isn’t necessarily an issue for spin systems on bounded-degree graphs, there are many other applications (e.g. determinantal point processes) where we can have <span class="math inline">\(\kappa(P)\ll \varrho(P)\)</span>. We mention here a beautiful recent result of Salez–Tikhomirov–Youssef [STY23] on reverse inequalities between <span class="math inline">\(\varrho(P)\)</span> and <span class="math inline">\(\kappa(P)\)</span>.</p>
+<p>The standard version was first proposed by Gross [Gro75] in the continuous space, where the two versions are equivalent as observed by [ELL17]; see [Led99; GZ03; MT06] for more comprehensive material on these constants and inequalities. The term “modified” is a bit overloaded, especially in continuous settings, but we use it following Bobkov–Tetali [BT03]. It is well-known that the standard log-Sobolev inequality is equivalent to hypercontractivity of the associated heat semigroup [DS96], which is a fundamental tool e.g. in the Fourier analysis of Boolean functions [ODo14]. On the other hand, the modified version tends to be more useful in mixing time applications because <span class="math inline">\(\kappa(P)\)</span> is sensitive to <span class="math inline">\(\mu_{\text{min}}\)</span>; see Remark 1. Like the spectral gap, lower bounds on these constants yield upper bounds on the mixing time.</p>
+<p><strong><em>Theorem 7((Modified) Log-Sobolev Implies Rapid Mixing)</em></strong>. Let <span class="math inline">\(\mathsf P\)</span> be a reversible ergodic Markov chain with stationary distribution <span class="math inline">\(\mu\)</span> on a domain <span class="math inline">\(\Omega\)</span>. Then for every <span class="math inline">\(\epsilon &gt; 0\)</span>,</p>
+<p><span class="math display">\[
+\begin{gathered}\mathrm{T}_{\mathrm{mix}}(\epsilon) \leq\frac1{\varrho(\mathsf{P})}\left(\log\log\frac1{\mu_{\min}}+\log\frac1{2\epsilon^2}\right) \\\mathrm{T}_{\mathrm{mix}}(\epsilon) \leq\frac1{4\kappa(\mathsf{P})}\left(\log\log\frac1{\mu_{\min}}+\log\frac1{2\epsilon^2}\right) \end{gathered}
+\]</span></p>
+<p>where recall that <span class="math inline">\(\mu_{\text{min}} = \min_{\{x\in\Omega:\mu(x)&gt;0\}} \mu(x)\)</span>.</p>
+<p>Besides mixing, these constants turn out to also have incredibly useful consequences for concentration of measure phenomena.</p>
+<p><strong><em>Theorem 8((Modified) Log-Sobolev Implies Concentration; see e.g. [Goe04; Sam05; BLM16])</em></strong>. Let <span class="math inline">\(\mathsf P\)</span> be a reversible ergodic Markov chain with stationary distribution <span class="math inline">\(\mu\)</span> on a domain <span class="math inline">\(\Omega\)</span>. Fix an arbitrary function <span class="math inline">\(f : \Omega \to \R\)</span>, and define the maximum one-step variance of <span class="math inline">\(f\)</span> by</p>
+<p><span class="math display">\[
+v(f)\overset{\mathsf{def}}{\operatorname*{=}}\max_{x\in\Omega}\left\{\sum_{y\in\Omega}\mathsf{P}(x\to y)\cdot(f(x)-f(y))^2\right\}.
+\]</span></p>
+<p>Then for every <span class="math inline">\(t \geq 0\)</span>, we have the following sub-Gaussian concentration inequalities</p>
+<p><span class="math display">\[
+\Pr_{x\sim\mu}\left[f(x)\geq\mathbb{E}_\mu[f]+\epsilon\right]\leq\exp\left(-\frac{\varrho(\mathsf{P})\epsilon^2}{2v(f)}\right)\\\Pr_{x\sim\mu}\left[f(x)\geq\mathbb{E}_\mu[f]+\epsilon\right]\leq\exp\left(-\frac{2\kappa(\mathsf{P})\epsilon^2}{v(f)}\right).
+\]</span></p>
+<p>Here, <span class="math inline">\(v(f)\)</span> quantifies how Lipschitz <span class="math inline">\(f\)</span> is w.r.t. the underlying graph induced by <span class="math inline">\(\mathsf P\)</span> on <span class="math inline">\(\Omega\)</span>. In particular, if <span class="math inline">\(f\)</span> is <span class="math inline">\(1\)</span>-Lipschitz in the sense that <span class="math inline">\(|f(x) − f(y)| \leq 1\)</span> for all <span class="math inline">\(x, y\)</span> such that <span class="math inline">\(\mathsf P(x \to y) &gt; 0\)</span>, then <span class="math inline">\(v(f) \leq 1\)</span>.</p>
+<p>Finally, we have the following comparison inequalities between <span class="math inline">\(\gamma(P), \varrho(P), \kappa(P)\)</span>, which says that lower bounding the spectral gap is easier than lower bounding the standard/modified log-Sobolev constants.</p>
+<p><strong><em>Proposition 9([BT03])</em>.</strong> For every reversible Markov chain <span class="math inline">\(P\)</span>, <span class="math inline">\(4\kappa(P) \le \varrho(P) \le 2\gamma(P)\)</span>.</p>
+<p><strong><em>Remark 10</em></strong>. These constants really can behave very differently (see e.g. Remark 1) even for very simple and natural Markov chains, so it isn’t obvious at all that working with <span class="math inline">\(\varrho(P), \kappa(P)\)</span> would actually result in better mixing times compared to using <span class="math inline">\(\gamma(P)\)</span>. However, we will see that in the context of spin systems on bounded-degree graphs, they are often all of the same order (at least in the regime where polynomial-time algorithms exist).</p>
+<p>We now turn to a proof (sketch) of Theorem 7, which will also explain where the Dirichlet forms <span class="math inline">\(\mathcal E_P(\sqrt f, \sqrt f)\)</span> and <span class="math inline">\(\mathcal E_P( f, \log f)\)</span> come from.</p>
+<p><strong>The Heat Semigroup</strong></p>
+<p>It will be convenient to evolve <span class="math inline">\(\mathsf P\)</span> in continuous time. This is a standard tool which allows us to do differential calculus. For this part, we follow the presentation in [LPW17]. Let <span class="math inline">\(\{t_k\}^\infty_{k=1} \subseteq \R_{\geq0}\)</span> be a sequence of i.i.d. mean <span class="math inline">\(1\)</span> exponential random variables, i.e. <span class="math inline">\(\Pr[t_k \geq t] = \exp(−t)\)</span> for all <span class="math inline">\(t \in \R_{\geq0}\)</span> and all <span class="math inline">\(k \in \N\)</span>. Think of these as time increments. We now define a continuous-time stochastic process <span class="math inline">\(t \mapsto Y_t \in \Omega\)</span>, which depends on <span class="math inline">\(\{t_k\}^\infty_{k=1}\)</span>, as follows:</p>
+<ul>
+<li>We sample <span class="math inline">\(Y_0\)</span> according to some initial distribution <span class="math inline">\(\nu\)</span>.</li>
+<li>At transition time <span class="math inline">\(T_k=\sum_{i=1}^kt_i\)</span>, we take a single discrete step according to <span class="math inline">\(\mathsf P\)</span>. At all other times, <span class="math inline">\(Y_t\)</span> stays constant.</li>
+</ul>
+<h3 id="references">References</h3>
+<ul>
+<li>All of the content comes from <a href="https://kuikuiliu.github.io/teaching/au2023" rel="noopener noreferrer" target="_blank">Kuikui Liu’s Lecture Notes</a> with minor modifications.</li>
+</ul>
+
+    </div>
+    <nav class="article-pagination" aria-label="Post pagination">
+      <a href="some-interesting-problems-in-hf-interviews.html">← Some Interesting Problems in HF interviews</a>
+      <a href="random-series-and-slln.html">Random Series and SLLN →</a>
+    </nav>
+  </article>
+  <aside class="article-sidebar" aria-label="Blog archive">
+    <p class="eyebrow">Archive</p>
+    <h2>Randomness and Computation</h2>
+    <div class="mini-post-list"><a href="some-interesting-problems-in-hf-interviews.html">Some Interesting Problems in HF interviews</a>
+<a href="functional-analysis-for-markov-chain-mixing-time.html">Functional Analysis for Markov Chain Mixing Time</a>
+<a href="random-series-and-slln.html">Random Series and SLLN</a>
+<a href="polytopes-in-high-dimension.html">Polytopes in High Dimension</a>
+<a href="models-in-statistical-physics-and-some-algorithmic-correlations.html">Models in Statistical Physics and some algorithmic correlations</a>
+<a href="some-interesting-examples-related-to-probability.html">Some interesting examples related to probability</a>
+<a href="resources-on-optimization-theory.html">Resources on Optimization Theory</a></div>
+  </aside>
+</main>
+
+  <footer class="site-footer">
+    <p>© <span id="year"></span> Zachariah Zhang · Randomness and Computation</p>
+  </footer>
+  <script src="../script.js"></script>
+</body>
+</html>

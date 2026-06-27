@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="This page will be updated persistently." />
+  <title>Some interesting examples related to probability · Zachariah Zhang</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,500;6..72,700;6..72,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css" />
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+  <header class="site-header">
+    <a class="brand" href="../index.html" aria-label="Zachariah Zhang home">
+      <span class="brand-mark">Z</span>
+      <span>Zachariah Zhang</span>
+    </a>
+    <nav class="nav" aria-label="Primary navigation">
+      <a href="../index.html#about">About</a>
+      <a href="../index.html#blog">Blog</a>
+      <a href="https://github.com/Zachariah-dovis" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+  </header>
+  
+<main class="article-shell">
+  <article class="article-card">
+    <a class="back-link" href="../index.html#blog">← Back to Blog</a>
+    <p class="eyebrow">Probability</p>
+    <h1>Some interesting examples related to probability</h1>
+    <p class="article-lede">This page will be updated persistently.</p>
+    <div class="article-content">
+      
+<p><em>This page will be updated persistently.</em></p>
+<p><strong>1</strong></p>
+<p>Consider the transition matrix on <span class="math inline">\(\{0,1\}\)</span> given by</p>
+<p><span class="math display">\[
+P(x,y)=\frac 12\text{ for all }x,y\in\{0,1\}
+\]</span></p>
+<p>corresponding to a sequence of i.i.d. fair bits. Let <span class="math inline">\((Y_{t})_{t\geq0}\)</span> be a Markov chain with transition matrix <span class="math inline">\(P\)</span> started with a fair coin toss, and set <span class="math inline">\(X_0=0\)</span> and <span class="math inline">\(X_{t+1}=Y_t\)</span> for <span class="math inline">\(t\geq0.\)</span> Both <span class="math inline">\((X_{t})\)</span> and <span class="math inline">\((Y_{t})\)</span> are Markov chains with transition matrix <span class="math inline">\(P\)</span>, so <span class="math inline">\(\{(X_t,Y_t)\}\)</span> is a coupling. Moreover, the sequence <span class="math inline">\(\{(X_t,Y_t)\}_{t\geq0}\)</span> is itself a Markov chain, but it is not a Markovian coupling.</p>
+<blockquote>
+<p><em>From page 61, Markov Chains and Mixing Times. 2nd ed. by David A. Levin, Yuval Peres, and Elizabeth L. Wilmer.</em></p>
+</blockquote>
+<p><strong>2</strong></p>
+<p>If <span class="math inline">\(Y \ge 0\)</span> and <span class="math inline">\(p &gt; 0\)</span>, then</p>
+<p><span class="math display">\[
+\mathbb E[Y^p]=\int_0^\infty py^{p-1}\mathbb{P}[Y&gt;y]\mathrm{d}y.
+\]</span></p>
+<p>This equation has been frequently used in the proofs in probability theory.</p>
+<p><strong>3</strong></p>
+<p>Let <span class="math inline">\(X_1, X_2, . . .\)</span> be IID uniform on <span class="math inline">\((−1, 1)\)</span>. Let <span class="math inline">\(Y_i = X^2_i\)</span> and note that <span class="math inline">\(\mathbb E[Y_i ] = 1/3, \text{Var}[Y_i ] \le\mathbb E[Y^2_i ] \le 1\)</span>, and <span class="math inline">\(\mathbb E[Y^4_i ] \le 1 &lt; +\infty\)</span>. Then</p>
+<p><span class="math display">\[
+\frac{X_1^2+\cdots+X_n^2}n\to\frac13,
+\]</span></p>
+<p>both in probability and almost surely. In particular, this implies for <span class="math inline">\(ε &gt; 0\)</span></p>
+<p><span class="math display">\[
+\mathbb{P}\left[(1-\varepsilon)\sqrt{\frac n3}&lt;\|X^{(n)}\|_2&lt;(1+\varepsilon)\sqrt{\frac n3}\right]\to1,
+\]</span></p>
+<p>where <span class="math inline">\(X^{(n)} = (X_1, . . . , X_n).\)</span> I.e., most of the cube is close to the boundary of a ball of radius <span class="math inline">\(\sqrt{n/3}.\)</span></p>
+<p><strong>4</strong></p>
+<p>Let <span class="math inline">\(X_1, X_2, . . .\)</span> be independent with <span class="math inline">\(0\)</span> mean and finite variance. Then</p>
+<p><span class="math display">\[
+\mathbb{P}\left[\max_{1\leq k\leq n}|S_k|\geq x\right]\leq\frac{\mathrm{Var}[S_n]}{x^2}.
+\]</span></p>
+<p>This is called Kolmogorov’s maximal inequality and is a strengthening of Chebyshev’s inequality for sums of independent RVs.</p>
+<p>Let <span class="math inline">\(X_1, X_2, . . .\)</span> be independent with zero mean, finite variance and <span class="math inline">\(\mathbb P[X_i ≤ c] = 1\)</span> for some <span class="math inline">\(c &gt; 0\)</span>. Then</p>
+<p><span class="math display">\[
+\mathbb{P}\left[\max_{1\leq k\leq n}|S_k|\geq x\right]\geq1-\frac{(c+x)^2}{\mathrm{Var}[S_n]}.
+\]</span></p>
+<p>Let <span class="math inline">\((X_n)_n\)</span> be independent and symmetric (that is, <span class="math inline">\(X_1\)</span> and <span class="math inline">\(-X_1\)</span> have the same distribution). Then for all <span class="math inline">\(a ∈ \R\)</span></p>
+<p><span class="math display">\[
+\mathbb{P}\left[\max_{1\leq k\leq n}S_n&gt;a\right]\leq2\mathbb{P}[S_n&gt;a].
+\]</span></p>
+<p><strong>5</strong></p>
+<p>Under a stronger assumption than SLLN, we could obtain the following:</p>
+<p>Let <span class="math inline">\(X_1, X_2, . . .\)</span> be IID with <span class="math inline">\(\mathbb E[X_1] = \mu &lt; +∞\)</span> and <span class="math inline">\(\text{Var}[X_1] = σ^2 &lt; +∞\)</span>. Then <span class="math inline">\(S_n = \sum_{k≤n} X_k\)</span> satisfies</p>
+<p><span class="math display">\[
+\frac{S_n-n\mu}{n^{1/2}(\log n)^{1/2+\varepsilon}}=\frac{n^{1/2}}{(\log n)^{1/2+\varepsilon}}\left(\frac{S_n}n-\mu\right)\to0,\quad a.s.
+\]</span></p>
+<p>Let <span class="math inline">\((X_n)_n\)</span> be IID with <span class="math inline">\(\mathbb E[X_1] = 0\)</span> and <span class="math inline">\(\text{Var}[X_1] = σ^2 &lt; +∞\)</span> and let <span class="math inline">\(S_n = \sum_{k≤n} X_k\)</span>. Then</p>
+<p><span class="math display">\[
+\lim\sup_n\frac{S_n}{\sqrt{2\sigma^2n\log\log n}}=1,\quad a.s.
+\]</span></p>
+<p><strong>6</strong></p>
+<p>When we study <span class="math inline">\(L_p\)</span> space for random variables, we could derive from Jensen’s inequality that <span class="math inline">\(L^1\supset L^2\supset\cdots\supset L^\infty.\)</span></p>
+<p>A natural question arises that is this chain tight, i.e., <span class="math inline">\(\bigcap_{p\ge 1} L^p=L^\infty\)</span>?</p>
+<p>In the same words, is it true that a random variable <span class="math inline">\(X\)</span> whose all moments are finite (<span class="math inline">\(\mathbb E[X^p]&lt;\infty, \forall p\)</span>) must necessarily be bounded a.s.?</p>
+<p>Actually the answer is NO, and a simple counterexample is the normal distribution.</p>
+<blockquote>
+<p><em>From the following Lecture: <a href="https://www.youtube.com/watch?v=-sYYsCL82Vs" rel="noopener noreferrer" target="_blank">https://www.youtube.com/watch?v=-sYYsCL82Vs</a></em></p>
+</blockquote>
+<p><strong>7</strong></p>
+<p>This is one of my favorate statements in discrete probability theory via a combinatorial argument.</p>
+<p>Let <span class="math inline">\(\sigma_n\)</span> be a uniformly random permutation of <span class="math inline">\([n] := \{1, . . . , n\}\)</span> and let <span class="math inline">\(L_n\)</span> be the length of a longest increasing subsequence of <span class="math inline">\(σ_n\)</span>.</p>
+<p>We claim the following:</p>
+<p><span class="math display">\[
+\mathbb{E}L_n=\Theta(\sqrt{n}).
+\]</span></p>
+<p>We first prove that</p>
+<p><span class="math display">\[
+\lim\sup_{n\to\infty}\frac{\mathbb{E}L_n}{\sqrt{n}}\leq e,
+\]</span></p>
+<p>which implies half of the claim. Bounding the expectation of <span class="math inline">\(L_n\)</span> is not straightforward as it is the expectation of a maximum. A natural way to proceed is to find a value for which <span class="math inline">\(\mathbb P[L_n \ge \ell]\)</span> is “small.” More formally, we bound the expectation as follows</p>
+<p><span class="math display">\[
+\mathbb{E}L_n\leq\ell\operatorname{P}[L_n&lt;\ell]+n\operatorname{P}[L_n\geq\ell]\leq\ell+n\operatorname{P}[L_n\geq\ell],
+\]</span></p>
+<p>for an <span class="math inline">\(\ell\)</span> chosen below. To bound the probability on the r.h.s., we appeal to the first moment method by letting <span class="math inline">\(X_n\)</span> be the number of increasing subsequences of length <span class="math inline">\(\ell\)</span>. We also use the indicator trick, i.e., we think of <span class="math inline">\(X_n\)</span> as a sum of indicators over subsequences (not necessarily increasing) of length <span class="math inline">\(\ell\)</span>. There are <span class="math inline">\(\binom{n}{\ell}\)</span> such subsequences, each of which is increasing with probability <span class="math inline">\(1/\ell!\)</span>. Note that these subsequences are not independent. Nevertheless, by the linearity of expectation and the first moment method</p>
+<p><span class="math display">\[
+\mathbb{P}[L_n\geq\ell]=\mathbb{P}[X_n&gt;0]\leq\mathbb{E}X_n=\frac1{\ell!}\binom n\ell\leq\frac{n^\ell}{(\ell!)^2}\leq\frac{n^\ell}{e^2[\ell/e]^{2\ell}}\leq\left(\frac{e\sqrt{n}}\ell\right)^{2\ell},
+\]</span></p>
+<p>where we used a standard bound on factorials. Note that, in order for this bound to go to <span class="math inline">\(0\)</span>, we need <span class="math inline">\(\ell&gt; e\sqrt n\)</span>. The first claim follows by taking <span class="math inline">\(\ell = (1 + \delta)e \sqrt n\)</span>, for an arbitrarily small <span class="math inline">\(\delta &gt; 0\)</span>.</p>
+<p>For the other half of the claim, we show that</p>
+<p><span class="math display">\[
+\frac{\mathbb{E}L_n}{\sqrt{n}}\geq1.
+\]</span></p>
+<p>We seek a lower bound on the expected length of a longest increasing subsequence. The proof uses the following two ideas. First observe that there is a natural symmetry between the lengths of the longest increasing and decreasing subsequences— they are identically distributed. Moreover if a permutation has a “short” longest increasing subsequence, then intuitively it must have a “long” decreasing subsequence, and vice versa. Combining these two observations gives a lower bound on the expectation of <span class="math inline">\(L_n\)</span>. Formally, let <span class="math inline">\(D_n\)</span> be the length of a longest decreasing subsequence. By symmetry and the arithmetic mean-geometric mean inequality, note that</p>
+<p><span class="math display">\[
+\mathbb{E}L_n=\mathbb{E}\left[\frac{L_n+D_n}2\right]\geq\mathbb{E}\sqrt{L_nD_n}.
+\]</span></p>
+<p>We show that <span class="math inline">\(L_nD_n \ge n\)</span>, which proves the claim. We use a clever combinatorial argument. Let <span class="math inline">\(L^{(k)}_n\)</span> be the length of a longest increasing subsequence ending at position <span class="math inline">\(k\)</span>, and similarly for <span class="math inline">\(D^{(k)}_n\)</span>. It suffices to show that the pairs <span class="math inline">\((L^{(k)}_n , D^{(k)}_n ), 1 \le k \le n\)</span> are distinct. Indeed, noting that <span class="math inline">\(L^{(k)}_n \le L_n\)</span> and <span class="math inline">\(D^{(k)}_n \le D_n\)</span>, the number of pairs in <span class="math inline">\([L_n] \times [D_n]\)</span> is at most <span class="math inline">\(L_nD_n\)</span> which must then be at least <span class="math inline">\(n\)</span>. Let <span class="math inline">\(1 \le j &lt; k \le n\)</span>. If <span class="math inline">\(\sigma_n(k) &gt; \sigma_n(j)\)</span> then we see that <span class="math inline">\(L^{(k)}_n &gt; L^{(j)}_n\)</span> by appending <span class="math inline">\(\sigma_n(k)\)</span> to the subsequence ending at position <span class="math inline">\(j\)</span> achieving <span class="math inline">\(L^{(j)}_n\)</span>. The opposite holds for the decreasing case, which implies that <span class="math inline">\((L^{(j)}_n , D^{(j)}_n )\)</span> and <span class="math inline">\((L^{(k)}_n , D^{(k)}_n )\)</span> must be distinct. This combinatorial argument is known as the Erdős-Szekeres theorem. That concludes the proof of the second claim.</p>
+<blockquote>
+<p>From this lecture notes: <a href="https://people.math.wisc.edu/~roch/grad-prob/gradprob-notes6.pdf" rel="noopener noreferrer" target="_blank">https://people.math.wisc.edu/~roch/grad-prob/gradprob-notes6.pdf</a></p>
+</blockquote>
+<p><strong>8</strong></p>
+<p><strong><em>(Paley-Zygmund inequality)</em></strong>. Let <span class="math inline">\(X\)</span> be a non-negative random variable. For all <span class="math inline">\(0 &lt; \theta &lt; 1\)</span>,</p>
+<p><span class="math display">\[
+\mathbb{P}[X\geq\theta \mathbb{E}X]\geq(1-\theta)^2\frac{(\mathbb{E}X)^2}{\mathbb{E}[X^2]}.
+\]</span></p>
+<p>And its immediate application gives us the second moment method:</p>
+<p><strong><em>(Second moment method).</em></strong> Let <span class="math inline">\(X\)</span> be a non-negative random variable (not identically zero). Then</p>
+<p><span class="math display">\[
+\mathbb{P}[X&gt;0]\geq\frac{(\mathbb{E}X)^2}{\mathbb{E}[X^2]}.
+\]</span></p>
+
+    </div>
+    <nav class="article-pagination" aria-label="Post pagination">
+      <a href="models-in-statistical-physics-and-some-algorithmic-correlations.html">← Models in Statistical Physics and some algorithmic correlations</a>
+      <a href="resources-on-optimization-theory.html">Resources on Optimization Theory →</a>
+    </nav>
+  </article>
+  <aside class="article-sidebar" aria-label="Blog archive">
+    <p class="eyebrow">Archive</p>
+    <h2>Randomness and Computation</h2>
+    <div class="mini-post-list"><a href="some-interesting-problems-in-hf-interviews.html">Some Interesting Problems in HF interviews</a>
+<a href="functional-analysis-for-markov-chain-mixing-time.html">Functional Analysis for Markov Chain Mixing Time</a>
+<a href="random-series-and-slln.html">Random Series and SLLN</a>
+<a href="polytopes-in-high-dimension.html">Polytopes in High Dimension</a>
+<a href="models-in-statistical-physics-and-some-algorithmic-correlations.html">Models in Statistical Physics and some algorithmic correlations</a>
+<a href="some-interesting-examples-related-to-probability.html">Some interesting examples related to probability</a>
+<a href="resources-on-optimization-theory.html">Resources on Optimization Theory</a></div>
+  </aside>
+</main>
+
+  <footer class="site-footer">
+    <p>© <span id="year"></span> Zachariah Zhang · Randomness and Computation</p>
+  </footer>
+  <script src="../script.js"></script>
+</body>
+</html>

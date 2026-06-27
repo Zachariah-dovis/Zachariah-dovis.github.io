@@ -1,37 +1,44 @@
-# Zachariah_Zhang Blog
+# Zachariah Zhang personal website
 
-A GitHub Pages-ready personal blog archive for Zachariah_Zhang.
+GitHub Pages-ready static website.
 
-## Files
+## What is included
 
-- `index.html` — the blog-only homepage
-- `styles.css` — visual design
-- `script.js` — blog data, search, and filters
-- `.nojekyll` — tells GitHub Pages to serve the static site directly
+- `index.html`: two-column homepage with **About** and **Blog**.
+- `posts/*.html`: local HTML versions of the Notion-exported blog posts from **Randomness and Computation**.
+- `assets/`: local images copied from the Notion export.
+- `styles.css`: visual design and article typography.
+- `script.js`: footer year and blog search.
+- `.nojekyll`: tells GitHub Pages to serve the files directly.
 
-## Upload to GitHub
+## Blog posts migrated
 
-1. Unzip the website package.
-2. Upload the files directly into the root of `Zachariah-dovis.github.io`.
-3. Make sure `index.html`, `styles.css`, `script.js`, `README.md`, and `.nojekyll` are not inside another folder.
-4. Commit the upload.
-5. In GitHub, go to Settings → Pages and deploy from the `main` branch, root folder.
+- Some Interesting Problems in HF interviews
+- Functional Analysis for Markov Chain Mixing Time
+- Random Series and SLLN
+- Polytopes in High Dimension
+- Models in Statistical Physics and some algorithmic correlations
+- Some interesting examples related to probability
+- Resources on Optimization Theory
 
-The site will be available at:
+## Deploy
+
+Upload all files and folders in this ZIP directly to the root of `Zachariah-dovis.github.io`.
+
+The final structure should look like:
 
 ```text
-https://Zachariah-dovis.github.io
+index.html
+styles.css
+script.js
+.nojekyll
+posts/
+assets/
 ```
 
-## Editing posts
+Do not upload the ZIP itself. Unzip it first, then upload the files and folders.
 
-Open `script.js` and edit the `posts` array. Each post has:
+## Editing notes
 
-- `title`
-- `date`
-- `edited`
-- `tag`
-- `topic`
-- `excerpt`
-- `url`
-
+- Replace the placeholder email in `index.html` when you want to publish a real contact email.
+- LaTeX is rendered by MathJax. Inline math and display math are preserved from the Notion Markdown export.

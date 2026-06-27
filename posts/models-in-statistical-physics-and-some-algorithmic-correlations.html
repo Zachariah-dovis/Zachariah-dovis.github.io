@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Let q ∈ \N be an integer satisfying q ≥ 2. A q-spin system is specified by a graph G = (V, E), a nonnegative symmetric interaction matrix \mathbf A ∈ \R^{q×q}{≥0}, and a nonnegative vector of external fields \m…" />
+  <title>Models in Statistical Physics and some algorithmic correlations · Zachariah Zhang</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,500;6..72,700;6..72,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css" />
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+  <header class="site-header">
+    <a class="brand" href="../index.html" aria-label="Zachariah Zhang home">
+      <span class="brand-mark">Z</span>
+      <span>Zachariah Zhang</span>
+    </a>
+    <nav class="nav" aria-label="Primary navigation">
+      <a href="../index.html#about">About</a>
+      <a href="../index.html#blog">Blog</a>
+      <a href="https://github.com/Zachariah-dovis" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+  </header>
+  
+<main class="article-shell">
+  <article class="article-card">
+    <a class="back-link" href="../index.html#blog">← Back to Blog</a>
+    <p class="eyebrow">Statistical Physics</p>
+    <h1>Models in Statistical Physics and some algorithmic correlations</h1>
+    <p class="article-lede">Let q ∈ \N be an integer satisfying q ≥ 2. A q-spin system is specified by a graph G = (V, E), a nonnegative symmetric interaction matrix \mathbf A ∈ \R^{q×q}{≥0}, and a nonnegative vector of external fields \m…</p>
+    <div class="article-content">
+      
+<blockquote>
+<p><em>This blog post is incomplete and currently being written.</em></p>
+</blockquote>
+<h3 id="q-spin-system"><span class="math inline">\(q\)</span>-Spin System</h3>
+<p>Let <span class="math inline">\(q ∈ \N\)</span> be an integer satisfying <span class="math inline">\(q ≥ 2\)</span>. A <span class="math inline">\(q\)</span>-spin system is specified by a graph <span class="math inline">\(G = (V, E)\)</span>, a nonnegative symmetric interaction matrix <span class="math inline">\(\mathbf A ∈ \R^{q×q}_{≥0}\)</span>, and a nonnegative vector of external fields <span class="math inline">\(\mathbf \lambda ∈ \R^{V×[q]}_{≥0}\)</span>. These data give rise to a Gibbs distribution <span class="math inline">\(\mu = \mu_{G,\mathbf A,\mathbf\lambda}\)</span> on <span class="math inline">\([q] ^V\)</span> given by</p>
+<p><span class="math display">\[
+\mu(\sigma)\propto\prod_{uv\in E}\boldsymbol A_{\sigma(u),\sigma(v)}\prod_{v\in V}\boldsymbol{\lambda}_{v,\sigma(v)},\quad\forall\sigma:V\to[q],
+\]</span></p>
+<p>with corresponding partition function</p>
+<p><span class="math display">\[
+Z=Z_{G,\boldsymbol{A}}(\boldsymbol{\lambda})\overset{\mathsf{def}}{\operatorname*{=}}\sum_{\sigma:V\to\left[q\right]}\prod_{uv\in E}\boldsymbol{A}_{\sigma(u),\sigma(v)}\prod_{v\in V}\boldsymbol{\lambda}_{v,\sigma(v)}.
+\]</span></p>
+<p>The elements of <span class="math inline">\([q]\)</span> are often called spins or colors. Often when <span class="math inline">\(q = 2\)</span>, we will instead take the space of spins to be either <span class="math inline">\(\{0, 1\}\)</span> or <span class="math inline">\(\{±1\}\)</span> depending on context.</p>
+<h3 id="ferromagnetic-ising-model-ferromagnetic-potts-model">Ferromagnetic Ising Model &amp; Ferromagnetic Potts Model</h3>
+<p>Suppose <span class="math inline">\(q=2\)</span> and <span class="math inline">\(\boldsymbol{A}=\begin{bmatrix}e^\beta&amp;1\\1&amp;e^\beta\end{bmatrix}\)</span> where <span class="math inline">\(β ≥ 0\)</span>. Then this <span class="math inline">\(2\)</span>-spin system exactly recovers the ferromagnetic Ising model. A natural generalization to larger <span class="math inline">\(q ≥ 2\)</span>, where <span class="math inline">\(\mathbf A = (e^β − 1) · I + \mathbf 1_q\mathbf 1^\top_q\)</span> gives rise to the ferromagnetic Potts model.</p>
+<h3 id="hardcore-model">Hardcore Model</h3>
+<p>Suppose <span class="math inline">\(q = 2, A=\begin{bmatrix}0&amp;1\\1&amp;1\end{bmatrix}\)</span>, and <span class="math inline">\(λ = (λ\mathbf 1_V ,\mathbf 1_V )\)</span> for some <span class="math inline">\(λ ∈ \R_{≥0}\)</span>. Then we can view the assignments <span class="math inline">\(σ : V → [q]\)</span> as indicators of subsets of vertices. Furthermore, <span class="math inline">\(\mu\)</span> is supported on independent sets of <span class="math inline">\(G\)</span>, i.e. subsets <span class="math inline">\(I ⊆ V\)</span> such that no pair of vertices in <span class="math inline">\(I\)</span> are connected by an edge. For such sets of vertices, we have <span class="math inline">\(\mu(I) ∝ λ^{ |I| }\)</span>. This is called the hardcore (gas) model.</p>
+<h3 id="proper-coloring">Proper Coloring</h3>
+<p>Suppose <span class="math inline">\(\mathbf A =\mathbf 1_q\mathbf 1^\top_q − I\)</span> and <span class="math inline">\(λ = 1\)</span>. Then <span class="math inline">\(\mu\)</span> is uniform over the (proper) <span class="math inline">\(q\)</span>-colorings of <span class="math inline">\(G\)</span>, i.e. assignments <span class="math inline">\(χ : V → [q]\)</span> such that <span class="math inline">\(χ(u)\not= χ(v)\)</span> for all <span class="math inline">\(uv ∈ E\)</span>.</p>
+
+    </div>
+    <nav class="article-pagination" aria-label="Post pagination">
+      <a href="polytopes-in-high-dimension.html">← Polytopes in High Dimension</a>
+      <a href="some-interesting-examples-related-to-probability.html">Some interesting examples related to probability →</a>
+    </nav>
+  </article>
+  <aside class="article-sidebar" aria-label="Blog archive">
+    <p class="eyebrow">Archive</p>
+    <h2>Randomness and Computation</h2>
+    <div class="mini-post-list"><a href="some-interesting-problems-in-hf-interviews.html">Some Interesting Problems in HF interviews</a>
+<a href="functional-analysis-for-markov-chain-mixing-time.html">Functional Analysis for Markov Chain Mixing Time</a>
+<a href="random-series-and-slln.html">Random Series and SLLN</a>
+<a href="polytopes-in-high-dimension.html">Polytopes in High Dimension</a>
+<a href="models-in-statistical-physics-and-some-algorithmic-correlations.html">Models in Statistical Physics and some algorithmic correlations</a>
+<a href="some-interesting-examples-related-to-probability.html">Some interesting examples related to probability</a>
+<a href="resources-on-optimization-theory.html">Resources on Optimization Theory</a></div>
+  </aside>
+</main>
+
+  <footer class="site-footer">
+    <p>© <span id="year"></span> Zachariah Zhang · Randomness and Computation</p>
+  </footer>
+  <script src="../script.js"></script>
+</body>
+</html>

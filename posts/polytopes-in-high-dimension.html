@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="The notion of &quot;High Dimensional&quot; is playing an increasingly important role in Probability Theory and Theoretical Computer Science. High-dimensional objects are unexpectedly interesting because they often contra…" />
+  <title>Polytopes in High Dimension · Zachariah Zhang</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,500;6..72,700;6..72,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css" />
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+  <header class="site-header">
+    <a class="brand" href="../index.html" aria-label="Zachariah Zhang home">
+      <span class="brand-mark">Z</span>
+      <span>Zachariah Zhang</span>
+    </a>
+    <nav class="nav" aria-label="Primary navigation">
+      <a href="../index.html#about">About</a>
+      <a href="../index.html#blog">Blog</a>
+      <a href="https://github.com/Zachariah-dovis" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+  </header>
+  
+<main class="article-shell">
+  <article class="article-card">
+    <a class="back-link" href="../index.html#blog">← Back to Blog</a>
+    <p class="eyebrow">High Dimension</p>
+    <h1>Polytopes in High Dimension</h1>
+    <p class="article-lede">The notion of &quot;High Dimensional&quot; is playing an increasingly important role in Probability Theory and Theoretical Computer Science. High-dimensional objects are unexpectedly interesting because they often contra…</p>
+    <div class="article-content">
+      
+<p>The notion of “High Dimensional” is playing an increasingly important role in Probability Theory and Theoretical Computer Science. High-dimensional objects are unexpectedly interesting because they often contradict our intuition derived from low-dimensional cases. In this blog post, I will discuss some intriguing properties of polytopes in high-dimensional spaces. (Most of the content is from the amazing book “High Dimensional Probability and Applications in Data Science”[Ver18] by <a href="https://www.math.uci.edu/~rvershyn" rel="noopener noreferrer" target="_blank">Roman Vershynin</a> and the corresponding <a href="https://www.math.uci.edu/~rvershyn/teaching/hdp/hdp.html" rel="noopener noreferrer" target="_blank">Lecture Videos</a>).</p>
+<p><strong><em>Defintion 1(Convex Combination)</em>.</strong> A <strong>convex combination</strong> of points <span class="math inline">\(z_1, . . . , z_m ∈ \R^n\)</span> is a linear combination with coefficients that are non-negative and sum to <span class="math inline">\(1\)</span>, i.e. it is a sum of the form</p>
+<p><span class="math display">\[
+\sum_{i=1}^m\lambda_iz_i\quad\mathrm{where}\quad\lambda_i\geq0\quad\mathrm{and}\quad\sum_{i=1}^m\lambda_i=1.\tag{1}
+\]</span></p>
+<p><strong><em>Definition 2(Convex Hull)</em>.</strong> The <strong>convex hull</strong> of a set <span class="math inline">\(T ⊂ \R^n\)</span> is the set of all convex combinations of all finite collections of points in <span class="math inline">\(T\)</span>:</p>
+<p><span class="math display">\[
+\mathrm{conv}(T):=\left\{\text{convex combinations of }z_1,\ldots,z_m\in T\mathrm{~for~}m\in\mathbb{N}\right\}.
+\]</span></p>
+<p><strong><em>Theorem 1(Caratheodory’s theorem)</em></strong>. Every point in the convex hull of a set <span class="math inline">\(T ⊂ \R^n\)</span> can be expressed as a convex combination of at most <span class="math inline">\(n + 1\)</span> points from <span class="math inline">\(T\)</span>.</p>
+<p>This theorem indicates that any given point in the convex hull can be represented by <span class="math inline">\(n+1\)</span> points from the same hull. When considering an approximation case, could we use fewer points? This leads us to the following theorem.</p>
+<p><strong><em>Theorem 2(Approximate Caratheodory’s theorem)</em></strong>. Consider a set <span class="math inline">\(T ⊂ \R^n\)</span> whose diameter is bounded by <span class="math inline">\(1\)</span>. Then, for every point <span class="math inline">\(x ∈ \text{conv}(T)\)</span> and every integer <span class="math inline">\(k\)</span>, one can find points <span class="math inline">\(x_1, . . . , x_k ∈ T\)</span> such that</p>
+<p><span class="math display">\[
+\left\|x-\frac1k\sum_{j=1}^kx_j\right\|_2\leq\frac1{\sqrt{k}}.
+\]</span></p>
+<p>There are two reasons why this result is surprising. First, the number of points <span class="math inline">\(k\)</span> in convex combinations does not depend on the dimension <span class="math inline">\(n\)</span>. Second, the coefficients of convex combinations can be made all equal. (Note however that repetitions among the points <span class="math inline">\(x_i\)</span> are allowed.)</p>
+<p><strong><em>Proof</em></strong>. Our proof is based on the <strong>empirical method</strong> of B. Maurey.</p>
+<p>Firstly, we may assume w.l.o.g. that not only the diameter but also the radius of <span class="math inline">\(T\)</span> is bounded by <span class="math inline">\(1\)</span>, i.e.</p>
+<p><span class="math display">\[
+\|t\|\le 1\text{ for all }t\in T
+\]</span></p>
+<p>Fix a point <span class="math inline">\(x ∈ \text{conv}(T)\)</span> and express it as a convex combination of some vectors <span class="math inline">\(z_1, . . . , z_m ∈ T\)</span> as in (1). Now, interpret the definition of convex combination in (1) probabilistically, with <span class="math inline">\(λ_i\)</span> taking the roles of probabilities. Specifically, we can define a random vector <span class="math inline">\(Z\)</span> that takes values <span class="math inline">\(z_i\)</span> with probabilities <span class="math inline">\(λ_i\)</span>:</p>
+<p><span class="math display">\[
+\mathbb{P}\left\{Z=z_i\right\}=\lambda_i,\quad i=1,\ldots,m.
+\]</span></p>
+<p>Our next step is to bound <span class="math inline">\(\mathbb{E}\left\|x-\frac1k\sum_{j=1}^kZ_j\right\|_2^2=\frac1{k^2}\mathbb{E}\left\|\sum_{j=1}^k(Z_j-x)\right\|_2^2=\frac1{k^2}\sum_{j=1}^k\mathbb{E}\left\|Z_j-x\right\|_2^2\)</span> . Since if we could prove <span class="math inline">\(\mathbb{E}\left\|x-\frac1k\sum_{j=1}^kZ_j\right\|_2^2\)</span> is less than <span class="math inline">\(\frac 1k\)</span>, then there must exists <span class="math inline">\(k\)</span> realizations <span class="math inline">\(Z_1,Z_2,…,Z_k\)</span> of <span class="math inline">\(Z\)</span> such that <span class="math inline">\(\left\|x-\frac1k\sum_{j=1}^kZ_j\right\|_2^2\leq\frac1k.\)</span></p>
+<p>Note that <span class="math inline">\(\mathbb{E}\|Z_j-x\|_2^2=\mathbb{E}\|Z-\mathbb{E}Z\|_2^2=\mathbb{E}\|Z\|_2^2-\|\mathbb{E}Z\|_2^2\leq\mathbb{E}\|Z\|_2^2\leq1.\)</span> We conclude the proof. <span class="math inline">\(\square\)</span></p>
+<p>To go into the main topic of this blog post, here we introduce several concepts to characterize the “volume” of a high dimensional object.</p>
+<p><strong><em>Definition 3(<span class="math inline">\(\epsilon\)</span>-net)</em>.</strong> Let <span class="math inline">\((T,d)\)</span> be a metric space. Consider a subset <span class="math inline">\(K\subset T\)</span> and let <span class="math inline">\(\varepsilon&gt;0.\)</span> A subset <span class="math inline">\(\mathcal{N}\subseteq K\)</span> is called an <strong><span class="math inline">\(\varepsilon\)</span>-net</strong> of <span class="math inline">\(K\)</span> if every point in <span class="math inline">\(K\)</span> is within distance <span class="math inline">\(\varepsilon\)</span> of some point of <span class="math inline">\(\mathcal{N}\)</span>, i.e.</p>
+<p><span class="math display">\[
+\forall x\in K\mathrm{~}\exists x_0\in\mathcal{N}:\mathrm{~}d(x,x_0)\leq\varepsilon.
+\]</span></p>
+<p>Equivalently, <span class="math inline">\(\mathcal{N}\)</span> is an <span class="math inline">\(ε\)</span>-net of <span class="math inline">\(K\)</span> if and only if <span class="math inline">\(K\)</span> can be covered by balls with centers in <span class="math inline">\(\mathcal{N}\)</span> and radii <span class="math inline">\(\varepsilon\)</span>.</p>
+<p><strong><em>Definition 4(Covering Number).</em></strong> The smallest possible cardinality of an <span class="math inline">\(ε\)</span>-net of <span class="math inline">\(K\)</span> is called the <strong>covering number</strong> of <span class="math inline">\(K\)</span> and is denoted <span class="math inline">\(\mathcal N (K, d, ε)\)</span>. Equivalently, <span class="math inline">\(\mathcal N (K, d, ε)\)</span> is the smallest number of closed balls with centers in <span class="math inline">\(K\)</span> and radii <span class="math inline">\(ε\)</span> whose union covers <span class="math inline">\(K\)</span>.</p>
+<figure>
+<img alt="From Page 81 of the HDP book[Ver18]." loading="lazy" src="../assets/polytopes-in-high-dimension/Screenshot_2024-08-07_at_16.01.10.png"/>
+<figcaption aria-hidden="true">From Page 81 of the HDP book[Ver18].</figcaption>
+</figure>
+<p>From Page 81 of the HDP book[Ver18].</p>
+<p>An important property of the covering number is that it suffers from the “curse of dimensionity”.</p>
+<p><strong><em>Fact 1(The Covering Number of an Euclidean ball).</em></strong> Let <span class="math inline">\(K\)</span> be a unit Euclidean ball in <span class="math inline">\(\R^n\)</span> and <span class="math inline">\(d\)</span> be the Euclidean distance, then we have</p>
+<p><span class="math display">\[
+\mathcal N(K,d,\frac12)\ge 2^n
+\]</span></p>
+<p><strong><em>Proof.</em></strong> Simply considering the volume of the unit Euclidean ball and each little ball to cover it. <span class="math inline">\(\square\)</span></p>
+<p>Actually in most cases, the covering number would be exponential with respect to the dimension <span class="math inline">\(n\)</span>. While in the cases of polytopes with few vertices, the case is different.</p>
+<p><strong><em>Theorem 3(Covering Number of Polytopes).</em></strong> Let <span class="math inline">\(K\)</span> be a polytope in <span class="math inline">\(\R^n\)</span> with <span class="math inline">\(m\)</span> vertices with diameter less than <span class="math inline">\(1\)</span> and <span class="math inline">\(d\)</span> be the Euclidean distance. Then</p>
+<p><span class="math display">\[
+\mathcal N(K,d, \varepsilon)\le m^{\frac1{2\varepsilon^2}}
+\]</span></p>
+<p><strong><em>Proof.</em></strong> Here we could assume that <span class="math inline">\(K\)</span> is convex (if it is not, we could simply consider the convex hull of <span class="math inline">\(K\)</span>, and here we are considering the upper bound of covering numbers, so it is feasible). Donate by <span class="math inline">\(T\)</span> the set of vertices, then <span class="math inline">\(K\)</span> is the convex hull of <span class="math inline">\(T\)</span> with <span class="math inline">\(|T|\le m\)</span>. Thus, we could apply the Approximate Caratheodory’s theorem, that is, any point <span class="math inline">\(p\)</span> in <span class="math inline">\(K\)</span> is within <span class="math inline">\(\frac{1}{\sqrt{2k}}\)</span> of some point in the set <span class="math inline">\(\mathcal Q:=\left\{ \frac 1k \sum^k_{i=1}x_i: x_i \in T\right\}\)</span>. It exactly means any point in <span class="math inline">\(K\)</span> could be covered by a ball centered at some point from <span class="math inline">\(\mathcal Q\)</span> with radii <span class="math inline">\(\frac{1}{\sqrt{2k}}\)</span>. Hence, <span class="math inline">\(\mathcal N(K,d,\frac{1}{\sqrt{2k}})\le |\mathcal Q|\le|T|^k\)</span>, from which we could get the descired conclusion. <span class="math inline">\(\square\)</span></p>
+<p>This theorem reveals an interesting fact: in a high-dimensional space, a polytope with <span class="math inline">\(O(\text{poly}(n))\)</span> vertices is actually exponentially smaller compared to a ball. Moreover, to approximate a Euclidean ball with a polytope, this polytope must have an exponentially large number of vertices with respect to the dimension. The following theorem provides a characterization of the volumes of polytopes and Euclidean balls.</p>
+<p><strong><em>Theorem 4(Volumes of polytopes[CP88]).</em></strong> Let <span class="math inline">\(\mathcal B\)</span> be an unit Euclidean ball in <span class="math inline">\(\R^n\)</span> and <span class="math inline">\(P\subset \mathcal B\)</span> a polytope with <span class="math inline">\(m\)</span> vertices. Then</p>
+<p><span class="math display">\[
+\frac{\text{Vol}(P)}{\text{Vol}(\mathcal B)}\le\left(4\sqrt{\frac{\log m}{n}}\right)^n
+\]</span></p>
+<p><strong><em>Proof.</em></strong> From the argument above, we have</p>
+<p><span class="math display">\[
+\text{Vol}(P)\le\mathcal N(P,d,\varepsilon)\cdot\text{Vol}(\mathcal B_\epsilon)\le m^{\frac{2}{\varepsilon^2}}\cdot\varepsilon^n\text{Vol}(\mathcal B)
+\]</span></p>
+<p>where <span class="math inline">\(\mathcal B_\varepsilon\)</span> is an Euclidean ball in <span class="math inline">\(\R^n\)</span> with radii <span class="math inline">\(\varepsilon\)</span>. Thus, we have <span class="math inline">\(\frac{\text{Vol}(P)}{\text{Vol}(\mathcal B)}\le m^{\frac{2}{\varepsilon^2}}\cdot\varepsilon^n\)</span>, then by simple calculation we have that the right side is upper bounded by <span class="math inline">\(\left(4\sqrt{\frac{\log m}{n}}\right)^n\)</span>. <span class="math inline">\(\square\)</span></p>
+<p>Actually this upper bound is nearly tight, where the optimal bound is to replace <span class="math inline">\({\log m}\over n\)</span> by <span class="math inline">\(\log \frac m n\)</span>. On the other hand, the bound we get here is optimal in the random polytope case[DGT09], which we construct by uniformly sampling on the boundary of an Euclidean ball and obtain their convex hull. So what would a polytope really look like in high dimensions? Here we present the Milman hyperbolic intuition[Mil98] in high dimensions. A convex body <span class="math inline">\(K\)</span> in high dimensions will often looks like the following, consisting of a bulk and outliers. The bulk makes up most of the volume of <span class="math inline">\(K\)</span>, but it is usually small in diameter. The outliers contribute little to the volume, but they are large in diameter.</p>
+<figure>
+<img alt="From Page 7[Ver15]" loading="lazy" src="../assets/polytopes-in-high-dimension/Screenshot_2024-08-07_at_18.06.31.png"/>
+<figcaption aria-hidden="true">From Page 7[Ver15]</figcaption>
+</figure>
+<p>From Page 7[Ver15]</p>
+<h3 id="references"><strong><em>References</em></strong></h3>
+<ul>
+<li>[Mil98] V. Milman, Surprising geometric phenomena in high-dimensional convexity theory, European Congress of Mathematics, Vol. II (Budapest, 1996), 73–91, Progr. Math.,169, Birkh¨auser, Basel, 1998.</li>
+<li>[Ver15] R. Vershynin, Estimation in high dimensions: a geometric perspective. Sampling Theory, a Renaissance, 3–66, Birkhauser Basel, 2015.</li>
+<li>[DGT09] N. Dafnis, A. Giannopoulos, and A. Tsolomitis. Asymptotic shape of a random polytope in a convex body. J. Funct. Anal., 257(9):2820–2839, 2009.</li>
+<li>[CP88] B. Carl and A. Pajor. Gelfand numbers of operators with values in a Hilbert space. Invent. math., 94:479–504, 1988.</li>
+<li>[Ver18] R. Vershynin, High-Dimensional Probability: An Introduction With Applications in Data Science, vol. 47. Cambridge, U.K.: Cambridge Univ. Press, 2018.</li>
+</ul>
+
+    </div>
+    <nav class="article-pagination" aria-label="Post pagination">
+      <a href="random-series-and-slln.html">← Random Series and SLLN</a>
+      <a href="models-in-statistical-physics-and-some-algorithmic-correlations.html">Models in Statistical Physics and some algorithmic correlations →</a>
+    </nav>
+  </article>
+  <aside class="article-sidebar" aria-label="Blog archive">
+    <p class="eyebrow">Archive</p>
+    <h2>Randomness and Computation</h2>
+    <div class="mini-post-list"><a href="some-interesting-problems-in-hf-interviews.html">Some Interesting Problems in HF interviews</a>
+<a href="functional-analysis-for-markov-chain-mixing-time.html">Functional Analysis for Markov Chain Mixing Time</a>
+<a href="random-series-and-slln.html">Random Series and SLLN</a>
+<a href="polytopes-in-high-dimension.html">Polytopes in High Dimension</a>
+<a href="models-in-statistical-physics-and-some-algorithmic-correlations.html">Models in Statistical Physics and some algorithmic correlations</a>
+<a href="some-interesting-examples-related-to-probability.html">Some interesting examples related to probability</a>
+<a href="resources-on-optimization-theory.html">Resources on Optimization Theory</a></div>
+  </aside>
+</main>
+
+  <footer class="site-footer">
+    <p>© <span id="year"></span> Zachariah Zhang · Randomness and Computation</p>
+  </footer>
+  <script src="../script.js"></script>
+</body>
+</html>

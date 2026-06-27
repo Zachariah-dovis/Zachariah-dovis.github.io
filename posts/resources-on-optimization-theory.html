@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="From my point of view, the modern optimization theory contains three most important frameworks——first order methods, cutting plane methods and interior point methods." />
+  <title>Resources on Optimization Theory · Zachariah Zhang</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,500;6..72,700;6..72,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css" />
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+  <header class="site-header">
+    <a class="brand" href="../index.html" aria-label="Zachariah Zhang home">
+      <span class="brand-mark">Z</span>
+      <span>Zachariah Zhang</span>
+    </a>
+    <nav class="nav" aria-label="Primary navigation">
+      <a href="../index.html#about">About</a>
+      <a href="../index.html#blog">Blog</a>
+      <a href="https://github.com/Zachariah-dovis" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+  </header>
+  
+<main class="article-shell">
+  <article class="article-card">
+    <a class="back-link" href="../index.html#blog">← Back to Blog</a>
+    <p class="eyebrow">Optimization</p>
+    <h1>Resources on Optimization Theory</h1>
+    <p class="article-lede">From my point of view, the modern optimization theory contains three most important frameworks——first order methods, cutting plane methods and interior point methods.</p>
+    <div class="article-content">
+      
+<p><em>From my point of view, the modern optimization theory contains three most important frameworks——first order methods, cutting plane methods and interior point methods.</em></p>
+<p><strong>First order methods</strong></p>
+<p>By first order methods, here I mean gradient descent and variants. As for the deterministic algorithms, Accelerated Gradient Descent (AGD)[Nes83] has been proven to be optimal. As for the randomized algorithm, a technique called variance reduction is introduced, and Katyusha[All17] has the current best running time.</p>
+<p><strong>Cutting plane methods</strong></p>
+<p>Given a convex function <span class="math inline">\(f\)</span> with its set <span class="math inline">\(\mathcal S\)</span> of minimizers, Cutting plane methods minimizes <span class="math inline">\(f\)</span> by maintaining a convex search set <span class="math inline">\(\mathscr E^{(k)} \supseteq\mathcal S\)</span> in the <span class="math inline">\(k\)</span>th iteration, and iteratively shrinking <span class="math inline">\(\mathscr E^{(k)}\)</span> using the subgradients of <span class="math inline">\(f\)</span>. The current best algorithm is [JLSW20], which is based on a multi-layered data structure for leverage score maintenance.</p>
+<p><strong>Interior point methods</strong></p>
+<p>Interior point methods solves the convex program <span class="math inline">\(\min_{\mathbf u∈\mathcal S}\langle c, u\rangle\)</span> by solving a sequence of unconstrained problems <span class="math inline">\(\min_u Ψ_t(\mathbf u)\overset{def}{=} \{t · \langle c, u\rangle + ψ_S (\mathbf u)\}\)</span> parametrized by increasing <span class="math inline">\(t\)</span>, where <span class="math inline">\(ψ_S\)</span> is a self-concordant barrier function that enforces feasibility by becoming unbounded as it approaches the boundary of the feasible set <span class="math inline">\(\mathcal S\)</span>. Over the past decades, this method has had a significant impact, notably in Linear Programming and the Minimum Cost Flow problem. The best algorithms for these problems are solved with interior point methods, namely [JSWZ21] for LP and [CKLPPS22] for Minimum Cost Flow.</p>
+<p><strong>Books</strong></p>
+<ul>
+<li><a href="https://convex-optimization.github.io/" rel="noopener noreferrer" target="_blank">*Algorithms for Convex Optimization</a>* by <em><a href="https://www.cs.yale.edu/homes/vishnoi/Home.html" rel="noopener noreferrer" target="_blank">Nisheeth K. Vishnoi</a></em> (Actually the book is adapted from Professor Vishnoi’s <a href="https://nisheethvishnoi.wordpress.com/convex-optimization/" rel="noopener noreferrer" target="_blank">Lecture Notes</a> on the same topic). <em>It includes novel interpretations, such as presenting Newton’s method as steepest descent on a Riemannian manifold, and explores advanced topics near the research frontier, such as the Lee-Sidford barrier.</em></li>
+<li><a href="https://github.com/YinTat/optimizationbook/blob/main/main.pdf" rel="noopener noreferrer" target="_blank"><em>Techniques in Optimization and Sampling</em></a> by <em><a href="https://yintat.com/" rel="noopener noreferrer" target="_blank">Yin Tat Lee</a></em> and <em><a href="https://faculty.cc.gatech.edu/~vempala/" rel="noopener noreferrer" target="_blank">Santosh Vempala</a>. This might be the book that is closest to the frontier(at least to the best of my knowledge).</em></li>
+</ul>
+<p><strong>Lecture Notes</strong></p>
+<ul>
+<li><a href="https://yintat.com/teaching/cse599-winter18/" rel="noopener noreferrer" target="_blank">*Interplay between Convex Optimization and Geometry</a>* by <em><a href="https://yintat.com/" rel="noopener noreferrer" target="_blank">Yin Tat Lee</a>. Although the Notes were written six years ago, they cover many cutting-edge topics, and Professor Lee has listed some open problems within them, many of which remain unsolved.</em></li>
+<li><a href="https://kjtian.github.io/cs395t.html" rel="noopener noreferrer" target="_blank">*Continuous Algorithms</a>* by <em><a href="https://kjtian.github.io/index.html" rel="noopener noreferrer" target="_blank">Kevin Tian</a>. The notes cover content ranging from basic knowledge to cutting-edge advancements, and might be notes closest to the frontier(at least to the best of my knowledge).</em></li>
+<li><a href="https://faculty.cc.gatech.edu/~vdbrand/8803/fall22_daa_lecturenotes.pdf" rel="noopener noreferrer" target="_blank">*Dynamic Algebraic Algorithms</a>* by <em><a href="https://faculty.cc.gatech.edu/~vdbrand/" rel="noopener noreferrer" target="_blank">Jan van den Brand</a>. A detailed notes on recent progress about interior point methods, sketching algorithms and matrix multiplication.</em></li>
+</ul>
+<h3 id="references"><em>References</em></h3>
+<ul>
+<li>[Nes83] Yurii E. Nesterov. “A method for solving the convex programming problem with convergence rate <span class="math inline">\(O(1/k^2)\)</span>”. In: Dokl. akad. nauk Sssr. Vol. 269. 1983, pp. 543–547.</li>
+<li>[All17] Zeyuan Allen-Zhu. “Katyusha: The first direct acceleration of stochastic gradient methods”. In: The Journal of Machine Learning Research 18.1 (2017), pp. 8194–8244.</li>
+<li>[JLSW20] Haotian Jiang, Yin Tat Lee, Zhao Song, and Sam Chiu-wai Wong. “An improved cutting plane method for convex optimization, convex-concave games, and its applications”. In: Proceedings of the 52nd Annual ACM SIGACT Symposium on Theory of Computing. 2020, pp. 944–953.</li>
+<li>[JSWZ21] Shunhua Jiang, Zhao Song, Omri Weinstein, and Hengjie Zhang. A faster algorithm for solving general lps. In Proceedings of the 53rd Annual ACM SIGACT Symposium on Theory of Computing, pages 823–832, 2021.</li>
+<li>[CKLPPS22] Li Chen, Rasmus Kyng, Yang P. Liu, Richard Peng, Maximilian Probst Gutenberg, and Sushant Sachdeva. “Maximum flow and minimum-cost flow in almost-linear time”. In: 2022 IEEE 63rd Annual Symposium on Foundations of Computer Science (FOCS). IEEE. 2022, pp. 612–623</li>
+</ul>
+
+    </div>
+    <nav class="article-pagination" aria-label="Post pagination">
+      <a href="some-interesting-examples-related-to-probability.html">← Some interesting examples related to probability</a>
+      <span></span>
+    </nav>
+  </article>
+  <aside class="article-sidebar" aria-label="Blog archive">
+    <p class="eyebrow">Archive</p>
+    <h2>Randomness and Computation</h2>
+    <div class="mini-post-list"><a href="some-interesting-problems-in-hf-interviews.html">Some Interesting Problems in HF interviews</a>
+<a href="functional-analysis-for-markov-chain-mixing-time.html">Functional Analysis for Markov Chain Mixing Time</a>
+<a href="random-series-and-slln.html">Random Series and SLLN</a>
+<a href="polytopes-in-high-dimension.html">Polytopes in High Dimension</a>
+<a href="models-in-statistical-physics-and-some-algorithmic-correlations.html">Models in Statistical Physics and some algorithmic correlations</a>
+<a href="some-interesting-examples-related-to-probability.html">Some interesting examples related to probability</a>
+<a href="resources-on-optimization-theory.html">Resources on Optimization Theory</a></div>
+  </aside>
+</main>
+
+  <footer class="site-footer">
+    <p>© <span id="year"></span> Zachariah Zhang · Randomness and Computation</p>
+  </footer>
+  <script src="../script.js"></script>
+</body>
+</html>
