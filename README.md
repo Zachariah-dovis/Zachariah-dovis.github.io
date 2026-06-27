@@ -1,45 +1,37 @@
-# Xinwei “Zachariah” Zhang — Personal Website
+# Zachariah_Zhang Blog
 
-A lightweight, beautiful, GitHub Pages-ready personal website.
+A GitHub Pages-ready personal blog archive for Zachariah_Zhang.
 
 ## Files
 
-- `index.html` — content and page structure
+- `index.html` — the blog-only homepage
 - `styles.css` — visual design
-- `script.js` — mobile menu, scroll reveal, dynamic year
+- `script.js` — blog data, search, and filters
+- `.nojekyll` — tells GitHub Pages to serve the static site directly
 
-## Deploy to GitHub Pages
+## Upload to GitHub
 
-1. Create a new GitHub repository named exactly:
+1. Unzip the website package.
+2. Upload the files directly into the root of `Zachariah-dovis.github.io`.
+3. Make sure `index.html`, `styles.css`, `script.js`, `README.md`, and `.nojekyll` are not inside another folder.
+4. Commit the upload.
+5. In GitHub, go to Settings → Pages and deploy from the `main` branch, root folder.
 
-   ```text
-   Zachariah-dovis.github.io
-   ```
+The site will be available at:
 
-2. Upload these files to the repository root.
-3. Go to **Settings → Pages**.
-4. Under **Build and deployment**, choose **Deploy from a branch**.
-5. Select the default branch, usually `main`, and `/root`.
-6. Visit:
+```text
+https://Zachariah-dovis.github.io
+```
 
-   ```text
-   https://Zachariah-dovis.github.io
-   ```
+## Editing posts
 
-GitHub may take several minutes to publish the site after your first push.
+Open `script.js` and edit the `posts` array. Each post has:
 
-## Edit checklist
+- `title`
+- `date`
+- `edited`
+- `tag`
+- `topic`
+- `excerpt`
+- `url`
 
-Search in `index.html` for these placeholders:
-
-- `your.email@example.com`
-- `Add link later`
-- Blog URL placeholder
-- Any outdated bio wording
-
-## Optional improvements
-
-- Add a `cv.pdf` file and link it in the Contact section.
-- Move old Notion posts into a `/posts` folder.
-- Add Google Scholar, ORCID, LinkedIn, or institutional profile links.
-- Replace the GitHub avatar with a local `assets/profile.jpg` image if you prefer.
