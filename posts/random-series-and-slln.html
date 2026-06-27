@@ -11,10 +11,23 @@
   <link rel="stylesheet" href="../styles.css" />
   <script>
     window.MathJax = {
+      loader: { load: ['[tex]/ams', '[tex]/boldsymbol'] },
       tex: {
+        packages: { '[+]': ['ams', 'boldsymbol'] },
         inlineMath: [['$', '$'], ['\\(', '\\)']],
         displayMath: [['$$', '$$'], ['\\[', '\\]']],
-        processEscapes: true
+        processEscapes: true,
+        macros: {
+          N: '\\mathbb{N}',
+          R: '\\mathbb{R}',
+          Z: '\\mathbb{Z}',
+          Q: '\\mathbb{Q}',
+          C: '\\mathbb{C}',
+          E: '\\mathbb{E}',
+          P: '\\mathbb{P}',
+          thicksim: '\\sim',
+          mathscr: ['\\mathcal{#1}', 1]
+        }
       },
       svg: { fontCache: 'global' }
     };
@@ -40,7 +53,6 @@
     <a class="back-link" href="../blog.html">← Back to Blog</a>
     <p class="eyebrow">Probability</p>
     <h1>Random Series and SLLN</h1>
-    <p class="article-lede">In calculus, we study the convergence properties of series. Similarly, in probability theory, we are interested in the convergence of series of random variables. Consider the series:</p>
     <div class="article-content">
       
 <h3 id="random-series">Random Series</h3>
@@ -56,7 +68,7 @@
 \sum_{n=1}^\infty\mathbb{P}[|X_n|&gt;A]&lt;+\infty,\tag{1}
 \]</span></p>
 <p><span class="math display">\[
-\sum_{n=1}^\infty\mathbb{E}[Y_n]\textit{ converges},\tag{2}
+\sum_{n=1}^\infty\mathbb{E}[Y_n]\text{ converges},\tag{2}
 \]</span></p>
 <p>and</p>
 <p><span class="math display">\[

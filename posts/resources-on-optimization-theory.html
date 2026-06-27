@@ -11,10 +11,23 @@
   <link rel="stylesheet" href="../styles.css" />
   <script>
     window.MathJax = {
+      loader: { load: ['[tex]/ams', '[tex]/boldsymbol'] },
       tex: {
+        packages: { '[+]': ['ams', 'boldsymbol'] },
         inlineMath: [['$', '$'], ['\\(', '\\)']],
         displayMath: [['$$', '$$'], ['\\[', '\\]']],
-        processEscapes: true
+        processEscapes: true,
+        macros: {
+          N: '\\mathbb{N}',
+          R: '\\mathbb{R}',
+          Z: '\\mathbb{Z}',
+          Q: '\\mathbb{Q}',
+          C: '\\mathbb{C}',
+          E: '\\mathbb{E}',
+          P: '\\mathbb{P}',
+          thicksim: '\\sim',
+          mathscr: ['\\mathcal{#1}', 1]
+        }
       },
       svg: { fontCache: 'global' }
     };
@@ -40,7 +53,6 @@
     <a class="back-link" href="../blog.html">← Back to Blog</a>
     <p class="eyebrow">Optimization</p>
     <h1>Resources on Optimization Theory</h1>
-    <p class="article-lede">From my point of view, the modern optimization theory contains three most important frameworks——first order methods, cutting plane methods and interior point methods.</p>
     <div class="article-content">
       
 <p><em>From my point of view, the modern optimization theory contains three most important frameworks——first order methods, cutting plane methods and interior point methods.</em></p>

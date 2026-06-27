@@ -11,10 +11,23 @@
   <link rel="stylesheet" href="../styles.css" />
   <script>
     window.MathJax = {
+      loader: { load: ['[tex]/ams', '[tex]/boldsymbol'] },
       tex: {
+        packages: { '[+]': ['ams', 'boldsymbol'] },
         inlineMath: [['$', '$'], ['\\(', '\\)']],
         displayMath: [['$$', '$$'], ['\\[', '\\]']],
-        processEscapes: true
+        processEscapes: true,
+        macros: {
+          N: '\\mathbb{N}',
+          R: '\\mathbb{R}',
+          Z: '\\mathbb{Z}',
+          Q: '\\mathbb{Q}',
+          C: '\\mathbb{C}',
+          E: '\\mathbb{E}',
+          P: '\\mathbb{P}',
+          thicksim: '\\sim',
+          mathscr: ['\\mathcal{#1}', 1]
+        }
       },
       svg: { fontCache: 'global' }
     };
@@ -40,7 +53,6 @@
     <a class="back-link" href="../blog.html">← Back to Blog</a>
     <p class="eyebrow">Probability</p>
     <h1>Some interesting examples related to probability</h1>
-    <p class="article-lede">This page will be updated persistently.</p>
     <div class="article-content">
       
 <p><em>This page will be updated persistently.</em></p>
@@ -79,7 +91,7 @@ P(x,y)=\frac 12\text{ for all }x,y\in\{0,1\}
 <p><span class="math display">\[
 \mathbb{P}\left[\max_{1\leq k\leq n}|S_k|\geq x\right]\geq1-\frac{(c+x)^2}{\mathrm{Var}[S_n]}.
 \]</span></p>
-<p>Let <span class="math inline">\((X_n)_n\)</span> be independent and symmetric (that is, <span class="math inline">\(X_1\)</span> and <span class="math inline">\(-X_1\)</span> have the same distribution). Then for all <span class="math inline">\(a ∈ \R\)</span></p>
+<p>Let <span class="math inline">\((X_n)_n\)</span> be independent and symmetric (that is, <span class="math inline">\(X_1\)</span> and <span class="math inline">\(-X_1\)</span> have the same distribution). Then for all <span class="math inline">\(a ∈ \mathbb{R}\)</span></p>
 <p><span class="math display">\[
 \mathbb{P}\left[\max_{1\leq k\leq n}S_n&gt;a\right]\leq2\mathbb{P}[S_n&gt;a].
 \]</span></p>

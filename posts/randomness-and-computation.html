@@ -11,10 +11,23 @@
   <link rel="stylesheet" href="../styles.css" />
   <script>
     window.MathJax = {
+      loader: { load: ['[tex]/ams', '[tex]/boldsymbol'] },
       tex: {
+        packages: { '[+]': ['ams', 'boldsymbol'] },
         inlineMath: [['$', '$'], ['\\(', '\\)']],
         displayMath: [['$$', '$$'], ['\\[', '\\]']],
-        processEscapes: true
+        processEscapes: true,
+        macros: {
+          N: '\\mathbb{N}',
+          R: '\\mathbb{R}',
+          Z: '\\mathbb{Z}',
+          Q: '\\mathbb{Q}',
+          C: '\\mathbb{C}',
+          E: '\\mathbb{E}',
+          P: '\\mathbb{P}',
+          thicksim: '\\sim',
+          mathscr: ['\\mathcal{#1}', 1]
+        }
       },
       svg: { fontCache: 'global' }
     };
@@ -40,7 +53,6 @@
     <a class="back-link" href="../blog.html">← Back to Blog</a>
     <p class="eyebrow">Blog collection</p>
     <h1>Randomness and Computation</h1>
-    <p class="article-lede">A local GitHub Pages archive of the migrated Notion blog posts.</p>
     <ul class="archive-list"><li><a href="some-interesting-problems-in-hf-interviews.html">Some Interesting Problems in HF interviews</a><span>Problems</span></li>
 <li><a href="functional-analysis-for-markov-chain-mixing-time.html">Functional Analysis for Markov Chain Mixing Time</a><span>Markov Chains</span></li>
 <li><a href="random-series-and-slln.html">Random Series and SLLN</a><span>Probability</span></li>

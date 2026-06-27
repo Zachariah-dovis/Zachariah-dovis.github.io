@@ -11,10 +11,23 @@
   <link rel="stylesheet" href="../styles.css" />
   <script>
     window.MathJax = {
+      loader: { load: ['[tex]/ams', '[tex]/boldsymbol'] },
       tex: {
+        packages: { '[+]': ['ams', 'boldsymbol'] },
         inlineMath: [['$', '$'], ['\\(', '\\)']],
         displayMath: [['$$', '$$'], ['\\[', '\\]']],
-        processEscapes: true
+        processEscapes: true,
+        macros: {
+          N: '\\mathbb{N}',
+          R: '\\mathbb{R}',
+          Z: '\\mathbb{Z}',
+          Q: '\\mathbb{Q}',
+          C: '\\mathbb{C}',
+          E: '\\mathbb{E}',
+          P: '\\mathbb{P}',
+          thicksim: '\\sim',
+          mathscr: ['\\mathcal{#1}', 1]
+        }
       },
       svg: { fontCache: 'global' }
     };
@@ -40,21 +53,20 @@
     <a class="back-link" href="../blog.html">← Back to Blog</a>
     <p class="eyebrow">High Dimension</p>
     <h1>Polytopes in High Dimension</h1>
-    <p class="article-lede">The notion of &quot;High Dimensional&quot; is playing an increasingly important role in Probability Theory and Theoretical Computer Science. High-dimensional objects are unexpectedly interesting because they often contra…</p>
     <div class="article-content">
       
 <p>The notion of “High Dimensional” is playing an increasingly important role in Probability Theory and Theoretical Computer Science. High-dimensional objects are unexpectedly interesting because they often contradict our intuition derived from low-dimensional cases. In this blog post, I will discuss some intriguing properties of polytopes in high-dimensional spaces. (Most of the content is from the amazing book “High Dimensional Probability and Applications in Data Science”[Ver18] by <a href="https://www.math.uci.edu/~rvershyn" rel="noopener noreferrer" target="_blank">Roman Vershynin</a> and the corresponding <a href="https://www.math.uci.edu/~rvershyn/teaching/hdp/hdp.html" rel="noopener noreferrer" target="_blank">Lecture Videos</a>).</p>
-<p><strong><em>Defintion 1(Convex Combination)</em>.</strong> A <strong>convex combination</strong> of points <span class="math inline">\(z_1, . . . , z_m ∈ \R^n\)</span> is a linear combination with coefficients that are non-negative and sum to <span class="math inline">\(1\)</span>, i.e. it is a sum of the form</p>
+<p><strong><em>Defintion 1(Convex Combination)</em>.</strong> A <strong>convex combination</strong> of points <span class="math inline">\(z_1, . . . , z_m ∈ \mathbb{R}^n\)</span> is a linear combination with coefficients that are non-negative and sum to <span class="math inline">\(1\)</span>, i.e. it is a sum of the form</p>
 <p><span class="math display">\[
 \sum_{i=1}^m\lambda_iz_i\quad\mathrm{where}\quad\lambda_i\geq0\quad\mathrm{and}\quad\sum_{i=1}^m\lambda_i=1.\tag{1}
 \]</span></p>
-<p><strong><em>Definition 2(Convex Hull)</em>.</strong> The <strong>convex hull</strong> of a set <span class="math inline">\(T ⊂ \R^n\)</span> is the set of all convex combinations of all finite collections of points in <span class="math inline">\(T\)</span>:</p>
+<p><strong><em>Definition 2(Convex Hull)</em>.</strong> The <strong>convex hull</strong> of a set <span class="math inline">\(T ⊂ \mathbb{R}^n\)</span> is the set of all convex combinations of all finite collections of points in <span class="math inline">\(T\)</span>:</p>
 <p><span class="math display">\[
 \mathrm{conv}(T):=\left\{\text{convex combinations of }z_1,\ldots,z_m\in T\mathrm{~for~}m\in\mathbb{N}\right\}.
 \]</span></p>
-<p><strong><em>Theorem 1(Caratheodory’s theorem)</em></strong>. Every point in the convex hull of a set <span class="math inline">\(T ⊂ \R^n\)</span> can be expressed as a convex combination of at most <span class="math inline">\(n + 1\)</span> points from <span class="math inline">\(T\)</span>.</p>
+<p><strong><em>Theorem 1(Caratheodory’s theorem)</em></strong>. Every point in the convex hull of a set <span class="math inline">\(T ⊂ \mathbb{R}^n\)</span> can be expressed as a convex combination of at most <span class="math inline">\(n + 1\)</span> points from <span class="math inline">\(T\)</span>.</p>
 <p>This theorem indicates that any given point in the convex hull can be represented by <span class="math inline">\(n+1\)</span> points from the same hull. When considering an approximation case, could we use fewer points? This leads us to the following theorem.</p>
-<p><strong><em>Theorem 2(Approximate Caratheodory’s theorem)</em></strong>. Consider a set <span class="math inline">\(T ⊂ \R^n\)</span> whose diameter is bounded by <span class="math inline">\(1\)</span>. Then, for every point <span class="math inline">\(x ∈ \text{conv}(T)\)</span> and every integer <span class="math inline">\(k\)</span>, one can find points <span class="math inline">\(x_1, . . . , x_k ∈ T\)</span> such that</p>
+<p><strong><em>Theorem 2(Approximate Caratheodory’s theorem)</em></strong>. Consider a set <span class="math inline">\(T ⊂ \mathbb{R}^n\)</span> whose diameter is bounded by <span class="math inline">\(1\)</span>. Then, for every point <span class="math inline">\(x ∈ \text{conv}(T)\)</span> and every integer <span class="math inline">\(k\)</span>, one can find points <span class="math inline">\(x_1, . . . , x_k ∈ T\)</span> such that</p>
 <p><span class="math display">\[
 \left\|x-\frac1k\sum_{j=1}^kx_j\right\|_2\leq\frac1{\sqrt{k}}.
 \]</span></p>
@@ -83,19 +95,19 @@
 </figure>
 <p>From Page 81 of the HDP book[Ver18].</p>
 <p>An important property of the covering number is that it suffers from the “curse of dimensionity”.</p>
-<p><strong><em>Fact 1(The Covering Number of an Euclidean ball).</em></strong> Let <span class="math inline">\(K\)</span> be a unit Euclidean ball in <span class="math inline">\(\R^n\)</span> and <span class="math inline">\(d\)</span> be the Euclidean distance, then we have</p>
+<p><strong><em>Fact 1(The Covering Number of an Euclidean ball).</em></strong> Let <span class="math inline">\(K\)</span> be a unit Euclidean ball in <span class="math inline">\(\mathbb{R}^n\)</span> and <span class="math inline">\(d\)</span> be the Euclidean distance, then we have</p>
 <p><span class="math display">\[
 \mathcal N(K,d,\frac12)\ge 2^n
 \]</span></p>
 <p><strong><em>Proof.</em></strong> Simply considering the volume of the unit Euclidean ball and each little ball to cover it. <span class="math inline">\(\square\)</span></p>
 <p>Actually in most cases, the covering number would be exponential with respect to the dimension <span class="math inline">\(n\)</span>. While in the cases of polytopes with few vertices, the case is different.</p>
-<p><strong><em>Theorem 3(Covering Number of Polytopes).</em></strong> Let <span class="math inline">\(K\)</span> be a polytope in <span class="math inline">\(\R^n\)</span> with <span class="math inline">\(m\)</span> vertices with diameter less than <span class="math inline">\(1\)</span> and <span class="math inline">\(d\)</span> be the Euclidean distance. Then</p>
+<p><strong><em>Theorem 3(Covering Number of Polytopes).</em></strong> Let <span class="math inline">\(K\)</span> be a polytope in <span class="math inline">\(\mathbb{R}^n\)</span> with <span class="math inline">\(m\)</span> vertices with diameter less than <span class="math inline">\(1\)</span> and <span class="math inline">\(d\)</span> be the Euclidean distance. Then</p>
 <p><span class="math display">\[
 \mathcal N(K,d, \varepsilon)\le m^{\frac1{2\varepsilon^2}}
 \]</span></p>
 <p><strong><em>Proof.</em></strong> Here we could assume that <span class="math inline">\(K\)</span> is convex (if it is not, we could simply consider the convex hull of <span class="math inline">\(K\)</span>, and here we are considering the upper bound of covering numbers, so it is feasible). Donate by <span class="math inline">\(T\)</span> the set of vertices, then <span class="math inline">\(K\)</span> is the convex hull of <span class="math inline">\(T\)</span> with <span class="math inline">\(|T|\le m\)</span>. Thus, we could apply the Approximate Caratheodory’s theorem, that is, any point <span class="math inline">\(p\)</span> in <span class="math inline">\(K\)</span> is within <span class="math inline">\(\frac{1}{\sqrt{2k}}\)</span> of some point in the set <span class="math inline">\(\mathcal Q:=\left\{ \frac 1k \sum^k_{i=1}x_i: x_i \in T\right\}\)</span>. It exactly means any point in <span class="math inline">\(K\)</span> could be covered by a ball centered at some point from <span class="math inline">\(\mathcal Q\)</span> with radii <span class="math inline">\(\frac{1}{\sqrt{2k}}\)</span>. Hence, <span class="math inline">\(\mathcal N(K,d,\frac{1}{\sqrt{2k}})\le |\mathcal Q|\le|T|^k\)</span>, from which we could get the descired conclusion. <span class="math inline">\(\square\)</span></p>
 <p>This theorem reveals an interesting fact: in a high-dimensional space, a polytope with <span class="math inline">\(O(\text{poly}(n))\)</span> vertices is actually exponentially smaller compared to a ball. Moreover, to approximate a Euclidean ball with a polytope, this polytope must have an exponentially large number of vertices with respect to the dimension. The following theorem provides a characterization of the volumes of polytopes and Euclidean balls.</p>
-<p><strong><em>Theorem 4(Volumes of polytopes[CP88]).</em></strong> Let <span class="math inline">\(\mathcal B\)</span> be an unit Euclidean ball in <span class="math inline">\(\R^n\)</span> and <span class="math inline">\(P\subset \mathcal B\)</span> a polytope with <span class="math inline">\(m\)</span> vertices. Then</p>
+<p><strong><em>Theorem 4(Volumes of polytopes[CP88]).</em></strong> Let <span class="math inline">\(\mathcal B\)</span> be an unit Euclidean ball in <span class="math inline">\(\mathbb{R}^n\)</span> and <span class="math inline">\(P\subset \mathcal B\)</span> a polytope with <span class="math inline">\(m\)</span> vertices. Then</p>
 <p><span class="math display">\[
 \frac{\text{Vol}(P)}{\text{Vol}(\mathcal B)}\le\left(4\sqrt{\frac{\log m}{n}}\right)^n
 \]</span></p>
@@ -103,7 +115,7 @@
 <p><span class="math display">\[
 \text{Vol}(P)\le\mathcal N(P,d,\varepsilon)\cdot\text{Vol}(\mathcal B_\epsilon)\le m^{\frac{2}{\varepsilon^2}}\cdot\varepsilon^n\text{Vol}(\mathcal B)
 \]</span></p>
-<p>where <span class="math inline">\(\mathcal B_\varepsilon\)</span> is an Euclidean ball in <span class="math inline">\(\R^n\)</span> with radii <span class="math inline">\(\varepsilon\)</span>. Thus, we have <span class="math inline">\(\frac{\text{Vol}(P)}{\text{Vol}(\mathcal B)}\le m^{\frac{2}{\varepsilon^2}}\cdot\varepsilon^n\)</span>, then by simple calculation we have that the right side is upper bounded by <span class="math inline">\(\left(4\sqrt{\frac{\log m}{n}}\right)^n\)</span>. <span class="math inline">\(\square\)</span></p>
+<p>where <span class="math inline">\(\mathcal B_\varepsilon\)</span> is an Euclidean ball in <span class="math inline">\(\mathbb{R}^n\)</span> with radii <span class="math inline">\(\varepsilon\)</span>. Thus, we have <span class="math inline">\(\frac{\text{Vol}(P)}{\text{Vol}(\mathcal B)}\le m^{\frac{2}{\varepsilon^2}}\cdot\varepsilon^n\)</span>, then by simple calculation we have that the right side is upper bounded by <span class="math inline">\(\left(4\sqrt{\frac{\log m}{n}}\right)^n\)</span>. <span class="math inline">\(\square\)</span></p>
 <p>Actually this upper bound is nearly tight, where the optimal bound is to replace <span class="math inline">\({\log m}\over n\)</span> by <span class="math inline">\(\log \frac m n\)</span>. On the other hand, the bound we get here is optimal in the random polytope case[DGT09], which we construct by uniformly sampling on the boundary of an Euclidean ball and obtain their convex hull. So what would a polytope really look like in high dimensions? Here we present the Milman hyperbolic intuition[Mil98] in high dimensions. A convex body <span class="math inline">\(K\)</span> in high dimensions will often looks like the following, consisting of a bulk and outliers. The bulk makes up most of the volume of <span class="math inline">\(K\)</span>, but it is usually small in diameter. The outliers contribute little to the volume, but they are large in diameter.</p>
 <figure>
 <img alt="From Page 7[Ver15]" loading="lazy" src="../assets/polytopes-in-high-dimension/Screenshot_2024-08-07_at_18.06.31.png"/>

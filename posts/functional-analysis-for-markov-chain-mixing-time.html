@@ -11,10 +11,23 @@
   <link rel="stylesheet" href="../styles.css" />
   <script>
     window.MathJax = {
+      loader: { load: ['[tex]/ams', '[tex]/boldsymbol'] },
       tex: {
+        packages: { '[+]': ['ams', 'boldsymbol'] },
         inlineMath: [['$', '$'], ['\\(', '\\)']],
         displayMath: [['$$', '$$'], ['\\[', '\\]']],
-        processEscapes: true
+        processEscapes: true,
+        macros: {
+          N: '\\mathbb{N}',
+          R: '\\mathbb{R}',
+          Z: '\\mathbb{Z}',
+          Q: '\\mathbb{Q}',
+          C: '\\mathbb{C}',
+          E: '\\mathbb{E}',
+          P: '\\mathbb{P}',
+          thicksim: '\\sim',
+          mathscr: ['\\mathcal{#1}', 1]
+        }
       },
       svg: { fontCache: 'global' }
     };
@@ -40,7 +53,6 @@
     <a class="back-link" href="../blog.html">← Back to Blog</a>
     <p class="eyebrow">Markov Chains</p>
     <h1>Functional Analysis for Markov Chain Mixing Time</h1>
-    <p class="article-lede">Mixing Time Bounds via Functional Analysis</p>
     <div class="article-content">
       
 <blockquote>
@@ -50,7 +62,7 @@
 <p><strong>Problem Statement.</strong> Let <span class="math inline">\(\mu\)</span> be a probability distribution on some state space <span class="math inline">\(\Omega\)</span>, and let <span class="math inline">\(\mathsf P\)</span> be a Markov chain on <span class="math inline">\(\Omega\)</span> which is reversible w.r.t. <span class="math inline">\(\mu\)</span>. Our goal is to study the total variation mixing time of <span class="math inline">\(\mathsf P\)</span>, which controls how efficient it is to use <span class="math inline">\(\mathsf P\)</span> as a sampler. The classical approaches contain the path coupling methods and the Poincaré Inequalities/spectral gap methods to control the mixing time <span class="math inline">\(T_{\text{mix}}\)</span>. Both of these are instantiations of a much more general strategy.</p>
 <p><strong><em>Theorem 1.</em></strong> Show that some other measure of “distance” between probability measures <span class="math inline">\(\mathscr D(\cdot \| \cdot)\)</span> contracts under every application of <span class="math inline">\(\mathsf P\)</span>. In other words, for some <span class="math inline">\(0 &lt; \alpha &lt; 1\)</span> which is not too small, we have</p>
 <p><span class="math display">\[
-\mathscr{D}(\nu\mathsf{P}\parallel\mu)\leq(1-\alpha)\cdot\mathscr{D}(\nu\parallel\mu),\quad\forall\textit{ probability measures }\nu\textit{ on }\Omega.\tag{1}
+\mathscr{D}(\nu\mathsf{P}\parallel\mu)\leq(1-\alpha)\cdot\mathscr{D}(\nu\parallel\mu),\quad\forall\text{ probability measures }\nu\text{ on }\Omega.\tag{1}
 \]</span></p>
 <p><strong><em>Fact 2.</em></strong> If (1) holds for some <span class="math inline">\(\mathscr D(\cdot \| \cdot)\)</span> such that <span class="math inline">\(\mathscr D(\nu \| \mu) \leq\epsilon\)</span> implies <span class="math inline">\(\|\mu − \nu\|_{\text{TV}} \leq O(\epsilon^c )\)</span> for some <span class="math inline">\(c &gt; 0\)</span>, then</p>
 <p><span class="math display">\[
@@ -61,7 +73,7 @@
 <p><span class="math display">\[
 \mathscr{W}_1(\mu,\nu)\stackrel{\mathsf{def}}{=}\inf_\xi\mathbb{E}_{(x,y)\thicksim\xi}[\mathrm{dist}(x,y)],
 \]</span></p>
-<p>w.r.t. the shortest path metric <span class="math inline">\(\text{dist}(x, y)\)</span> in <span class="math inline">\((\Omega, E)\)</span>, where the infimum is over all couplings <span class="math inline">\(\xi\)</span> of <span class="math inline">\(\mu, \nu\)</span>. By composing couplings along shortest paths, to show <span class="math inline">\(\mathscr W_1(\mu\mathsf P, \nu\mathsf P) \leq (1−\alpha)·\mathscr W_1(\mu, \nu)\)</span>, it suffices to prove that for every pair of neighboring states <span class="math inline">\((x,y)\in E\subseteq\binom{\Omega}{2}\)</span>, we have <span class="math inline">\(\mathscr{W}_1(\delta_x\mathsf{P},\delta_y\mathsf{P})\leq1{-}\alpha\)</span>. This dramatically simplifies the task of proving mixing time upper bounds. In this context, the number <span class="math inline">\(\alpha\)</span> is sometimes called the coarse Ricci curvature (or Ollivier–Ricci curvature) of the measure metric space <span class="math inline">\((\Omega, E, \mathsf P)\)</span> [Oll09]. We also have the trivial bound <span class="math inline">\(\mathscr{W}_1(\mu\mathsf{P},\nu\mathsf{P})\leq\text{diam}(\Omega,E)\)</span>. Note that since <span class="math inline">\(\text{dist}(\cdot, \cdot)\)</span> takes values in <span class="math inline">\(\N\)</span>, we always have <span class="math inline">\(\mathscr{W}_1(\mu,\nu)\geq\left\|\mu-\nu\right\|_{\mathsf{TV}}\)</span>. Furthermore, if we took <span class="math inline">\(E=\binom{\Omega}{2}\)</span> so that <span class="math inline">\(\text{dist}(\cdot,\cdot)\)</span> becomes the discrete metric, then <span class="math inline">\(\mathscr W_1\)</span> is exactly TV-distance. However, if <span class="math inline">\(\Omega\)</span> has product structure for instance, we can do much better by using Hamming distance.</p>
+<p>w.r.t. the shortest path metric <span class="math inline">\(\text{dist}(x, y)\)</span> in <span class="math inline">\((\Omega, E)\)</span>, where the infimum is over all couplings <span class="math inline">\(\xi\)</span> of <span class="math inline">\(\mu, \nu\)</span>. By composing couplings along shortest paths, to show <span class="math inline">\(\mathscr W_1(\mu\mathsf P, \nu\mathsf P) \leq (1−\alpha)·\mathscr W_1(\mu, \nu)\)</span>, it suffices to prove that for every pair of neighboring states <span class="math inline">\((x,y)\in E\subseteq\binom{\Omega}{2}\)</span>, we have <span class="math inline">\(\mathscr{W}_1(\delta_x\mathsf{P},\delta_y\mathsf{P})\leq1{-}\alpha\)</span>. This dramatically simplifies the task of proving mixing time upper bounds. In this context, the number <span class="math inline">\(\alpha\)</span> is sometimes called the coarse Ricci curvature (or Ollivier–Ricci curvature) of the measure metric space <span class="math inline">\((\Omega, E, \mathsf P)\)</span> [Oll09]. We also have the trivial bound <span class="math inline">\(\mathscr{W}_1(\mu\mathsf{P},\nu\mathsf{P})\leq\text{diam}(\Omega,E)\)</span>. Note that since <span class="math inline">\(\text{dist}(\cdot, \cdot)\)</span> takes values in <span class="math inline">\(\mathbb{N}\)</span>, we always have <span class="math inline">\(\mathscr{W}_1(\mu,\nu)\geq\left\|\mu-\nu\right\|_{\mathsf{TV}}\)</span>. Furthermore, if we took <span class="math inline">\(E=\binom{\Omega}{2}\)</span> so that <span class="math inline">\(\text{dist}(\cdot,\cdot)\)</span> becomes the discrete metric, then <span class="math inline">\(\mathscr W_1\)</span> is exactly TV-distance. However, if <span class="math inline">\(\Omega\)</span> has product structure for instance, we can do much better by using Hamming distance.</p>
 <p><strong><em>Example 4(Poincaré Inequality).</em></strong> If we take <span class="math inline">\(\mathscr D(\nu \| \mu)\)</span> to be <span class="math inline">\(\chi^2(\nu\parallel\mu)=\mathrm{Var}_\mu\left(\frac{d\nu}{d\mu}\right)\)</span>, then contraction (1) follows from the Poincaré Inequality</p>
 <p><span class="math display">\[
 \gamma\cdot\mathrm{Var}_\mu(f)\leq\mathcal{E}_\mathsf{P}(f,f),\quad\forall f:\Omega\to\mathbb{R},
@@ -77,7 +89,7 @@
 <p><span class="math display">\[
 \mathscr{D}_{\mathrm{KL}}(\nu\parallel\mu)\overset{\mathsf{def}}{\operatorname*{=}}\sum_{x\in\Omega}\nu(x)\log\frac{\nu(x)}{\mu(x)}.
 \]</span></p>
-<p>More generally, for a nonnegative function <span class="math inline">\(f : \Omega \to \R_{\geq0}\)</span>, define</p>
+<p>More generally, for a nonnegative function <span class="math inline">\(f : \Omega \to \mathbb{R}_{\geq0}\)</span>, define</p>
 <p><span class="math display">\[
 \mathrm{Ent}_\mu(f)\stackrel{\mathsf{def}}{=}\mathbb{E}_\mu[f\log f]-\mathbb{E}_\mu[f]\log\mathbb{E}_\mu[f].
 \]</span></p>
@@ -103,7 +115,7 @@
 \]</span></p>
 <p>where recall that <span class="math inline">\(\mu_{\text{min}} = \min_{\{x\in\Omega:\mu(x)&gt;0\}} \mu(x)\)</span>.</p>
 <p>Besides mixing, these constants turn out to also have incredibly useful consequences for concentration of measure phenomena.</p>
-<p><strong><em>Theorem 8((Modified) Log-Sobolev Implies Concentration; see e.g. [Goe04; Sam05; BLM16])</em></strong>. Let <span class="math inline">\(\mathsf P\)</span> be a reversible ergodic Markov chain with stationary distribution <span class="math inline">\(\mu\)</span> on a domain <span class="math inline">\(\Omega\)</span>. Fix an arbitrary function <span class="math inline">\(f : \Omega \to \R\)</span>, and define the maximum one-step variance of <span class="math inline">\(f\)</span> by</p>
+<p><strong><em>Theorem 8((Modified) Log-Sobolev Implies Concentration; see e.g. [Goe04; Sam05; BLM16])</em></strong>. Let <span class="math inline">\(\mathsf P\)</span> be a reversible ergodic Markov chain with stationary distribution <span class="math inline">\(\mu\)</span> on a domain <span class="math inline">\(\Omega\)</span>. Fix an arbitrary function <span class="math inline">\(f : \Omega \to \mathbb{R}\)</span>, and define the maximum one-step variance of <span class="math inline">\(f\)</span> by</p>
 <p><span class="math display">\[
 v(f)\overset{\mathsf{def}}{\operatorname*{=}}\max_{x\in\Omega}\left\{\sum_{y\in\Omega}\mathsf{P}(x\to y)\cdot(f(x)-f(y))^2\right\}.
 \]</span></p>
@@ -117,7 +129,7 @@ v(f)\overset{\mathsf{def}}{\operatorname*{=}}\max_{x\in\Omega}\left\{\sum_{y\in\
 <p><strong><em>Remark 10</em></strong>. These constants really can behave very differently (see e.g. Remark 1) even for very simple and natural Markov chains, so it isn’t obvious at all that working with <span class="math inline">\(\varrho(P), \kappa(P)\)</span> would actually result in better mixing times compared to using <span class="math inline">\(\gamma(P)\)</span>. However, we will see that in the context of spin systems on bounded-degree graphs, they are often all of the same order (at least in the regime where polynomial-time algorithms exist).</p>
 <p>We now turn to a proof (sketch) of Theorem 7, which will also explain where the Dirichlet forms <span class="math inline">\(\mathcal E_P(\sqrt f, \sqrt f)\)</span> and <span class="math inline">\(\mathcal E_P( f, \log f)\)</span> come from.</p>
 <p><strong>The Heat Semigroup</strong></p>
-<p>It will be convenient to evolve <span class="math inline">\(\mathsf P\)</span> in continuous time. This is a standard tool which allows us to do differential calculus. For this part, we follow the presentation in [LPW17]. Let <span class="math inline">\(\{t_k\}^\infty_{k=1} \subseteq \R_{\geq0}\)</span> be a sequence of i.i.d. mean <span class="math inline">\(1\)</span> exponential random variables, i.e. <span class="math inline">\(\Pr[t_k \geq t] = \exp(−t)\)</span> for all <span class="math inline">\(t \in \R_{\geq0}\)</span> and all <span class="math inline">\(k \in \N\)</span>. Think of these as time increments. We now define a continuous-time stochastic process <span class="math inline">\(t \mapsto Y_t \in \Omega\)</span>, which depends on <span class="math inline">\(\{t_k\}^\infty_{k=1}\)</span>, as follows:</p>
+<p>It will be convenient to evolve <span class="math inline">\(\mathsf P\)</span> in continuous time. This is a standard tool which allows us to do differential calculus. For this part, we follow the presentation in [LPW17]. Let <span class="math inline">\(\{t_k\}^\infty_{k=1} \subseteq \mathbb{R}_{\geq0}\)</span> be a sequence of i.i.d. mean <span class="math inline">\(1\)</span> exponential random variables, i.e. <span class="math inline">\(\Pr[t_k \geq t] = \exp(−t)\)</span> for all <span class="math inline">\(t \in \mathbb{R}_{\geq0}\)</span> and all <span class="math inline">\(k \in \mathbb{N}\)</span>. Think of these as time increments. We now define a continuous-time stochastic process <span class="math inline">\(t \mapsto Y_t \in \Omega\)</span>, which depends on <span class="math inline">\(\{t_k\}^\infty_{k=1}\)</span>, as follows:</p>
 <ul>
 <li>We sample <span class="math inline">\(Y_0\)</span> according to some initial distribution <span class="math inline">\(\nu\)</span>.</li>
 <li>At transition time <span class="math inline">\(T_k=\sum_{i=1}^kt_i\)</span>, we take a single discrete step according to <span class="math inline">\(\mathsf P\)</span>. At all other times, <span class="math inline">\(Y_t\)</span> stays constant.</li>
