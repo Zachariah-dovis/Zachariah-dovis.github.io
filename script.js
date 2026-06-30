@@ -13,3 +13,14 @@ if (searchInput && cards.length) {
     });
   });
 }
+
+
+// Loom-inspired article decorations: mark theorem/definition/remark paragraphs as knots.
+const articleContent = document.querySelector('.article-content');
+if (articleContent) {
+  const knotPattern = /^(Definition|Theorem|Lemma|Proposition|Corollary|Remark|Example|Claim)\b/i;
+  articleContent.querySelectorAll('p').forEach((p) => {
+    const text = p.textContent.trim();
+    if (knotPattern.test(text)) p.classList.add('loom-knot');
+  });
+}
