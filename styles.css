@@ -718,3 +718,124 @@ body.loom-mode .site-footer {
     display: none;
   }
 }
+
+/* v9 detailed statistical-physics note components */
+body.loom-mode .article-content .model-box,
+body.loom-mode .article-content .frontier-box,
+body.loom-mode .article-content .algorithm-map {
+  margin: 1.35em 0;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(72, 55, 34, .18);
+  background: linear-gradient(180deg, rgba(255,252,246,.88), rgba(248,239,221,.72));
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.38);
+}
+body.loom-mode .article-content .model-box {
+  border-left: 6px solid var(--loom-green);
+}
+body.loom-mode .article-content .frontier-box {
+  border-left: 6px solid var(--loom-weld);
+}
+body.loom-mode .article-content .algorithm-map {
+  border-left: 6px solid var(--loom-indigo);
+  padding: 1rem 1.15rem;
+}
+body.loom-mode .article-content .model-box > :not(.box-label),
+body.loom-mode .article-content .frontier-box > :not(.box-label) {
+  padding-left: 1.15rem;
+  padding-right: 1.15rem;
+}
+body.loom-mode .article-content .model-box > :last-child,
+body.loom-mode .article-content .frontier-box > :last-child {
+  padding-bottom: 1rem;
+}
+body.loom-mode .article-content .box-label {
+  margin: 0 0 .75rem;
+  padding: .42rem 1.15rem;
+  color: #fff8e8;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: .76rem;
+  font-weight: 800;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  line-height: 1.2;
+}
+body.loom-mode .article-content .model-box .box-label {
+  background: rgba(94, 115, 76, .92);
+}
+body.loom-mode .article-content .frontier-box .box-label {
+  background: rgba(185, 141, 46, .94);
+}
+body.loom-mode .article-content .formula-strip {
+  margin: 1rem 1.15rem;
+  padding: .75rem .9rem;
+  border: 1px solid rgba(41, 63, 102, .20);
+  border-radius: 7px;
+  background: rgba(255, 255, 255, .45);
+  color: var(--loom-ink);
+  font-weight: 650;
+  text-align: center;
+}
+body.loom-mode .article-content .compact-list,
+body.loom-mode .article-content .phase-list {
+  margin: .8em 0 1.1em;
+}
+body.loom-mode .article-content .phase-list {
+  list-style: none;
+  padding-left: 1rem;
+}
+body.loom-mode .article-content .phase-list li {
+  position: relative;
+  padding-left: 1rem;
+}
+body.loom-mode .article-content .phase-list li::before {
+  content: "—";
+  position: absolute;
+  left: 0;
+  color: var(--loom-madder);
+}
+body.loom-mode .article-content .table-wrap {
+  overflow-x: auto;
+  margin: 1.2em 0;
+  border: 1px solid rgba(72, 55, 34, .18);
+  border-radius: 10px;
+  background: rgba(255, 252, 246, .68);
+}
+body.loom-mode .article-content .dictionary-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: "Source Serif 4", Georgia, serif;
+  min-width: 640px;
+}
+body.loom-mode .article-content .dictionary-table th,
+body.loom-mode .article-content .dictionary-table td {
+  padding: .78rem .9rem;
+  border-bottom: 1px solid rgba(72, 55, 34, .12);
+  text-align: left;
+  vertical-align: top;
+}
+body.loom-mode .article-content .dictionary-table th {
+  background: rgba(41, 63, 102, .08);
+  color: var(--loom-indigo);
+  font-family: Inter, system-ui, sans-serif;
+  font-size: .78rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+body.loom-mode .article-content .dictionary-table tr:last-child td {
+  border-bottom: 0;
+}
+body.loom-mode .article-content .algorithm-map p {
+  margin-top: 0;
+  color: var(--loom-ink);
+}
+body.loom-mode .article-content .algorithm-map ul {
+  margin-bottom: 0;
+}
+body.loom-mode .article-content .references-list {
+  padding-left: 1.15rem;
+  font-size: .95rem;
+}
+body.loom-mode .article-content .references-list li {
+  margin: .75rem 0;
+}

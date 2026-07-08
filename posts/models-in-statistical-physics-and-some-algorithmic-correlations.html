@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Let q ∈ \mathbb{N} be an integer satisfying q ≥ 2. A q-spin system is specified by a graph G = (V, E), a nonnegative symmetric interaction matrix \mathbf A ∈ \mathbb{R}^{q×q}{≥0}, and a nonnegative vector of external fields \m…" />
-  <title>Models in Statistical Physics and some algorithmic correlations · Zachariah Zhang</title>
+  <meta name="description" content="A short note on spin systems, the Ising and Potts models, the hardcore model, proper colorings, and the spectral-independence framework for approximate counting and sampling." />
+  <title>Models in Statistical Physics and Some Algorithmic Correlations · Zachariah Zhang</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,500;6..72,700;6..72,800&display=swap" rel="stylesheet">
@@ -52,28 +52,253 @@
   <article class="article-card">
     <a class="back-link" href="../blog.html">← Back to Blog</a>
     <p class="eyebrow">Statistical Physics</p>
-    <h1>Models in Statistical Physics and some algorithmic correlations</h1>
+    <h1>Models in Statistical Physics and Some Algorithmic Correlations</h1>
     <div class="article-content">
-      
-<blockquote>
-<p><em>This blog post is incomplete and currently being written.</em></p>
-</blockquote>
-<h3 id="q-spin-system"><span class="math inline">\(q\)</span>-Spin System</h3>
-<p>Let <span class="math inline">\(q ∈ \mathbb{N}\)</span> be an integer satisfying <span class="math inline">\(q ≥ 2\)</span>. A <span class="math inline">\(q\)</span>-spin system is specified by a graph <span class="math inline">\(G = (V, E)\)</span>, a nonnegative symmetric interaction matrix <span class="math inline">\(\mathbf A ∈ \mathbb{R}^{q×q}_{≥0}\)</span>, and a nonnegative vector of external fields <span class="math inline">\(\mathbf \lambda ∈ \mathbb{R}^{V×[q]}_{≥0}\)</span>. These data give rise to a Gibbs distribution <span class="math inline">\(\mu = \mu_{G,\mathbf A,\mathbf\lambda}\)</span> on <span class="math inline">\([q] ^V\)</span> given by</p>
-<p><span class="math display">\[
-\mu(\sigma)\propto\prod_{uv\in E}\boldsymbol A_{\sigma(u),\sigma(v)}\prod_{v\in V}\boldsymbol{\lambda}_{v,\sigma(v)},\quad\forall\sigma:V\to[q],
-\]</span></p>
-<p>with corresponding partition function</p>
-<p><span class="math display">\[
-Z=Z_{G,\boldsymbol{A}}(\boldsymbol{\lambda})\overset{\mathsf{def}}{\operatorname*{=}}\sum_{\sigma:V\to\left[q\right]}\prod_{uv\in E}\boldsymbol{A}_{\sigma(u),\sigma(v)}\prod_{v\in V}\boldsymbol{\lambda}_{v,\sigma(v)}.
-\]</span></p>
-<p>The elements of <span class="math inline">\([q]\)</span> are often called spins or colors. Often when <span class="math inline">\(q = 2\)</span>, we will instead take the space of spins to be either <span class="math inline">\(\{0, 1\}\)</span> or <span class="math inline">\(\{±1\}\)</span> depending on context.</p>
-<h3 id="ferromagnetic-ising-model-ferromagnetic-potts-model">Ferromagnetic Ising Model &amp; Ferromagnetic Potts Model</h3>
-<p>Suppose <span class="math inline">\(q=2\)</span> and <span class="math inline">\(\boldsymbol{A}=\begin{bmatrix}e^\beta&amp;1\\1&amp;e^\beta\end{bmatrix}\)</span> where <span class="math inline">\(β ≥ 0\)</span>. Then this <span class="math inline">\(2\)</span>-spin system exactly recovers the ferromagnetic Ising model. A natural generalization to larger <span class="math inline">\(q ≥ 2\)</span>, where <span class="math inline">\(\mathbf A = (e^β − 1) · I + \mathbf 1_q\mathbf 1^\top_q\)</span> gives rise to the ferromagnetic Potts model.</p>
-<h3 id="hardcore-model">Hardcore Model</h3>
-<p>Suppose <span class="math inline">\(q = 2, A=\begin{bmatrix}0&amp;1\\1&amp;1\end{bmatrix}\)</span>, and <span class="math inline">\(λ = (λ\mathbf 1_V ,\mathbf 1_V )\)</span> for some <span class="math inline">\(λ ∈ \mathbb{R}_{≥0}\)</span>. Then we can view the assignments <span class="math inline">\(σ : V → [q]\)</span> as indicators of subsets of vertices. Furthermore, <span class="math inline">\(\mu\)</span> is supported on independent sets of <span class="math inline">\(G\)</span>, i.e. subsets <span class="math inline">\(I ⊆ V\)</span> such that no pair of vertices in <span class="math inline">\(I\)</span> are connected by an edge. For such sets of vertices, we have <span class="math inline">\(\mu(I) ∝ λ^{ |I| }\)</span>. This is called the hardcore (gas) model.</p>
-<h3 id="proper-coloring">Proper Coloring</h3>
-<p>Suppose <span class="math inline">\(\mathbf A =\mathbf 1_q\mathbf 1^\top_q − I\)</span> and <span class="math inline">\(λ = 1\)</span>. Then <span class="math inline">\(\mu\)</span> is uniform over the (proper) <span class="math inline">\(q\)</span>-colorings of <span class="math inline">\(G\)</span>, i.e. assignments <span class="math inline">\(χ : V → [q]\)</span> such that <span class="math inline">\(χ(u)\not= χ(v)\)</span> for all <span class="math inline">\(uv ∈ E\)</span>.</p>
+
+      <blockquote>
+        <p>This note introduces several standard spin systems and, for each model, records the corresponding algorithmic story for approximate counting and sampling. The main modern thread is the spectral independence framework: a way to turn bounds on total influence into rapid mixing of Markov chains.</p>
+      </blockquote>
+
+      <h2 id="q-spin-system">$q$-Spin System</h2>
+
+      <div class="model-box">
+        <p class="box-label">Model</p>
+        <p>Let $q \in \mathbb{N}$ satisfy $q \ge 2$. A $q$-spin system is specified by a graph $G=(V,E)$, a nonnegative symmetric interaction matrix</p>
+        \[
+          A \in \mathbb{R}_{\ge 0}^{q\times q},
+        \]
+        <p>and a nonnegative vector of external fields</p>
+        \[
+          \lambda \in \mathbb{R}_{\ge 0}^{V\times [q]}.
+        \]
+        <p>These data give a Gibbs distribution $\mu=\mu_{G,A,\lambda}$ on $[q]^V$ by</p>
+        \[
+          \mu(\sigma)=\frac{1}{Z_{G,A,\lambda}}
+          \prod_{uv\in E} A_{\sigma(u),\sigma(v)}
+          \prod_{v\in V} \lambda_{v,\sigma(v)},
+          \qquad \sigma:V\to [q],
+        \]
+        <p>where the partition function is</p>
+        \[
+          Z_{G,A,\lambda}=\sum_{\sigma:V\to [q]}
+          \prod_{uv\in E} A_{\sigma(u),\sigma(v)}
+          \prod_{v\in V} \lambda_{v,\sigma(v)}.
+        \]
+      </div>
+
+      <p>The partition function is the normalizing constant of the Gibbs measure. In physics, $\log Z$ is the free energy up to the usual temperature normalization. In algorithms, $Z$ is the counting object.</p>
+
+      <p>The two central tasks are:</p>
+      <ul class="compact-list">
+        <li><strong>Approximate counting:</strong> compute $\widehat Z$ such that $(1-\varepsilon)Z\le \widehat Z\le (1+\varepsilon)Z$.</li>
+        <li><strong>Approximate sampling:</strong> sample $\widehat\sigma$ whose law is close to $\mu$ in total variation distance.</li>
+      </ul>
+
+      <p>A standard sampler is the single-site heat-bath chain, usually called Glauber dynamics. At each step one chooses a vertex $v\in V$ uniformly and resamples its spin from the conditional distribution</p>
+      \[
+        \Pr[\sigma(v)=i\mid \sigma(V\setminus\{v\})]
+        \propto \lambda_{v,i}\prod_{u:uv\in E} A_{i,\sigma(u)}.
+      \]
+      <p>The Gibbs distribution is stationary for this chain. Hence the question becomes: does this local chain mix in polynomial time, or even in the essentially optimal time $O(n\log n)$?</p>
+
+      <div class="frontier-box">
+        <p class="box-label">Frontier: counting and sampling</p>
+        <p>The spectral independence framework, introduced by Anari, Liu, and Oveis Gharan, gives a modern black-box route from correlation control to rapid mixing [1]. For a conditional Gibbs distribution $\mu^\tau$, where some vertices have been pinned, define an influence matrix with entries of the form</p>
+        \[
+          \Psi^\tau((u,a),(v,b))
+          =\mu^\tau(\sigma(v)=b\mid \sigma(u)=a)-\mu^\tau(\sigma(v)=b),
+          \qquad u\ne v.
+        \]
+        <p>Informally, the system is $\eta$-spectrally independent if, for every conditioning $\tau$, the spectral radius of this influence matrix is at most $\eta$.</p>
+        <p>The conceptual theorem is</p>
+        <div class="formula-strip">
+          bounded total influence $\Longrightarrow$ high-dimensional expansion / entropy factorization $\Longrightarrow$ rapid mixing.
+        </div>
+        <p>The first result gave polynomial-time mixing from spectral independence [1]. Later work sharpened this into optimal $O(n\log n)$-type mixing bounds for Glauber dynamics on bounded-degree graphs via entropy factorization and high-dimensional expansion [2]. Further developments connect spectral independence to block dynamics, Swendsen-Wang dynamics, systematic scan dynamics, and unbounded-degree settings [3, 5].</p>
+      </div>
+
+      <p>The important feature is robustness under conditioning. Glauber dynamics gradually exposes local information; after some spins are fixed, the remaining conditional distribution must still have controlled influence. Spectral independence packages this stability into a single spectral condition.</p>
+
+      <h2 id="ising-potts">Ferromagnetic Ising Model &amp; Ferromagnetic Potts Model</h2>
+
+      <div class="model-box">
+        <p class="box-label">Model</p>
+        <p>For $q=2$, take</p>
+        \[
+          A=\begin{pmatrix}e^\beta&1\\[2pt]1&e^\beta\end{pmatrix},
+          \qquad \beta\ge 0.
+        \]
+        <p>This recovers the ferromagnetic Ising model: neighboring vertices prefer to have the same spin.</p>
+        <p>For $q\ge 2$, the ferromagnetic Potts model is obtained by</p>
+        \[
+          A=(e^\beta-1)I+\mathbf{1}_q\mathbf{1}_q^T,
+          \qquad \beta\ge 0.
+        \]
+        <p>Equivalently, an edge contributes weight $e^\beta$ if its endpoints have the same color and weight $1$ otherwise.</p>
+      </div>
+
+      <p>The ferromagnetic case is attractive: agreement across an edge is rewarded. This monotonicity is a major structural advantage. It leads to comparison inequalities, random-cluster representations, and global Markov chains such as the Swendsen-Wang dynamics. In one step of Swendsen-Wang, one samples random occupied edges between equal-color neighbors and then recolors the resulting connected components. This is no longer a local chain, and it is often much faster in practice.</p>
+
+      <p>For the Ising model on bounded-degree graphs, the tree uniqueness condition at zero external field is often expressed as</p>
+      \[
+        (\Delta-1)\tanh \beta < 1,
+      \]
+      <p>where $\Delta$ is the maximum degree. This condition marks the high-temperature regime on the infinite $\Delta$-regular tree. Below this threshold, correlations decay with distance; above it, multiple phases may coexist.</p>
+
+      <div class="frontier-box">
+        <p class="box-label">Frontier: counting and sampling</p>
+        <p>The classical algorithmic story for ferromagnetic Ising already contains efficient randomized approximation methods in broad regimes, beginning with the work of Jerrum and Sinclair [7]. The modern spectral-independence viewpoint is especially useful for understanding why global dynamics such as Swendsen-Wang mix quickly in high-temperature regimes.</p>
+        <p>A representative result is that entropy-factorization methods imply $O(\log n)$ mixing and an $\Omega(1)$ modified log-Sobolev constant for Swendsen-Wang dynamics for the ferromagnetic Ising model on bounded-degree graphs in the tree uniqueness region [3]. More recent work shows that, whenever spectral independence holds, Swendsen-Wang dynamics for the $q$-state ferromagnetic Potts model on graphs of maximum degree $\Delta$ mixes in $(\Delta\log n)^{O(1)}$ steps, even when $\Delta$ may grow with $n$ [5].</p>
+        <p>A very recent frontier direction is to extend the localization/spectral-independence toolkit to obtain sharp bounds for global chains beyond the simplest high-temperature cases. For example, edge-tilting field dynamics has been proposed to prove optimal $O(\log n)$-type bounds for Swendsen-Wang dynamics for ferromagnetic Ising models with external fields in bounded-degree settings [6].</p>
+      </div>
+
+      <p>The moral is that the ferromagnetic Ising/Potts family is not only a physical model of alignment. It is also a testbed for the interaction between monotonicity, cluster algorithms, and functional inequalities. The frontier is no longer just “does Glauber mix?” but rather “which global chains inherit fast convergence from spectral independence?”</p>
+
+      <h2 id="hardcore-model">Hardcore Model</h2>
+
+      <div class="model-box">
+        <p class="box-label">Model</p>
+        <p>Suppose $q=2$ and</p>
+        \[
+          A=\begin{pmatrix}0&1\\[2pt]1&1\end{pmatrix},
+          \qquad \lambda=(z\mathbf{1}_V,\mathbf{1}_V),
+          \qquad z\ge 0.
+        \]
+        <p>We view spin $1$ as “occupied” and spin $2$ as “unoccupied.” Since $A_{1,1}=0$, two adjacent vertices cannot both be occupied. Therefore configurations are independent sets $I\subseteq V$, and</p>
+        \[
+          \mu(I)=\frac{z^{|I|}}{Z_G(z)},
+          \qquad
+          Z_G(z)=\sum_{I\in\mathcal{I}(G)} z^{|I|}.
+        \]
+        <p>This is the hardcore gas model. The parameter $z$ is called the fugacity.</p>
+      </div>
+
+      <p>Here approximate counting means approximating the weighted independent-set polynomial $Z_G(z)$. Approximate sampling means drawing an independent set with probability proportional to $z^{|I|}$. When $z$ is large, the measure favors large independent sets, and the state space develops strong bottlenecks.</p>
+
+      <p>For graphs of maximum degree $\Delta\ge 3$, the tree uniqueness threshold is</p>
+      \[
+        z_c(\Delta)=\frac{(\Delta-1)^{\Delta-1}}{(\Delta-2)^\Delta}.
+      \]
+      <p>Below this value, the infinite $\Delta$-regular tree has a unique Gibbs measure. Above it, boundary conditions can have a persistent influence at the root.</p>
+
+      <div class="frontier-box">
+        <p class="box-label">Frontier: counting and sampling</p>
+        <p>The hardcore model is the canonical success story of spectral independence. Weitz gave a deterministic approximation scheme for counting weighted independent sets below the tree threshold by proving strong spatial mixing through a self-avoiding-walk tree construction [8]. Sly and Sun showed hardness in the non-uniqueness region for two-spin systems on regular graphs, including the hardcore model [9].</p>
+        <p>Spectral independence supplied the missing Markov-chain piece. Anari, Liu, and Oveis Gharan proved that Glauber dynamics mixes rapidly up to the uniqueness threshold, answering a long-standing question about natural local sampling for the hardcore model [1]. Chen, Liu, and Vigoda then sharpened this approach, obtaining optimal $O(n\log n)$ mixing for bounded-degree graphs when $z<z_c(\Delta)$ [2].</p>
+        <p>At the exact critical threshold, the story is subtler. Recent work proves polynomial mixing at $z=z_c(\Delta)$, but also shows that the worst-case mixing time is not nearly linear [10]. Thus the picture becomes:</p>
+        <ul class="phase-list">
+          <li>$z<z_c(\Delta)$: near-linear Glauber mixing and efficient sampling/counting.</li>
+          <li>$z=z_c(\Delta)$: polynomial but slower critical mixing.</li>
+          <li>$z>z_c(\Delta)$: computational hardness in the non-uniqueness region.</li>
+        </ul>
+      </div>
+
+      <p>This is a clean example where statistical physics, algorithms, and complexity align. The uniqueness threshold is not only a physical phase-transition point; it is also the boundary between efficient algorithms and hardness, up to the delicate behavior exactly at criticality.</p>
+
+      <h2 id="proper-coloring">Proper Coloring</h2>
+
+      <div class="model-box">
+        <p class="box-label">Model</p>
+        <p>Let</p>
+        \[
+          A=\mathbf{1}_q\mathbf{1}_q^T-I,
+          \qquad \lambda=1.
+        \]
+        <p>Then adjacent vertices are forbidden from having the same spin. Hence $\mu$ is the uniform distribution over proper $q$-colorings of $G$:</p>
+        \[
+          \mu(\chi)=\frac{1}{\#\{\text{proper }q\text{-colorings of }G\}},
+          \qquad \chi(u)\ne \chi(v)\quad \forall uv\in E.
+        \]
+      </div>
+
+      <p>This is an antiferromagnetic constraint satisfaction model. Unlike the ferromagnetic Potts model, the interaction penalizes agreement. The relevant parameter is the ratio $q/\Delta$: if the number of colors is much larger than the maximum degree, there is enough local freedom, and Glauber dynamics is expected to mix quickly. As $q$ approaches the coloring threshold, local constraints create long-range dependence and the problem becomes harder.</p>
+
+      <p>The single-site Glauber dynamics for colorings chooses a vertex and recolors it uniformly from the colors not currently used by its neighbors. It is simple, local, and natural, but difficult to analyze near the algorithmic threshold.</p>
+
+      <div class="frontier-box">
+        <p class="box-label">Frontier: counting and sampling</p>
+        <p>Colorings required extending spectral independence beyond Boolean spin systems. Chen, Galanis, Štefankovič, and Vigoda developed spectral independence for colorings and proved polynomial-time mixing of Glauber dynamics on triangle-free graphs of maximum degree $\Delta$ when</p>
+        \[
+          q\ge \alpha\Delta+1,
+          \qquad \alpha>\alpha^*,
+          \qquad \alpha^*\approx 1.763,
+          \qquad \alpha^*=\exp(1/\alpha^*).
+        \]
+        <p>The significance is that a combinatorial influence bound can be fed into the general spectral-independence theorem to obtain sampling algorithms [11].</p>
+        <p>For general bounded-degree graphs, another line of work combines coupling, flip dynamics, and spectral independence. One important benchmark is the $11/6$ threshold: improved flip-dynamics analyses led to optimal $O(n\log n)$-type sampling when the number of colors is above approximately $(11/6)\Delta$, and spectral-independence transfer results convert such contraction information into fast Glauber mixing in bounded-degree settings [3]. Recent work improves the constant to $1.809\Delta$ for flip dynamics and, through spectral-independence consequences, for Glauber dynamics on bounded-degree graphs [12].</p>
+      </div>
+
+      <p>Thus colorings illustrate another role of spectral independence: it can turn a combinatorial local-uniformity or coupling argument into a reusable theorem about Markov-chain convergence. The proof burden is shifted from directly tracking the chain to bounding an influence matrix under all feasible partial colorings.</p>
+
+      <h2 id="general-picture">The General Algorithmic Picture</h2>
+
+      <p>The examples above suggest the following dictionary.</p>
+
+      <div class="table-wrap">
+        <table class="dictionary-table">
+          <thead>
+            <tr>
+              <th>Statistical-physics language</th>
+              <th>Probabilistic language</th>
+              <th>Algorithmic language</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>High temperature</td>
+              <td>Weak long-range correlation</td>
+              <td>Rapid mixing</td>
+            </tr>
+            <tr>
+              <td>Uniqueness on the tree</td>
+              <td>Decay of boundary influence</td>
+              <td>Efficient sampling/counting</td>
+            </tr>
+            <tr>
+              <td>Non-uniqueness</td>
+              <td>Multiple phases / bottlenecks</td>
+              <td>Slow mixing or hardness</td>
+            </tr>
+            <tr>
+              <td>Pairwise influence</td>
+              <td>Spectral independence</td>
+              <td>Black-box mixing theorem</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>Spectral independence is not itself a sampler. It is a certificate. Once we prove that all conditional distributions have bounded total influence, a large toolkit becomes available:</p>
+
+      <div class="algorithm-map">
+        <p><strong>spectral independence</strong> $\Longrightarrow$</p>
+        <ul>
+          <li>Glauber dynamics mixes rapidly,</li>
+          <li>block dynamics mixes rapidly,</li>
+          <li>entropy and modified log-Sobolev inequalities,</li>
+          <li>sometimes fast global chains such as Swendsen-Wang.</li>
+        </ul>
+      </div>
+
+      <p>Approximate sampling then often yields approximate counting through standard self-reduction or annealing/telescoping arguments. For example, if one can estimate ratios of partition functions along a path of activities or boundary conditions, then multiplying the estimated ratios gives an approximation of $Z$.</p>
+
+      <p>The most elegant message is that a physical idea — weak dependence — can be made algorithmically quantitative. The influence matrix measures how one local decision propagates through the system. Its spectral radius records the total amplification of such perturbations. If the amplification is bounded, local randomness spreads efficiently, and Markov chains can sample the Gibbs distribution.</p>
+
+      <h2 id="references">References</h2>
+      <ol class="references-list">
+        <li>N. Anari, K. Liu, and S. Oveis Gharan. <em>Spectral independence in high-dimensional expanders and applications to the hardcore model.</em> FOCS 2020; arXiv:2001.00303. <a href="https://arxiv.org/abs/2001.00303" target="_blank" rel="noopener">arXiv</a>.</li>
+        <li>Z. Chen, K. Liu, and E. Vigoda. <em>Optimal mixing of Glauber dynamics: entropy factorization via high-dimensional expansion.</em> arXiv:2011.02075. <a href="https://arxiv.org/abs/2011.02075" target="_blank" rel="noopener">arXiv</a>.</li>
+        <li>A. Blanca, P. Caputo, Z. Chen, D. Parisi, D. Štefankovič, and E. Vigoda. <em>On mixing of Markov chains: coupling, spectral independence, and entropy factorization.</em> Electronic Journal of Probability, 2022; arXiv:2103.07459. <a href="https://arxiv.org/abs/2103.07459" target="_blank" rel="noopener">arXiv</a>.</li>
+        <li>X. Chen, W. Feng, Y. Yin, and X. Zhang. <em>Rapid mixing of Glauber dynamics via spectral independence for all degrees.</em> FOCS 2021; arXiv:2105.15005. <a href="https://arxiv.org/abs/2105.15005" target="_blank" rel="noopener">arXiv</a>.</li>
+        <li>A. Blanca and X. Zhang. <em>Rapid mixing of global Markov chains via spectral independence: the unbounded degree case.</em> Algorithmica, 2025; arXiv:2307.00683. <a href="https://arxiv.org/abs/2307.00683" target="_blank" rel="noopener">arXiv</a>.</li>
+        <li>X. Chen, Z. Ju, T. Miao, Y. Yin, and X. Zhang. <em>Edge-tilting field dynamics: rapid mixing at the uniqueness threshold and optimal mixing for Swendsen-Wang dynamics.</em> arXiv:2604.10525. <a href="https://arxiv.org/abs/2604.10525" target="_blank" rel="noopener">arXiv</a>.</li>
+        <li>M. Jerrum and A. Sinclair. <em>Polynomial-time approximation algorithms for the Ising model.</em> SIAM Journal on Computing, 1993.</li>
+        <li>D. Weitz. <em>Counting independent sets up to the tree threshold.</em> STOC 2006. <a href="https://web.stanford.edu/~montanar/TEACHING/Stat375/papers/weitz2.pdf" target="_blank" rel="noopener">PDF</a>.</li>
+        <li>A. Sly and N. Sun. <em>The computational hardness of counting in two-spin models on d-regular graphs.</em> arXiv:1203.2602. <a href="https://arxiv.org/abs/1203.2602" target="_blank" rel="noopener">arXiv</a>.</li>
+        <li>X. Chen, W. Feng, Y. Yin, and X. Zhang. <em>Rapid mixing at the uniqueness threshold.</em> arXiv:2411.03413. <a href="https://arxiv.org/abs/2411.03413" target="_blank" rel="noopener">arXiv</a>.</li>
+        <li>Z. Chen, A. Galanis, D. Štefankovič, and E. Vigoda. <em>Rapid mixing for colorings via spectral independence.</em> arXiv:2007.08058. <a href="https://arxiv.org/abs/2007.08058" target="_blank" rel="noopener">arXiv</a>.</li>
+        <li>C. Carlson and E. Vigoda. <em>Flip dynamics for sampling colorings: improving $(11/6-\varepsilon)$ using a simple metric.</em> arXiv:2407.04870. <a href="https://arxiv.org/abs/2407.04870" target="_blank" rel="noopener">arXiv</a>.</li>
+      </ol>
 
     </div>
     <nav class="article-pagination" aria-label="Post pagination">
@@ -88,7 +313,7 @@ Z=Z_{G,\boldsymbol{A}}(\boldsymbol{\lambda})\overset{\mathsf{def}}{\operatorname
 <a href="functional-analysis-for-markov-chain-mixing-time.html">Functional Analysis for Markov Chain Mixing Time</a>
 <a href="random-series-and-slln.html">Random Series and SLLN</a>
 <a href="polytopes-in-high-dimension.html">Polytopes in High Dimension</a>
-<a href="models-in-statistical-physics-and-some-algorithmic-correlations.html">Models in Statistical Physics and some algorithmic correlations</a>
+<a href="models-in-statistical-physics-and-some-algorithmic-correlations.html">Models in Statistical Physics and Some Algorithmic Correlations</a>
 <a href="some-interesting-examples-related-to-probability.html">Some interesting examples related to probability</a>
 <a href="resources-on-optimization-theory.html">Resources on Optimization Theory</a></div>
   </aside>
