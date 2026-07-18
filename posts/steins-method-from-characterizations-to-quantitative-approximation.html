@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="An introduction to Stein's method for quantitative distributional approximation." />
+  <title>Stein's Method: From Characterizations to Quantitative Approximation · Zachariah Zhang</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,500;6..72,700;6..72,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../styles.css" />
+  <script>
+    window.MathJax = {
+      loader: { load: ['[tex]/ams', '[tex]/boldsymbol'] },
+      tex: {
+        packages: { '[+]': ['ams', 'boldsymbol'] },
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        macros: {
+          N: '\\mathbb{N}', R: '\\mathbb{R}', Z: '\\mathbb{Z}', Q: '\\mathbb{Q}',
+          E: '\\mathbb{E}', P: '\\mathbb{P}', Law: '\\mathcal{L}',
+          dW: 'd_{\\mathrm W}', dK: 'd_{\\mathrm K}', TV: '\\mathrm{TV}',
+          Poi: '\\operatorname{Poisson}'
+        }
+      },
+      svg: { fontCache: 'global' }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
+<body class="loom-mode">
+  <div class="grain" aria-hidden="true"></div>
+  <header class="site-header">
+    <a class="brand" href="../index.html" aria-label="Zachariah Zhang home">
+      <span class="brand-mark">Z</span>
+      <span>Zachariah Zhang</span>
+    </a>
+    <nav class="nav" aria-label="Primary navigation">
+      <a href="../index.html#about">About</a>
+      <a href="../blog.html">Blog</a>
+      <a href="https://github.com/Zachariah-dovis" target="_blank" rel="noopener">GitHub</a>
+    </nav>
+  </header>
+
+<main class="article-shell">
+  <article class="article-card">
+    <a class="back-link" href="../blog.html">← Back to Blog</a>
+    <p class="eyebrow">Probability Theory</p>
+    <h1>Stein's Method: From Characterizations to Quantitative Approximation</h1>
+    <div class="article-content">
+
+<blockquote>
+<p><em>A limit theorem says that a complicated random variable is close to a simpler target law. Stein's method turns this qualitative statement into a quantitative one by replacing transforms and moments with a characterizing operator. One solves an equation associated with the target distribution and then uses the structure of the random variable of interest to bound the resulting expectation.</em></p>
+</blockquote>
+
+<h2>1. Why Stein's method?</h2>
+<p>Classical proofs of the central limit theorem often proceed through characteristic functions. They are elegant for proving convergence, but sharp error bounds can require additional Fourier analysis, and dependence may be difficult to encode. Stein's method, introduced by Charles Stein in the early 1970s, takes a different route: it identifies an identity that is true <em>exactly</em> for the target distribution and asks how far the random variable under study is from satisfying that identity.</p>
+<ul>
+  <li>It produces explicit finite-sample bounds rather than only asymptotic convergence.</li>
+  <li>It accommodates dependence through local decompositions, exchangeable pairs, size biasing, zero biasing, and related couplings.</li>
+  <li>It is modular: the analytic part depends on the target law, while the probabilistic part depends on the structure of the statistic.</li>
+</ul>
+
+<h2>2. The operator blueprint</h2>
+<p>Let $Y$ be the target random variable. A <em>Stein operator</em> for $Y$ is an operator $\mathcal A$ satisfying</p>
+\[
+  \mathbb E[\mathcal A f(Y)]=0
+\]
+<p>for a sufficiently rich class of test functions $f$. Ideally, the converse also holds: if a random variable satisfies this identity for all admissible $f$, then it has the same law as $Y$.</p>
+<p>Choose a class $\mathcal H$ of test functions and define</p>
+\[
+  d_{\mathcal H}(W,Y)
+  :=\sup_{h\in\mathcal H}\left|\mathbb E h(W)-\mathbb E h(Y)\right|.
+\]
+<p>For each $h\in\mathcal H$, solve the <em>Stein equation</em></p>
+\[
+  \mathcal A f_h(x)=h(x)-\mathbb E h(Y).
+\]
+<p>Then</p>
+\[
+  d_{\mathcal H}(W,Y)
+  \le \sup_{h\in\mathcal H}\left|\mathbb E[\mathcal A f_h(W)]\right|.
+\]
+
+<div class="algorithm-map">
+<p class="box-label">Stein's method as a two-stage argument</p>
+<ol>
+  <li><strong>Analytic stage:</strong> solve the Stein equation and control the size and regularity of $f_h$ - the Stein factors.</li>
+  <li><strong>Probabilistic stage:</strong> exploit the structure of $W$ to show that $\mathbb E[\mathcal A f_h(W)]$ is small.</li>
+</ol>
+<p>The first stage is tied to the target distribution; the second is where independence, weak dependence, symmetry, or a coupling enters.</p>
+</div>
+
+<h2>3. The Gaussian Stein operator</h2>
+<p>Let $Z\sim N(0,1)$. Gaussian integration by parts gives</p>
+\[
+  \mathbb E[f'(Z)]=\mathbb E[Zf(Z)],
+\]
+<p>so the standard normal Stein operator is</p>
+\[
+  \mathcal A f(x)=f'(x)-xf(x).
+\]
+<p>For a test function $h$, the Stein equation is</p>
+\[
+  f_h'(x)-xf_h(x)=h(x)-\mathbb E h(Z).
+\]
+<p>An integrating-factor calculation yields the bounded solution</p>
+\[
+  f_h(x)=e^{x^2/2}\int_{-\infty}^{x}
+  \bigl(h(t)-\mathbb E h(Z)\bigr)e^{-t^2/2}\,dt.
+\]
+<p>When $h$ is 1-Lipschitz, one has uniform Stein-factor bounds of the form</p>
+\[
+  \lVert f_h'\rVert_\infty\le \sqrt{\frac{2}{\pi}},
+  \qquad
+  \lVert f_h''\rVert_\infty\le 2.
+\]
+
+<div class="model-box">
+<p class="box-label">The Gaussian approximation problem</p>
+<p>For a centered, variance-one random variable $W$,</p>
+\[
+  d_{\mathrm W}(W,Z)
+  \le \sup_{f\in\mathcal F}
+  \left|\mathbb E\bigl[f'(W)-Wf(W)\bigr]\right|,
+\]
+<p>where $\mathcal F$ is a class of functions with bounded first and second derivatives. The approximation problem is therefore reduced to an approximate integration-by-parts identity for $W$.</p>
+</div>
+
+<h2>4. Worked example: an independent sum</h2>
+<p>Let $X_1,\ldots,X_n$ be independent, centered random variables with</p>
+\[
+  \sum_{i=1}^n \mathbb E X_i^2=1,
+  \qquad
+  W=\sum_{i=1}^n X_i.
+\]
+<p>Write $W_i=W-X_i$. Since $X_i$ is independent of $W_i$ and has mean zero,</p>
+\[
+  \mathbb E[X_i f(W)]
+  =\mathbb E\bigl[X_i(f(W)-f(W_i))\bigr].
+\]
+<p>A Taylor expansion around $W_i$ gives</p>
+\[
+  f(W)-f(W_i)=X_i f'(W_i)+R_i,
+  \qquad
+  |R_i|\le \frac12\lVert f''\rVert_\infty X_i^2.
+\]
+<p>Substituting this into the Stein discrepancy and comparing $f'(W_i)$ with $f'(W)$ yields</p>
+\[
+  \left|\mathbb E[f'(W)-Wf(W)]\right|
+  \le \frac32\lVert f''\rVert_\infty
+       \sum_{i=1}^n \mathbb E|X_i|^3.
+\]
+<p>Using $\lVert f_h''\rVert_\infty\le2$ gives</p>
+\[
+  \boxed{d_{\mathrm W}(W,Z)\le 3\sum_{i=1}^n \mathbb E|X_i|^3.}
+\]
+<p>If $X_i=Y_i/\sqrt n$ are standardized i.i.d. summands, the right-hand side is $O(n^{-1/2})$, the expected Berry-Esseen scale.</p>
+
+<div class="frontier-box">
+<p class="box-label">What happened in the proof?</p>
+<p>The Gaussian identity contains $Wf(W)$. Independence allows us to remove one summand at a time, creating $f(W)-f(W_i)$. Smoothness of the Stein solution turns that difference into a derivative, reproducing $f'(W)$. The cancellation is the whole mechanism.</p>
+</div>
+
+<h2>5. Auxiliary randomization: how dependence is handled</h2>
+<p>For a complicated statistic $W$, the essential task is to manufacture an approximate integration-by-parts formula. Stein called this step <em>auxiliary randomization</em>.</p>
+
+<h3>Exchangeable pairs</h3>
+<p>A pair $(W,W')$ is exchangeable if $(W,W')$ and $(W',W)$ have the same joint law. Suppose</p>
+\[
+  \mathbb E[W'-W\mid W]=-\lambda W+R.
+\]
+<p>After using exchangeability and Taylor expanding $f(W')-f(W)$, one obtains a Gaussian Stein identity with error terms controlled by</p>
+\[
+  \mathbb E\left|1-\frac{1}{2\lambda}\mathbb E[(W'-W)^2\mid W]\right|,
+  \qquad
+  \frac{1}{\lambda}\mathbb E|W'-W|^3,
+  \qquad
+  \frac{1}{\lambda}\mathbb E|R|.
+\]
+<p>The conditional drift should look linear and the conditional quadratic variation should look constant. Reversible Markov chains and random resampling operations naturally produce exchangeable pairs.</p>
+
+<h3>Size biasing and zero biasing</h3>
+<p>If $W\ge0$ has mean $\mu$, its size-biased version $W^s$ satisfies</p>
+\[
+  \mathbb E[Wf(W)]=\mu\mathbb E[f(W^s)].
+\]
+<p>For a centered $W$ with variance $\sigma^2$, a zero-biased version $W^z$ satisfies</p>
+\[
+  \mathbb E[Wf(W)]=\sigma^2\mathbb E[f'(W^z)].
+\]
+<p>When $\sigma^2=1$,</p>
+\[
+  \mathbb E[f'(W)-Wf(W)]
+  =\mathbb E[f'(W)-f'(W^z)],
+\]
+<p>which is small whenever $W$ can be coupled closely to $W^z$.</p>
+
+<h3>Local dependence</h3>
+<p>If $W=\sum_i X_i$ and each $X_i$ interacts only with a small dependency neighborhood, one removes the neighborhood rather than only a single summand. The error is then governed by neighborhood sizes and local moments. This is why Stein's method works well for subgraph counts, occupancy statistics, spatial processes, and combinatorial structures with local dependence.</p>
+
+<h2>6. Poisson approximation: the discrete analogue</h2>
+<p>Stein's method is not intrinsically Gaussian. If $Y\sim\operatorname{Poisson}(\lambda)$, then</p>
+\[
+  \mathbb E\bigl[\lambda f(Y+1)-Yf(Y)\bigr]=0.
+\]
+<p>The Poisson Stein operator is therefore</p>
+\[
+  \mathcal A f(k)=\lambda f(k+1)-k f(k),
+\]
+<p>and the Stein equation becomes a difference equation rather than a differential equation.</p>
+<p>For a sum of rare indicators $W=\sum_i I_i$ with $\lambda=\sum_i p_i$, the method compares the birth term $\lambda f(W+1)$ with the death term $Wf(W)$. Under independence, the total-variation error is controlled by a quantity of order $\sum_i p_i^2$; with local dependence, extra terms measure interactions inside dependency neighborhoods.</p>
+
+<div class="model-box">
+<p class="box-label">A useful dictionary</p>
+<div class="table-wrap">
+<table class="dictionary-table">
+<thead><tr><th>Target law</th><th>Characterizing operator</th><th>Natural probabilistic structure</th></tr></thead>
+<tbody>
+<tr><td>Normal</td><td>$f'(x)-xf(x)$</td><td>exchangeable or zero-bias couplings</td></tr>
+<tr><td>Poisson</td><td>$\lambda f(k+1)-kf(k)$</td><td>rare events, local dependence, size bias</td></tr>
+<tr><td>Diffusion invariant law</td><td>generator $\mathcal Gf$</td><td>generator comparison or process coupling</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+<h2>7. The generator perspective</h2>
+<p>Suppose a Markov process has stationary distribution $\pi$ and generator $\mathcal G$. Then</p>
+\[
+  \mathbb E_\pi[\mathcal Gf]=0.
+\]
+<p>To compare $W$ with $Y\sim\pi$, solve the Poisson equation</p>
+\[
+  \mathcal Gf_h=h-\mathbb Eh(Y)
+\]
+<p>and estimate $\mathbb E[\mathcal Gf_h(W)]$. This perspective explains extensions to multivariate normals, point processes, diffusions, and process-level approximations. The technical challenge is to obtain derivative or regularity bounds for the solution.</p>
+<p>A fruitful modern direction combines Stein's method with Malliavin calculus. Malliavin integration by parts supplies Stein identities for functionals of Gaussian fields, leading to quantitative central limit theorems and universality results on Wiener chaos.</p>
+
+<h2>8. What Stein's method does - and does not - give</h2>
+<ul>
+  <li><strong>It gives rates.</strong> The output is typically an explicit bound in Wasserstein, Kolmogorov, total variation, or another metric.</li>
+  <li><strong>It tolerates dependence.</strong> It does not require independence; it requires a tractable approximate Stein identity.</li>
+  <li><strong>It separates analysis from probability.</strong> Once Stein factors are known, different coupling constructions can reuse them.</li>
+  <li><strong>The coupling must be designed.</strong> There is no universal automatic recipe, and a poor coupling may give a weak bound.</li>
+  <li><strong>Nonsmooth metrics are harder.</strong> Indicator test functions give weaker regularity, so Kolmogorov and total-variation bounds often need smoothing or concentration estimates.</li>
+</ul>
+
+<h2>9. Takeaway</h2>
+<p>Stein's method replaces the question</p>
+\[
+  \text{``Does }W_n\Rightarrow Y\text{?''}
+\]
+<p>with the quantitative question</p>
+\[
+  \text{``How accurately does }W_n\text{ satisfy the identity that characterizes }Y\text{?''}
+\]
+<p>A distributional approximation problem is converted into an operator equation; analytic estimates control its solution; a coupling or local decomposition controls the operator applied to the statistic. The result is a reusable framework connecting limit theorems, couplings, Markov generators, concentration, and modern probabilistic approximation.</p>
+
+<h2>References</h2>
+<ol>
+<li>C. Stein, “A Bound for the Error in the Normal Approximation to the Distribution of a Sum of Dependent Random Variables,” <em>Proceedings of the Sixth Berkeley Symposium</em>, 1972.</li>
+<li>N. Ross, “Fundamentals of Stein's Method,” <em>Probability Surveys</em> 8 (2011), 210-293.</li>
+<li>L. H. Y. Chen, “Stein's Method of Normal Approximation: Some Recollections and Reflections,” 2021.</li>
+<li>L. H. Y. Chen, L. Goldstein, and Q.-M. Shao, <em>Normal Approximation by Stein's Method</em>, Springer, 2011.</li>
+<li>A. D. Barbour, L. Holst, and S. Janson, <em>Poisson Approximation</em>, Oxford University Press, 1992.</li>
+<li>I. Nourdin and G. Peccati, <em>Normal Approximations with Malliavin Calculus</em>, Cambridge University Press, 2012.</li>
+</ol>
+
+    </div>
+    <nav class="article-pagination" aria-label="Post pagination">
+      <a href="functional-analysis-for-markov-chain-mixing-time.html">← Functional Analysis for Markov Chain Mixing Time</a>
+      <a href="random-series-and-slln.html">Random Series and SLLN →</a>
+    </nav>
+  </article>
+  <aside class="article-sidebar" aria-label="Blog archive">
+    <p class="eyebrow">Archive</p>
+    <h2>Randomness and Computation</h2>
+    <div class="mini-post-list"><a href="some-interesting-problems-in-hf-interviews.html">Some Interesting Problems in HF interviews</a>
+<a href="functional-analysis-for-markov-chain-mixing-time.html">Functional Analysis for Markov Chain Mixing Time</a>
+<a href="steins-method-from-characterizations-to-quantitative-approximation.html">Stein's Method: From Characterizations to Quantitative Approximation</a>
+<a href="random-series-and-slln.html">Random Series and SLLN</a>
+<a href="polytopes-in-high-dimension.html">Polytopes in High Dimension</a>
+<a href="models-in-statistical-physics-and-some-algorithmic-correlations.html">Models in Statistical Physics and Some Algorithmic Correlations</a>
+<a href="some-interesting-examples-related-to-probability.html">Some interesting examples related to probability</a>
+<a href="resources-on-optimization-theory.html">Resources on Optimization Theory</a></div>
+  </aside>
+</main>
+
+  <footer class="site-footer">
+    <p>© <span id="year"></span> Zachariah Zhang · Randomness and Computation</p>
+  </footer>
+  <script src="../script.js"></script>
+</body>
+</html>

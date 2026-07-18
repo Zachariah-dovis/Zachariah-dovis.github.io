@@ -32,3 +32,8 @@ If GitHub Pages is not enabled, go to **Settings → Pages**, choose **Deploy fr
 ## v8 Loom-inspired notes style
 
 Blog index and article pages are styled as parchment-like LaTeX notes with woven rails, theorem/knot boxes, and MathJax formulas. Upload all files to the repository root.
+
+
+## Stein's Method post
+
+The site now includes an eighth article, `posts/steins-method-from-characterizations-to-quantitative-approximation.html`.
