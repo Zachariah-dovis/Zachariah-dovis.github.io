@@ -3,11 +3,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="In calculus, we study the convergence properties of series. Similarly, in probability theory, we are interested in the convergence of series of random variables. Consider the series:" />
   <title>Random Series and SLLN · Zachariah Zhang</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,500;6..72,700;6..72,800&display=swap" rel="stylesheet">
+  <meta name="description" content="In calculus, we study the convergence properties of series. Similarly, in probability theory, we are interested in the convergence of series of random variables. Consider the series:" />
+  <meta name="author" content="Zachariah Zhang" />
+  <meta name="color-scheme" content="light" />
+  <meta name="theme-color" content="#F6F1E6" />
+  <link rel="canonical" href="https://zachariah-dovis.github.io/posts/random-series-and-slln.html" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Zachariah Zhang" />
+  <meta property="og:title" content="Random Series and SLLN · Zachariah Zhang" />
+  <meta property="og:description" content="In calculus, we study the convergence properties of series. Similarly, in probability theory, we are interested in the convergence of series of random variables. Consider the series:" />
+  <meta property="og:url" content="https://zachariah-dovis.github.io/posts/random-series-and-slln.html" />
+  <meta name="twitter:card" content="summary" />
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%0A%20%20%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2214%22%20fill%3D%22%2320304F%22%2F%3E%0A%20%20%3Cg%20fill%3D%22none%22%20stroke%3D%22%23E9C08A%22%20stroke-width%3D%222.4%22%20stroke-linejoin%3D%22round%22%3E%0A%20%20%20%20%3Cpolygon%20points%3D%2232%2C9%2051%2C20%2051%2C43%2032%2C55%2013%2C43%2013%2C20%22%2F%3E%0A%20%20%20%20%3Cpolygon%20points%3D%2232%2C20%2043%2C26.5%2043%2C39.5%2032%2C46%2021%2C39.5%2021%2C26.5%22%20opacity%3D%22.62%22%2F%3E%0A%20%20%3C%2Fg%3E%0A%20%20%3Ccircle%20cx%3D%2232%22%20cy%3D%2233%22%20r%3D%223.2%22%20fill%3D%22%23FFF8EC%22%2F%3E%0A%3C%2Fsvg%3E" />
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%0A%20%20%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2214%22%20fill%3D%22%2320304F%22%2F%3E%0A%20%20%3Cg%20fill%3D%22none%22%20stroke%3D%22%23E9C08A%22%20stroke-width%3D%222.4%22%20stroke-linejoin%3D%22round%22%3E%0A%20%20%20%20%3Cpolygon%20points%3D%2232%2C9%2051%2C20%2051%2C43%2032%2C55%2013%2C43%2013%2C20%22%2F%3E%0A%20%20%20%20%3Cpolygon%20points%3D%2232%2C20%2043%2C26.5%2043%2C39.5%2032%2C46%2021%2C39.5%2021%2C26.5%22%20opacity%3D%22.62%22%2F%3E%0A%20%20%3C%2Fg%3E%0A%20%20%3Ccircle%20cx%3D%2232%22%20cy%3D%2233%22%20r%3D%223.2%22%20fill%3D%22%23FFF8EC%22%2F%3E%0A%3C%2Fsvg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="../styles.css" />
   <script>
     window.MathJax = {
@@ -17,6 +32,7 @@
         inlineMath: [['$', '$'], ['\\(', '\\)']],
         displayMath: [['$$', '$$'], ['\\[', '\\]']],
         processEscapes: true,
+        tags: 'none',
         macros: {
           N: '\\mathbb{N}',
           R: '\\mathbb{R}',
@@ -29,33 +45,76 @@
           mathscr: ['\\mathcal{#1}', 1]
         }
       },
-      svg: { fontCache: 'global' }
+      svg: { fontCache: 'global' },
+      options: { enableMenu: true }
     };
   </script>
-  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Random Series and SLLN",
+  "description": "In calculus, we study the convergence properties of series. Similarly, in probability theory, we are interested in the convergence of series of random variables. Consider the series:",
+  "url": "https://zachariah-dovis.github.io/posts/random-series-and-slln.html",
+  "author": {
+    "@type": "Person",
+    "name": "Zachariah Zhang",
+    "url": "https://zachariah-dovis.github.io/"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Zachariah Zhang"
+  },
+  "keywords": "Probability",
+  "datePublished": "2026-07-18",
+  "articleSection": []
+}
+  </script>
 </head>
-<body class="loom-mode">
+<body class="page">
+  <a class="skip-link" href="#main">Skip to content</a>
   <div class="grain" aria-hidden="true"></div>
+
   <header class="site-header">
-    <a class="brand" href="../index.html" aria-label="Zachariah Zhang home">
-      <span class="brand-mark">Z</span>
-      <span>Zachariah Zhang</span>
-    </a>
-    <nav class="nav" aria-label="Primary navigation">
-      <a href="../index.html#about">About</a>
-      <a href="../blog.html">Blog</a>
-      <a href="https://github.com/Zachariah-dovis" target="_blank" rel="noopener">GitHub</a>
-    </nav>
+    <div class="site-header__inner">
+      <a class="brand" href="../index.html" aria-label="Zachariah Zhang — home">
+        <span class="brand__mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round">
+            <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5" />
+            <polygon points="12,8 16,10.3 16,14.8 12,17 8,14.8 8,10.3" opacity=".6" />
+          </svg>
+        </span>
+        <span class="brand__text">Zachariah Zhang</span>
+      </a>
+      <nav class="nav" aria-label="Primary">
+        <a href="../index.html#about">About</a>
+        <a href="../blog.html" aria-current="page">Writing</a>
+        <a class="nav__ext" href="https://github.com/Zachariah-dovis" target="_blank" rel="noopener">GitHub<span class="sr-only"> (opens in a new tab)</span></a>
+      </nav>
+    </div>
   </header>
-  
-<main class="article-shell">
-  <article class="article-card">
-    <a class="back-link" href="../blog.html">← Back to Blog</a>
-    <p class="eyebrow">Probability</p>
-    <h1>Random Series and SLLN</h1>
-    <div class="article-content">
-      
-<h3 id="random-series">Random Series</h3>
+
+  <main id="main" class="shell">
+    <div class="article-shell">
+      <article class="article-card" data-article data-post="random-series-and-slln">
+      <div class="ribbon" aria-hidden="true"><span class="ribbon__fill" data-reading-progress></span></div>
+        <a class="back-link" href="../blog.html">
+          <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M13 8H3M7 4 3 8l4 4"/></svg>
+          All notes
+        </a>
+
+        <header class="article-header">
+          <p class="eyebrow">Probability</p>
+          <h1 class="article-title">Random Series and SLLN</h1>
+          <p class="article-byline">
+            <span>Zachariah Zhang</span>
+            <span class="dot" aria-hidden="true"></span><time datetime="2026-07-18">Jul 18, 2026</time>
+            <span class="dot" aria-hidden="true"></span><span>6 min read</span>
+          </p>
+        </header>
+
+        <div class="article-content">
+<h3 id="random-series">Random Series<a class="heading__anchor" href="#random-series" aria-label="Link to this section">#</a></h3>
 <p>In calculus, we study the convergence properties of series. Similarly, in probability theory, we are interested in the convergence of series of random variables. Consider the series:</p>
 <p><span class="math display">\[
 \sum_{n=1}^\infty \frac{Z_n}{n}
@@ -173,7 +232,7 @@ A_k=\{|S_k|\geq x\text{ but }|S_j|&lt;x\text{ for }j&lt;k\}.
 \sum_n\mathrm{Var}[X_n]=\sum_n\mathbb{E}[X_n^2]=\sum_n\frac1{n^2}&lt;+\infty.
 \]</span></p>
 <p>Theorefore, the random series converge almost surely.</p>
-<h3 id="a-second-proof-of-the-slln">A Second Proof of the SLLN</h3>
+<h3 id="a-second-proof-of-the-slln">A Second Proof of the SLLN<a class="heading__anchor" href="#a-second-proof-of-the-slln" aria-label="Link to this section">#</a></h3>
 <p>An interesting application of random series is that it could give us a proof of Strong Law Large Numbers which is different from the classical proof.</p>
 <p>We begin with the following lemma:</p>
 <p><strong><em>Lemma 7(Kronecker’s lemma).</em></strong> If <span class="math inline">\(a_n \uparrow +\infty\)</span> and <span class="math inline">\(\sum_n \frac{x_n}{a_n}\)</span> converges then</p>
@@ -218,32 +277,60 @@ x_m=a_m(b_m-b_{m-1}),
 \sum_k\frac{Y_k-\mathbb{E}[Y_k]}k\quad\text{converges a.s.}
 \]</span></p>
 <p>From a simple calculation we prove <span class="math inline">\(n^{−1}T_n \to \mu\)</span>, thereby concluding the proof of SLLN.</p>
-<h3 id="references">References</h3>
+<h3 id="references">References<a class="heading__anchor" href="#references" aria-label="Link to this section">#</a></h3>
 <p>All of the content in this blog post comes from the <a href="https://people.math.wisc.edu/~roch/grad-prob/index.html" rel="noopener noreferrer" target="_blank">Lecture Notes</a> by <a href="https://people.math.wisc.edu/~roch/" rel="noopener noreferrer" target="_blank">Sebastien Roch</a>. I only adjust the order and some minor mistakes.</p>
+        </div>
 
+      <nav class="pager" aria-label="Post navigation">
+<a class="pager__link pager__link--prev" href="steins-method-from-characterizations-to-quantitative-approximation.html" rel="prev">
+          <span class="pager__dir">← Previous</span>
+          <span class="pager__title">Stein's Method: From Characterizations to Quantitative Approximation</span>
+        </a>
+<a class="pager__link pager__link--next" href="polytopes-in-high-dimension.html" rel="next">
+          <span class="pager__dir">Next →</span>
+          <span class="pager__title">Polytopes in High Dimension</span>
+        </a>
+      </nav>
+      </article>
+    <aside class="article-sidebar">
+      <nav class="toc" aria-labelledby="toc-title" data-toc>
+        <p class="eyebrow" id="toc-title">On this page</p>
+        <ul class="toc__list">
+          <li class="toc__item toc__item--h3"><a href="#random-series">Random Series</a></li>
+          <li class="toc__item toc__item--h3"><a href="#a-second-proof-of-the-slln">A Second Proof of the SLLN</a></li>
+          <li class="toc__item toc__item--h3"><a href="#references">References</a></li>
+        </ul>
+      </nav>
+      <nav class="archive" aria-labelledby="archive-title">
+        <p class="eyebrow" id="archive-title">Randomness and Computation</p>
+        <ul class="archive__list">
+          <li><a href="some-interesting-problems-in-hf-interviews.html"><span class="archive__dot" aria-hidden="true"></span><span>Some Interesting Problems in HF Interviews</span></a></li>
+          <li><a href="functional-analysis-for-markov-chain-mixing-time.html"><span class="archive__dot" aria-hidden="true"></span><span>Functional Analysis for Markov Chain Mixing Time</span></a></li>
+          <li><a href="steins-method-from-characterizations-to-quantitative-approximation.html"><span class="archive__dot" aria-hidden="true"></span><span>Stein's Method: From Characterizations to Quantitative Approximation</span></a></li>
+          <li><a href="random-series-and-slln.html" aria-current="true"><span class="archive__dot" aria-hidden="true"></span><span>Random Series and SLLN</span></a></li>
+          <li><a href="polytopes-in-high-dimension.html"><span class="archive__dot" aria-hidden="true"></span><span>Polytopes in High Dimension</span></a></li>
+          <li><a href="models-in-statistical-physics-and-some-algorithmic-correlations.html"><span class="archive__dot" aria-hidden="true"></span><span>Models in Statistical Physics and Some Algorithmic Correlations</span></a></li>
+          <li><a href="some-interesting-examples-related-to-probability.html"><span class="archive__dot" aria-hidden="true"></span><span>Some Interesting Examples Related to Probability</span></a></li>
+          <li><a href="resources-on-optimization-theory.html"><span class="archive__dot" aria-hidden="true"></span><span>Resources on Optimization Theory</span></a></li>
+        </ul>
+      </nav>
+    </aside>
     </div>
-    <nav class="article-pagination" aria-label="Post pagination">
-      <a href="steins-method-from-characterizations-to-quantitative-approximation.html">← Stein's Method</a>
-      <a href="polytopes-in-high-dimension.html">Polytopes in High Dimension →</a>
-    </nav>
-  </article>
-  <aside class="article-sidebar" aria-label="Blog archive">
-    <p class="eyebrow">Archive</p>
-    <h2>Randomness and Computation</h2>
-    <div class="mini-post-list"><a href="some-interesting-problems-in-hf-interviews.html">Some Interesting Problems in HF interviews</a>
-<a href="functional-analysis-for-markov-chain-mixing-time.html">Functional Analysis for Markov Chain Mixing Time</a>
-<a href="steins-method-from-characterizations-to-quantitative-approximation.html">Stein's Method: From Characterizations to Quantitative Approximation</a>
-<a href="random-series-and-slln.html">Random Series and SLLN</a>
-<a href="polytopes-in-high-dimension.html">Polytopes in High Dimension</a>
-<a href="models-in-statistical-physics-and-some-algorithmic-correlations.html">Models in Statistical Physics and Some Algorithmic Correlations</a>
-<a href="some-interesting-examples-related-to-probability.html">Some interesting examples related to probability</a>
-<a href="resources-on-optimization-theory.html">Resources on Optimization Theory</a></div>
-  </aside>
-</main>
+  </main>
 
   <footer class="site-footer">
-    <p>© <span id="year"></span> Zachariah Zhang · Randomness and Computation</p>
+    <div class="site-footer__inner">
+      <p class="site-footer__name">© <span id="year"></span> Zachariah Zhang</p>
+      <nav class="site-footer__nav" aria-label="Footer">
+        <a href="../index.html">About</a>
+        <a href="../blog.html">Writing</a>
+        <a href="https://github.com/Zachariah-dovis" target="_blank" rel="noopener">GitHub</a>
+        <a href="mailto:zachariah.dovis@gmail.com">Email</a>
+      </nav>
+      <p class="site-footer__note">Randomness and Computation · notes on high-dimensional phenomena</p>
+    </div>
   </footer>
-  <script src="../script.js"></script>
+
+  <script src="../script.js" defer></script>
 </body>
 </html>

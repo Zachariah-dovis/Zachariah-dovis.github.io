@@ -3,98 +3,308 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Zachariah Zhang personal website and Randomness and Computation blog." />
-  <title>Blog · Zachariah Zhang</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Newsreader:opsz,wght@6..72,500;6..72,700;6..72,800&display=swap" rel="stylesheet">
+  <title>Writing · Randomness and Computation · Zachariah Zhang</title>
+  <meta name="description" content="Notes on high-dimensional phenomena, probability theory, Markov chains, statistical physics, convex geometry, and optimization. 8 articles and counting." />
+  <meta name="author" content="Zachariah Zhang" />
+  <meta name="color-scheme" content="light" />
+  <meta name="theme-color" content="#F6F1E6" />
+  <link rel="canonical" href="https://zachariah-dovis.github.io/blog.html" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Zachariah Zhang" />
+  <meta property="og:title" content="Writing · Randomness and Computation · Zachariah Zhang" />
+  <meta property="og:description" content="Notes on high-dimensional phenomena, probability theory, Markov chains, statistical physics, convex geometry, and optimization. 8 articles and counting." />
+  <meta property="og:url" content="https://zachariah-dovis.github.io/blog.html" />
+  <meta name="twitter:card" content="summary" />
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%0A%20%20%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2214%22%20fill%3D%22%2320304F%22%2F%3E%0A%20%20%3Cg%20fill%3D%22none%22%20stroke%3D%22%23E9C08A%22%20stroke-width%3D%222.4%22%20stroke-linejoin%3D%22round%22%3E%0A%20%20%20%20%3Cpolygon%20points%3D%2232%2C9%2051%2C20%2051%2C43%2032%2C55%2013%2C43%2013%2C20%22%2F%3E%0A%20%20%20%20%3Cpolygon%20points%3D%2232%2C20%2043%2C26.5%2043%2C39.5%2032%2C46%2021%2C39.5%2021%2C26.5%22%20opacity%3D%22.62%22%2F%3E%0A%20%20%3C%2Fg%3E%0A%20%20%3Ccircle%20cx%3D%2232%22%20cy%3D%2233%22%20r%3D%223.2%22%20fill%3D%22%23FFF8EC%22%2F%3E%0A%3C%2Fsvg%3E" />
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%0A%20%20%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2214%22%20fill%3D%22%2320304F%22%2F%3E%0A%20%20%3Cg%20fill%3D%22none%22%20stroke%3D%22%23E9C08A%22%20stroke-width%3D%222.4%22%20stroke-linejoin%3D%22round%22%3E%0A%20%20%20%20%3Cpolygon%20points%3D%2232%2C9%2051%2C20%2051%2C43%2032%2C55%2013%2C43%2013%2C20%22%2F%3E%0A%20%20%20%20%3Cpolygon%20points%3D%2232%2C20%2043%2C26.5%2043%2C39.5%2032%2C46%2021%2C39.5%2021%2C26.5%22%20opacity%3D%22.62%22%2F%3E%0A%20%20%3C%2Fg%3E%0A%20%20%3Ccircle%20cx%3D%2232%22%20cy%3D%2233%22%20r%3D%223.2%22%20fill%3D%22%23FFF8EC%22%2F%3E%0A%3C%2Fsvg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
-  <script>
-    window.MathJax = {
-      tex: {
-        inlineMath: [['$', '$'], ['\\(', '\\)']],
-        displayMath: [['$$', '$$'], ['\\[', '\\]']],
-        processEscapes: true
-      },
-      svg: { fontCache: 'global' }
-    };
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  "name": "Randomness and Computation",
+  "url": "https://zachariah-dovis.github.io/blog.html",
+  "author": {
+    "@type": "Person",
+    "name": "Zachariah Zhang"
+  },
+  "blogPost": [
+    {
+      "@type": "BlogPosting",
+      "headline": "Some Interesting Problems in HF Interviews",
+      "url": "https://zachariah-dovis.github.io/posts/some-interesting-problems-in-hf-interviews.html",
+      "keywords": "Problems"
+    },
+    {
+      "@type": "BlogPosting",
+      "headline": "Functional Analysis for Markov Chain Mixing Time",
+      "url": "https://zachariah-dovis.github.io/posts/functional-analysis-for-markov-chain-mixing-time.html",
+      "keywords": "Markov Chains"
+    },
+    {
+      "@type": "BlogPosting",
+      "headline": "Stein's Method: From Characterizations to Quantitative Approximation",
+      "url": "https://zachariah-dovis.github.io/posts/steins-method-from-characterizations-to-quantitative-approximation.html",
+      "keywords": "Probability Theory"
+    },
+    {
+      "@type": "BlogPosting",
+      "headline": "Random Series and SLLN",
+      "url": "https://zachariah-dovis.github.io/posts/random-series-and-slln.html",
+      "keywords": "Probability"
+    },
+    {
+      "@type": "BlogPosting",
+      "headline": "Polytopes in High Dimension",
+      "url": "https://zachariah-dovis.github.io/posts/polytopes-in-high-dimension.html",
+      "keywords": "High Dimension"
+    },
+    {
+      "@type": "BlogPosting",
+      "headline": "Models in Statistical Physics and Some Algorithmic Correlations",
+      "url": "https://zachariah-dovis.github.io/posts/models-in-statistical-physics-and-some-algorithmic-correlations.html",
+      "keywords": "Statistical Physics"
+    },
+    {
+      "@type": "BlogPosting",
+      "headline": "Some Interesting Examples Related to Probability",
+      "url": "https://zachariah-dovis.github.io/posts/some-interesting-examples-related-to-probability.html",
+      "keywords": "Probability"
+    },
+    {
+      "@type": "BlogPosting",
+      "headline": "Resources on Optimization Theory",
+      "url": "https://zachariah-dovis.github.io/posts/resources-on-optimization-theory.html",
+      "keywords": "Optimization"
+    }
+  ]
+}
   </script>
-  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 </head>
-<body class="loom-mode">
+<body class="page">
+  <a class="skip-link" href="#main">Skip to content</a>
   <div class="grain" aria-hidden="true"></div>
+
   <header class="site-header">
-    <a class="brand" href="index.html" aria-label="Zachariah Zhang home">
-      <span class="brand-mark">Z</span>
-      <span>Zachariah Zhang</span>
-    </a>
-    <nav class="nav" aria-label="Primary navigation">
-      <a href="index.html#about">About</a>
-      <a href="blog.html">Blog</a>
-      <a href="https://github.com/Zachariah-dovis" target="_blank" rel="noopener">GitHub</a>
-    </nav>
+    <div class="site-header__inner">
+      <a class="brand" href="index.html" aria-label="Zachariah Zhang — home">
+        <span class="brand__mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round">
+            <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5" />
+            <polygon points="12,8 16,10.3 16,14.8 12,17 8,14.8 8,10.3" opacity=".6" />
+          </svg>
+        </span>
+        <span class="brand__text">Zachariah Zhang</span>
+      </a>
+      <nav class="nav" aria-label="Primary">
+        <a href="index.html#about">About</a>
+        <a href="blog.html" aria-current="page">Writing</a>
+        <a class="nav__ext" href="https://github.com/Zachariah-dovis" target="_blank" rel="noopener">GitHub<span class="sr-only"> (opens in a new tab)</span></a>
+      </nav>
+    </div>
   </header>
 
-<main id="top" class="page-shell blog-shell">
-  <section class="panel blog-panel blog-page" id="blog" aria-labelledby="blog-title">
-    <div class="panel-heading">
-      <div>
-        <p class="eyebrow">Blog</p>
-        <h1 id="blog-title">Randomness and Computation</h1>
+  <main id="main" class="shell">
+    <header class="page-head">
+      <div class="page-head__art" aria-hidden="true"><svg class="polytope polytope--mark" viewBox="0 0 800 800" width="800" height="800" aria-hidden="true" focusable="false">
+    <g fill="none" stroke="currentColor" stroke-width="1.7600000000000002" stroke-linejoin="round">
+      <polygon points="400.0,70.0 565.0,114.2 685.8,235.0 730.0,400.0 685.8,565.0 565.0,685.8 400.0,730.0 235.0,685.8 114.2,565.0 70.0,400.0 114.2,235.0 235.0,114.2" opacity=".5"/>
+      <polygon points="400.0,182.0 588.8,291.0 588.8,509.0 400.0,618.0 211.2,509.0 211.2,291.0" opacity=".8"/>
+      <polygon points="400.0,292.0 493.5,454.0 306.5,454.0" opacity=".95"/>
+      <g opacity=".28"><line x1="400" y1="400" x2="400.0" y2="70.0"/><line x1="400" y1="400" x2="685.8" y2="235.0"/><line x1="400" y1="400" x2="685.8" y2="565.0"/><line x1="400" y1="400" x2="400.0" y2="730.0"/><line x1="400" y1="400" x2="114.2" y2="565.0"/><line x1="400" y1="400" x2="114.2" y2="235.0"/></g>
+      <circle cx="400" cy="400" r="330" opacity=".18" stroke-dasharray="3 9"/>
+    </g>
+    <g fill="currentColor">
+      <circle cx="400.0" cy="182.0" r="5.120000000000001"/><circle cx="588.8" cy="291.0" r="5.120000000000001"/><circle cx="588.8" cy="509.0" r="5.120000000000001"/><circle cx="400.0" cy="618.0" r="5.120000000000001"/><circle cx="211.2" cy="509.0" r="5.120000000000001"/><circle cx="211.2" cy="291.0" r="5.120000000000001"/>
+    </g>
+  </svg></div>
+      <p class="eyebrow">Notes &amp; Writing</p>
+      <h1 class="page-title">Randomness and Computation</h1>
+      <p class="page-lede">
+        Working notes on high-dimensional phenomena and the mathematics around them — probability,
+        spectral methods, convex geometry, and the algorithms that connect them. Written to be
+        re-read.
+      </p>
+      <p class="page-meta">8 notes · updated as I learn</p>
+    </header>
+
+    <section class="post-index" aria-labelledby="index-title">
+      <h2 class="sr-only" id="index-title">All notes</h2>
+
+      <div class="filters" role="group" aria-label="Filter notes by topic">
+        <button class="filter is-active" type="button" data-filter="all" aria-pressed="true">All<span class="filter__count">8</span></button>
+        <button class="filter" type="button" data-filter="Problems" aria-pressed="false">Problems<span class="filter__count">1</span></button>
+        <button class="filter" type="button" data-filter="Markov Chains" aria-pressed="false">Markov Chains<span class="filter__count">1</span></button>
+        <button class="filter" type="button" data-filter="Probability Theory" aria-pressed="false">Probability Theory<span class="filter__count">1</span></button>
+        <button class="filter" type="button" data-filter="Probability" aria-pressed="false">Probability<span class="filter__count">2</span></button>
+        <button class="filter" type="button" data-filter="High Dimension" aria-pressed="false">High Dimension<span class="filter__count">1</span></button>
+        <button class="filter" type="button" data-filter="Statistical Physics" aria-pressed="false">Statistical Physics<span class="filter__count">1</span></button>
+        <button class="filter" type="button" data-filter="Optimization" aria-pressed="false">Optimization<span class="filter__count">1</span></button>
       </div>
-      <span class="post-count">8 posts</span>
-    </div>
-    <label class="search-label" for="post-search">Search posts</label>
-    <input id="post-search" class="post-search" type="search" placeholder="Search by title or topic..." />
-    <div class="post-list" id="post-list">
-<article class="post-card" data-title="some interesting problems in hf interviews" data-tag="problems">
-  <div class="post-meta"><span>Problems</span></div>
-  <h3>Some Interesting Problems in HF interviews</h3>
-  <p>1. Construct a one-to-one mapping (bijection) from [0,1] to (0,1)</p>
-  <a class="post-link" href="posts/some-interesting-problems-in-hf-interviews.html">Read on this site</a>
-</article><article class="post-card" data-title="functional analysis for markov chain mixing time" data-tag="markov chains">
-  <div class="post-meta"><span>Markov Chains</span></div>
-  <h3>Functional Analysis for Markov Chain Mixing Time</h3>
-  <p>A compact summary of functional-analytic tools for MCMC: contraction of divergences, log-Sobolev inequalities, heat semigroups, entropy decay, and concentration.</p>
-  <a class="post-link" href="posts/functional-analysis-for-markov-chain-mixing-time.html">Read on this site</a>
-</article><article class="post-card" data-title="stein's method from characterizations to quantitative approximation" data-tag="probability theory">
-  <div class="post-meta"><span>Probability Theory</span></div>
-  <h3>Stein's Method: From Characterizations to Quantitative Approximation</h3>
-  <p>An introduction to characterizing operators, Stein equations, Gaussian and Poisson approximation, exchangeable pairs, bias couplings, and the generator viewpoint.</p>
-  <a class="post-link" href="posts/steins-method-from-characterizations-to-quantitative-approximation.html">Read on this site</a>
-</article><article class="post-card" data-title="random series and slln" data-tag="probability">
-  <div class="post-meta"><span>Probability</span></div>
-  <h3>Random Series and SLLN</h3>
-  <p>In calculus, we study the convergence properties of series. Similarly, in probability theory, we are interested in the convergence of series of random variables. Consider the series:</p>
-  <a class="post-link" href="posts/random-series-and-slln.html">Read on this site</a>
-</article><article class="post-card" data-title="polytopes in high dimension" data-tag="high dimension">
-  <div class="post-meta"><span>High Dimension</span></div>
-  <h3>Polytopes in High Dimension</h3>
-  <p>The notion of &quot;High Dimensional&quot; is playing an increasingly important role in Probability Theory and Theoretical Computer Science. High-dimensional objects are unexpectedly interesting because they often contra…</p>
-  <a class="post-link" href="posts/polytopes-in-high-dimension.html">Read on this site</a>
-</article><article class="post-card" data-title="models in statistical physics and some algorithmic correlations" data-tag="statistical physics">
-  <div class="post-meta"><span>Statistical Physics</span></div>
-  <h3>Models in Statistical Physics and Some Algorithmic Correlations</h3>
-  <p>A note on spin systems, Ising/Potts models, the hardcore model, proper colorings, and the spectral-independence framework for approximate counting and sampling.</p>
-  <a class="post-link" href="posts/models-in-statistical-physics-and-some-algorithmic-correlations.html">Read on this site</a>
-</article><article class="post-card" data-title="some interesting examples related to probability" data-tag="probability">
-  <div class="post-meta"><span>Probability</span></div>
-  <h3>Some interesting examples related to probability</h3>
-  <p>This page will be updated persistently.</p>
-  <a class="post-link" href="posts/some-interesting-examples-related-to-probability.html">Read on this site</a>
-</article><article class="post-card" data-title="resources on optimization theory" data-tag="optimization">
-  <div class="post-meta"><span>Optimization</span></div>
-  <h3>Resources on Optimization Theory</h3>
-  <p>From my point of view, the modern optimization theory contains three most important frameworks——first order methods, cutting plane methods and interior point methods.</p>
-  <a class="post-link" href="posts/resources-on-optimization-theory.html">Read on this site</a>
-</article>
-    </div>
-  </section>
-</main>
+
+      <label class="search" for="post-search">
+        <span class="sr-only">Search notes</span>
+        <svg class="search__icon" viewBox="0 0 20 20" width="16" height="16" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="8.5" cy="8.5" r="5.5"/><path d="m13 13 4 4"/></svg>
+        <input id="post-search" class="search__input" type="search" placeholder="Search by title, topic, or keyword…" autocomplete="off" />
+        <kbd class="search__hint" aria-hidden="true">/</kbd>
+      </label>
+
+      <p class="results" role="status" aria-live="polite" data-results></p>
+
+      <ol class="post-list" data-post-list>
+        <li class="post-card" data-tag="Problems" data-title="some interesting problems in hf interviews" data-blurb="problems i have been asked, or have asked others, in quantitative-research interviews.">
+          <a class="post-card__link" href="posts/some-interesting-problems-in-hf-interviews.html">
+            <span class="post-card__num" aria-hidden="true">01</span>
+            <span class="post-card__main">
+              <span class="post-card__meta">
+                <span class="post-card__tag">Problems</span>
+                <span class="post-card__sep" aria-hidden="true">·</span><span class="post-card__date">Jul 18, 2026</span>
+              </span>
+              <span class="post-card__title">Some Interesting Problems in HF Interviews</span>
+              <span class="post-card__blurb">Problems I have been asked, or have asked others, in quantitative-research interviews.</span>
+            </span>
+            <span class="post-card__go" aria-hidden="true">
+              <svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+            </span>
+          </a>
+        </li>
+        <li class="post-card" data-tag="Markov Chains" data-title="functional analysis for markov chain mixing time" data-blurb="a compact summary of functional-analytic tools for mcmc: contraction of divergences, log-sobolev inequalities, heat semigroups, entropy decay, and concentration.">
+          <a class="post-card__link" href="posts/functional-analysis-for-markov-chain-mixing-time.html">
+            <span class="post-card__num" aria-hidden="true">02</span>
+            <span class="post-card__main">
+              <span class="post-card__meta">
+                <span class="post-card__tag">Markov Chains</span>
+                <span class="post-card__sep" aria-hidden="true">·</span><span class="post-card__date">Jul 18, 2026</span>
+              </span>
+              <span class="post-card__title">Functional Analysis for Markov Chain Mixing Time</span>
+              <span class="post-card__blurb">A compact summary of functional-analytic tools for MCMC: contraction of divergences, log-Sobolev inequalities, heat semigroups, entropy decay, and concentration.</span>
+            </span>
+            <span class="post-card__go" aria-hidden="true">
+              <svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+            </span>
+          </a>
+        </li>
+        <li class="post-card" data-tag="Probability Theory" data-title="stein's method: from characterizations to quantitative approximation" data-blurb="an introduction to characterizing operators, stein equations, gaussian and poisson approximation, exchangeable pairs, bias couplings, and the generator viewpoint.">
+          <a class="post-card__link" href="posts/steins-method-from-characterizations-to-quantitative-approximation.html">
+            <span class="post-card__num" aria-hidden="true">03</span>
+            <span class="post-card__main">
+              <span class="post-card__meta">
+                <span class="post-card__tag">Probability Theory</span>
+                <span class="post-card__sep" aria-hidden="true">·</span><span class="post-card__date">Jul 18, 2026</span>
+              </span>
+              <span class="post-card__title">Stein's Method: From Characterizations to Quantitative Approximation</span>
+              <span class="post-card__blurb">An introduction to characterizing operators, Stein equations, Gaussian and Poisson approximation, exchangeable pairs, bias couplings, and the generator viewpoint.</span>
+            </span>
+            <span class="post-card__go" aria-hidden="true">
+              <svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+            </span>
+          </a>
+        </li>
+        <li class="post-card" data-tag="Probability" data-title="random series and slln" data-blurb="convergence of series of random variables: three classical criteria, kolmogorov’s inequality, and a second proof of the strong law of large numbers.">
+          <a class="post-card__link" href="posts/random-series-and-slln.html">
+            <span class="post-card__num" aria-hidden="true">04</span>
+            <span class="post-card__main">
+              <span class="post-card__meta">
+                <span class="post-card__tag">Probability</span>
+                <span class="post-card__sep" aria-hidden="true">·</span><span class="post-card__date">Jul 18, 2026</span>
+              </span>
+              <span class="post-card__title">Random Series and SLLN</span>
+              <span class="post-card__blurb">Convergence of series of random variables: three classical criteria, Kolmogorov’s inequality, and a second proof of the strong law of large numbers.</span>
+            </span>
+            <span class="post-card__go" aria-hidden="true">
+              <svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+            </span>
+          </a>
+        </li>
+        <li class="post-card" data-tag="High Dimension" data-title="polytopes in high dimension" data-blurb="exact and approximate carathéodory theorems, covering numbers, and why a polytope with polynomially many vertices is exponentially smaller than a ball.">
+          <a class="post-card__link" href="posts/polytopes-in-high-dimension.html">
+            <span class="post-card__num" aria-hidden="true">05</span>
+            <span class="post-card__main">
+              <span class="post-card__meta">
+                <span class="post-card__tag">High Dimension</span>
+                <span class="post-card__sep" aria-hidden="true">·</span><span class="post-card__date">Jul 18, 2026</span>
+              </span>
+              <span class="post-card__title">Polytopes in High Dimension</span>
+              <span class="post-card__blurb">Exact and approximate Carathéodory theorems, covering numbers, and why a polytope with polynomially many vertices is exponentially smaller than a ball.</span>
+            </span>
+            <span class="post-card__go" aria-hidden="true">
+              <svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+            </span>
+          </a>
+        </li>
+        <li class="post-card" data-tag="Statistical Physics" data-title="models in statistical physics and some algorithmic correlations" data-blurb="a note on spin systems, ising/potts models, the hardcore model, proper colorings, and the spectral-independence framework for approximate counting and sampling.">
+          <a class="post-card__link" href="posts/models-in-statistical-physics-and-some-algorithmic-correlations.html">
+            <span class="post-card__num" aria-hidden="true">06</span>
+            <span class="post-card__main">
+              <span class="post-card__meta">
+                <span class="post-card__tag">Statistical Physics</span>
+                <span class="post-card__sep" aria-hidden="true">·</span><span class="post-card__date">Jul 18, 2026</span>
+              </span>
+              <span class="post-card__title">Models in Statistical Physics and Some Algorithmic Correlations</span>
+              <span class="post-card__blurb">A note on spin systems, Ising/Potts models, the hardcore model, proper colorings, and the spectral-independence framework for approximate counting and sampling.</span>
+            </span>
+            <span class="post-card__go" aria-hidden="true">
+              <svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+            </span>
+          </a>
+        </li>
+        <li class="post-card" data-tag="Probability" data-title="some interesting examples related to probability" data-blurb="a collection of counterintuitive examples, kept up to date as i collect more.">
+          <a class="post-card__link" href="posts/some-interesting-examples-related-to-probability.html">
+            <span class="post-card__num" aria-hidden="true">07</span>
+            <span class="post-card__main">
+              <span class="post-card__meta">
+                <span class="post-card__tag">Probability</span>
+                <span class="post-card__sep" aria-hidden="true">·</span><span class="post-card__date">Jul 18, 2026</span>
+              </span>
+              <span class="post-card__title">Some Interesting Examples Related to Probability</span>
+              <span class="post-card__blurb">A collection of counterintuitive examples, kept up to date as I collect more.</span>
+            </span>
+            <span class="post-card__go" aria-hidden="true">
+              <svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+            </span>
+          </a>
+        </li>
+        <li class="post-card" data-tag="Optimization" data-title="resources on optimization theory" data-blurb="first-order methods, cutting-plane methods and interior-point methods, with the references i actually return to.">
+          <a class="post-card__link" href="posts/resources-on-optimization-theory.html">
+            <span class="post-card__num" aria-hidden="true">08</span>
+            <span class="post-card__main">
+              <span class="post-card__meta">
+                <span class="post-card__tag">Optimization</span>
+                <span class="post-card__sep" aria-hidden="true">·</span><span class="post-card__date">Jul 18, 2026</span>
+              </span>
+              <span class="post-card__title">Resources on Optimization Theory</span>
+              <span class="post-card__blurb">First-order methods, cutting-plane methods and interior-point methods, with the references I actually return to.</span>
+            </span>
+            <span class="post-card__go" aria-hidden="true">
+              <svg viewBox="0 0 16 16" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+            </span>
+          </a>
+        </li>
+      </ol>
+
+      <p class="post-list__empty" data-empty hidden>No notes match that search.</p>
+    </section>
+  </main>
 
   <footer class="site-footer">
-    <p>© <span id="year"></span> Zachariah Zhang · Randomness and Computation</p>
+    <div class="site-footer__inner">
+      <p class="site-footer__name">© <span id="year"></span> Zachariah Zhang</p>
+      <nav class="site-footer__nav" aria-label="Footer">
+        <a href="index.html">About</a>
+        <a href="blog.html">Writing</a>
+        <a href="https://github.com/Zachariah-dovis" target="_blank" rel="noopener">GitHub</a>
+        <a href="mailto:zachariah.dovis@gmail.com">Email</a>
+      </nav>
+      <p class="site-footer__note">Randomness and Computation · notes on high-dimensional phenomena</p>
+    </div>
   </footer>
-  <script src="script.js"></script>
+
+  <script src="script.js" defer></script>
 </body>
 </html>
