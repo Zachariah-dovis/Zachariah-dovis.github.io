@@ -62,7 +62,7 @@ const AUTHORED = [
   {
     slug: 'polytopes-in-high-dimension',
     title: 'Polytopes in High Dimension',
-    tag: 'High Dimension',
+    tag: 'Convex Geometry',
     blurb: 'Exact and approximate Carathéodory theorems, covering numbers, and why a polytope with polynomially many vertices is exponentially smaller than a ball.',
   },
   {
