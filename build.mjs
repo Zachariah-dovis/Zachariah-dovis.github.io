@@ -75,6 +75,13 @@ const AUTHORED = [
     tag: 'Optimization',
     blurb: 'First-order methods, cutting-plane methods and interior-point methods, with the references I actually return to.',
   },
+  {
+    slug: 'lee-sidford-barrier-and-almost-linear-max-flow',
+    title: 'The Lee–Sidford Barrier and the Road to Almost-Linear Max Flow',
+    tag: 'Optimization',
+    blurb: 'How an efficiently computable barrier broke the √m iteration bound, and how the line of work it started ended in almost-linear time max flow.',
+    date: '2026-10-02T00:00:00',
+  },
 ].map((p, i) => ({ ...p, index: i, href: `posts/${p.slug}.html` }));
 
 /* ------------------------------------------------------------------ *
@@ -88,15 +95,24 @@ function readIfExists(p) {
   return readFileSync(p, 'utf8').replace(/\s+$/, '');
 }
 
-/** Publication date of a post body, taken from git history. */
+/** Publication date of a post: an explicit `date` on the entry wins (needed for
+ *  posts not yet in git history), otherwise fall back to the commit that added it. */
 function gitDate(slug) {
+  const authored = AUTHORED.find((p) => p.slug === slug);
+  if (authored && authored.date) {
+    const d = new Date(authored.date);
+    if (!Number.isNaN(d.getTime())) return d;
+  }
   for (const p of [`posts/${slug}.html`, slug]) {
     try {
-      const iso = execFileSync('git', ['log', '-1', '--format=%cI', '--', p], {
-        cwd: ROOT,
-        encoding: 'utf8',
-        stdio: ['ignore', 'pipe', 'ignore'],
-      }).trim();
+      // The commit that ADDED the file, not the last commit that touched it.
+      // `git log -1` would report this project's own rebuild, which re-writes
+      // every page and would stamp them all with the same, meaningless date.
+      const iso = execFileSync(
+        'git',
+        ['log', '--diff-filter=A', '--follow', '--format=%cI', '--', p],
+        { cwd: ROOT, encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }
+      ).trim().split('\n').filter(Boolean).pop();
       if (iso) return new Date(iso);
     } catch {
       /* fall through */
@@ -108,6 +124,16 @@ function gitDate(slug) {
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 function fmtDate(d) {
   return d ? `${MONTHS[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}` : '';
+}
+
+/**
+ * Local-calendar ISO date (YYYY-MM-DD). Uses the local date parts rather than
+ * toISOString(), which would shift the day for dates built in a positive UTC
+ * offset — the label and the machine-readable value must agree.
+ */
+function isoDate(d) {
+  const p = (n) => String(n).padStart(2, '0');
+  return `${d.getFullYear()}-${p(d.getMonth() + 1)}-${p(d.getDate())}`;
 }
 
 /* ------------------------------------------------------------------ *
@@ -406,7 +432,7 @@ ${cell(next, 'next')}
  * ------------------------------------------------------------------ */
 
 function buildIndex() {
-  const latest = AUTHORED[5]; // Statistical Physics note — the most recent long-form post.
+  const latest = AUTHORED[AUTHORED.length - 1]; // most recently added note
   const jsonLd = JSON.stringify(
     {
       '@context': 'https://schema.org',
@@ -474,7 +500,7 @@ function buildIndex() {
         <a class="section-more" href="blog.html">All ${AUTHORED.length} notes <span aria-hidden="true">→</span></a>
       </div>
       <ul class="latest">
-${AUTHORED.slice(2, 5)
+${AUTHORED.slice(-3)
   .map(
     (p) => `        <li class="latest__item">
           <a class="latest__link" href="${p.href}">
@@ -625,7 +651,7 @@ function buildPost(slug) {
       author: { '@type': 'Person', name: SITE_NAME, url: `${SITE}/` },
       publisher: { '@type': 'Person', name: SITE_NAME },
       keywords: meta.tag,
-      ...(d ? { datePublished: d.toISOString().slice(0, 10) } : {}),
+      ...(d ? { datePublished: isoDate(d) } : {}),
       ...(toc.length ? { articleSection: toc.filter((t) => t.level === 2).map((t) => t.text) } : {}),
     },
     null,
@@ -662,7 +688,7 @@ ${ribbon()}        <a class="back-link" href="../blog.html">
           <h1 class="article-title">${meta.title}</h1>
           <p class="article-byline">
             <span>${SITE_NAME}</span>
-            ${d ? `<span class="dot" aria-hidden="true"></span><time datetime="${d.toISOString().slice(0, 10)}">${fmtDate(d)}</time>` : ''}
+            ${d ? `<span class="dot" aria-hidden="true"></span><time datetime="${isoDate(d)}">${fmtDate(d)}</time>` : ''}
             <span class="dot" aria-hidden="true"></span><span>${minutes} min read</span>
           </p>
         </header>

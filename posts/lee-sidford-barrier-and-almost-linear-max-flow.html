@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Lee–Sidford Barrier and the Road to Almost-Linear Max Flow · Zachariah Zhang</title>
+  <meta name="description" content="How Yin Tat Lee and Aaron Sidford built an efficiently computable barrier that broke the √m iteration bound, and how the line of work it started ended in almost-linear time max flow." />
+  <meta name="author" content="Zachariah Zhang" />
+  <meta name="color-scheme" content="light" />
+  <meta name="theme-color" content="#F6F1E6" />
+  <link rel="canonical" href="https://zachariah-dovis.github.io/posts/lee-sidford-barrier-and-almost-linear-max-flow.html" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:site_name" content="Zachariah Zhang" />
+  <meta property="og:title" content="The Lee–Sidford Barrier and the Road to Almost-Linear Max Flow · Zachariah Zhang" />
+  <meta property="og:description" content="How Yin Tat Lee and Aaron Sidford built an efficiently computable barrier that broke the √m iteration bound, and how the line of work it started ended in almost-linear time max flow." />
+  <meta property="og:url" content="https://zachariah-dovis.github.io/posts/lee-sidford-barrier-and-almost-linear-max-flow.html" />
+  <meta name="twitter:card" content="summary" />
+
+  <link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%0A%20%20%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2214%22%20fill%3D%22%2320304F%22%2F%3E%0A%20%20%3Cg%20fill%3D%22none%22%20stroke%3D%22%23E9C08A%22%20stroke-width%3D%222.4%22%20stroke-linejoin%3D%22round%22%3E%0A%20%20%20%20%3Cpolygon%20points%3D%2232%2C9%2051%2C20%2051%2C43%2032%2C55%2013%2C43%2013%2C20%22%2F%3E%0A%20%20%20%20%3Cpolygon%20points%3D%2232%2C20%2043%2C26.5%2043%2C39.5%2032%2C46%2021%2C39.5%2021%2C26.5%22%20opacity%3D%22.62%22%2F%3E%0A%20%20%3C%2Fg%3E%0A%20%20%3Ccircle%20cx%3D%2232%22%20cy%3D%2233%22%20r%3D%223.2%22%20fill%3D%22%23FFF8EC%22%2F%3E%0A%3C%2Fsvg%3E" />
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%0A%20%20%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2214%22%20fill%3D%22%2320304F%22%2F%3E%0A%20%20%3Cg%20fill%3D%22none%22%20stroke%3D%22%23E9C08A%22%20stroke-width%3D%222.4%22%20stroke-linejoin%3D%22round%22%3E%0A%20%20%20%20%3Cpolygon%20points%3D%2232%2C9%2051%2C20%2051%2C43%2032%2C55%2013%2C43%2013%2C20%22%2F%3E%0A%20%20%20%20%3Cpolygon%20points%3D%2232%2C20%2043%2C26.5%2043%2C39.5%2032%2C46%2021%2C39.5%2021%2C26.5%22%20opacity%3D%22.62%22%2F%3E%0A%20%20%3C%2Fg%3E%0A%20%20%3Ccircle%20cx%3D%2232%22%20cy%3D%2233%22%20r%3D%223.2%22%20fill%3D%22%23FFF8EC%22%2F%3E%0A%3C%2Fsvg%3E" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;0,6..72,700;1,6..72,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../styles.css" />
+  <script>
+    window.MathJax = {
+      loader: { load: ['[tex]/ams', '[tex]/boldsymbol'] },
+      tex: {
+        packages: { '[+]': ['ams', 'boldsymbol'] },
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        tags: 'none',
+        macros: {
+          N: '\\mathbb{N}',
+          R: '\\mathbb{R}',
+          Z: '\\mathbb{Z}',
+          Q: '\\mathbb{Q}',
+          C: '\\mathbb{C}',
+          E: '\\mathbb{E}',
+          P: '\\mathbb{P}',
+          thicksim: '\\sim',
+          mathscr: ['\\mathcal{#1}', 1]
+        }
+      },
+      svg: { fontCache: 'global' },
+      options: { enableMenu: true }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "The Lee–Sidford Barrier and the Road to Almost-Linear Max Flow",
+  "description": "How Yin Tat Lee and Aaron Sidford built an efficiently computable barrier that broke the √m iteration bound, and how the line of work it started ended in almost-linear time max flow.",
+  "url": "https://zachariah-dovis.github.io/posts/lee-sidford-barrier-and-almost-linear-max-flow.html",
+  "author": {
+    "@type": "Person",
+    "name": "Zachariah Zhang",
+    "url": "https://zachariah-dovis.github.io/"
+  },
+  "publisher": {
+    "@type": "Person",
+    "name": "Zachariah Zhang"
+  },
+  "keywords": "Optimization",
+  "datePublished": "2026-10-02",
+  "articleSection": [
+    "Why $\\sqrt{m}$: path following and the barrier parameter",
+    "Before 2014: a good parameter or cheap steps, never both",
+    "The construction: weight each constraint by its Lewis weight",
+    "From barrier to algorithm: path finding and $\\tilde{O}(m\\sqrt{n})$ flow",
+    "Max flow after 2013: fewer steps, cheaper steps, then different steps",
+    "The exponent over time",
+    "Where the barrier went next",
+    "Open problems",
+    "Sources"
+  ]
+}
+  </script>
+</head>
+<body class="page">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="brand" href="../index.html" aria-label="Zachariah Zhang — home">
+        <span class="brand__mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round">
+            <polygon points="12,3 19.8,7.5 19.8,16.5 12,21 4.2,16.5 4.2,7.5" />
+            <polygon points="12,8 16,10.3 16,14.8 12,17 8,14.8 8,10.3" opacity=".6" />
+          </svg>
+        </span>
+        <span class="brand__text">Zachariah Zhang</span>
+      </a>
+      <nav class="nav" aria-label="Primary">
+        <a href="../index.html#about">About</a>
+        <a href="../blog.html" aria-current="page">Writing</a>
+        <a class="nav__ext" href="https://github.com/Zachariah-dovis" target="_blank" rel="noopener">GitHub<span class="sr-only"> (opens in a new tab)</span></a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="shell">
+    <div class="article-shell">
+      <article class="article-card" data-article data-post="lee-sidford-barrier-and-almost-linear-max-flow">
+      <div class="ribbon" aria-hidden="true"><span class="ribbon__fill" data-reading-progress></span></div>
+        <a class="back-link" href="../blog.html">
+          <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M13 8H3M7 4 3 8l4 4"/></svg>
+          All notes
+        </a>
+
+        <header class="article-header">
+          <p class="eyebrow">Optimization</p>
+          <h1 class="article-title">The Lee–Sidford Barrier and the Road to Almost-Linear Max Flow</h1>
+          <p class="article-byline">
+            <span>Zachariah Zhang</span>
+            <span class="dot" aria-hidden="true"></span><time datetime="2026-10-02">Oct 2, 2026</time>
+            <span class="dot" aria-hidden="true"></span><span>22 min read</span>
+          </p>
+        </header>
+
+        <div class="article-content">
+<p class="article-lede">In 2014, Yin Tat Lee and Aaron Sidford built an efficiently computable barrier that lets an interior point method solve a linear program in $\tilde{O}(\sqrt{\operatorname{rank}})$ iterations instead of $\tilde{O}(\sqrt{m})$. Applied to flows, it gave the first $\tilde{O}(m\sqrt{n})$ min-cost flow algorithm. Eight years later max flow fell to $m^{1+o(1)}$, by a different interior point method that grew out of the same program of cheap, approximately maintained steps.</p>
+
+<h2 id="why-sqrt-m-path-following-and-the-barrier-parameter">Why $\sqrt{m}$: path following and the barrier parameter<a class="heading__anchor" href="#why-sqrt-m-path-following-and-the-barrier-parameter" aria-label="Link to this section">#</a></h2>
+
+<p>A path-following interior point method needs about $\sqrt{\nu}$ Newton steps per constant-factor gain in accuracy, where $\nu$ is its barrier&rsquo;s self-concordance parameter. For the standard logarithmic barrier $\nu$ equals $m$, the number of constraints. That is where the classic $\sqrt{m}$ bound comes from.</p>
+
+<p>Take an LP in inequality form: minimize $c^{\top}x$ subject to $Ax \ge b$, with $A$ an $m \times n$ matrix, so $m$ constraints and $n$ variables. An interior point method follows the central path: for each $t &gt; 0$, the minimizer of a penalized objective, where a barrier $\phi$ blows up at the boundary of the feasible region.</p>
+
+<p>$$x^{\star}(t) = \arg\min_{x}\; t\,c^{\top}x + \phi(x), \qquad \phi_{\log}(x) = -\sum_{i=1}^{m} \ln\!\left(a_i^{\top}x - b_i\right)$$</p>
+
+<p>As $t$ grows, $x^{\star}(t)$ slides toward the optimum. Each iteration raises $t$ a little and takes one Newton step to re-center, which costs one linear system solve.</p>
+
+<p>Nesterov and Nemirovski (1994) isolated what controls the step size. A barrier is $\nu$-self-concordant if its third derivative is bounded by its second (so Newton&rsquo;s method behaves), and its gradient is bounded in its own Hessian norm:</p>
+
+<p>$$\nabla\phi(x)^{\top}\,\big(\nabla^{2}\phi(x)\big)^{-1}\,\nabla\phi(x) \;\le\; \nu \qquad \text{for all feasible } x$$</p>
+
+<p>With such a barrier, $t$ can grow by a factor of $1 + \Theta(1/\sqrt{\nu})$ per step. Reaching accuracy $\varepsilon$ then takes $O(\sqrt{\nu} \cdot \log(1/\varepsilon))$ iterations. Each log term contributes $1$ to $\nu$, so the log barrier has $\nu = m$, which gives Renegar&rsquo;s $O(\sqrt{m} \cdot \log(1/\varepsilon))$ method from 1988.</p>
+
+<p><strong>There is a floor.</strong> Nesterov and Nemirovski showed that if a vertex of a polytope lies on $k$ linearly independent facets, every barrier for it has $\nu \ge k$. Every vertex of an $n$-dimensional polytope lies on $n$ such facets, so $\nu \ge n$ always, and $\sqrt{n}$ iterations is the limit of this style of analysis.</p>
+
+<p>The gap between $\sqrt{m}$ and $\sqrt{n}$ is the whole story. The log barrier charges for every constraint, even redundant ones: copying a constraint 1,000 times multiplies its weight by 1,000. Carefully duplicated constraints on Klee&ndash;Minty cubes force standard interior point methods to take $\Omega(\sqrt{m})$ iterations. For &ldquo;tall&rdquo; LPs with $m \gg n$, including the flow LPs below, that is a real loss.</p>
+
+<h2 id="before-2014-a-good-parameter-or-cheap-steps-never-both">Before 2014: a good parameter or cheap steps, never both<a class="heading__anchor" href="#before-2014-a-good-parameter-or-cheap-steps-never-both" aria-label="Link to this section">#</a></h2>
+
+<p>By 1994 a barrier with $\nu = O(n)$ was known to exist for every convex body, but nobody could evaluate it quickly. The barriers you could compute cheaply all had $\nu$ well above $n$. The table shows the tradeoff Lee and Sidford set out to remove.</p>
+
+<div class="table-wrap">
+<table class="dictionary-table">
+  <thead>
+    <tr><th>Barrier</th><th>Who, when</th><th>Parameter $\nu$</th><th>Iterations</th><th>Cost of one iteration</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Logarithmic</td><td>Path following: Renegar, 1988</td><td>$m$</td><td>$O(\sqrt{m})$</td><td>One linear system in $A^{\top}S^{-2}A$</td></tr>
+    <tr><td>Volumetric</td><td>Vaidya, 1989</td><td>$O(n\sqrt{m})$</td><td>$O(m^{1/4} \cdot n^{1/2})$</td><td>Leverage scores: the diagonal of a projection matrix</td></tr>
+    <tr><td>Volumetric&ndash;log hybrid</td><td>Vaidya and Atkinson, 1993; Anstreicher, 1997</td><td>$O(\sqrt{mn})$</td><td>$O((mn)^{1/4})$</td><td>Leverage scores, $O(n^{2}m)$ work</td></tr>
+    <tr><td>Universal</td><td>Nesterov and Nemirovski, 1994; tight bound by Lee and Yue, 2018</td><td>$n$</td><td>$O(\sqrt{n})$</td><td>Volume of a polar body; no fast method known</td></tr>
+    <tr><td>Entropic</td><td>Bubeck and Eldan, 2014; tight bound by Chewi, 2021</td><td>$n$</td><td>$O(\sqrt{n})$</td><td>Moments of an exponential family on the body; needs sampling</td></tr>
+    <tr><td>Lewis weight</td><td>Lee and Sidford, 2013&ndash;2019</td><td>$O(n\log^{5} m)$</td><td>$\tilde{O}(\sqrt{n})$</td><td>$\tilde{O}(1)$ linear systems, in the path-finding form</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p>Iterations are counted per constant-factor gain in accuracy, so each entry hides a $\log(1/\varepsilon)$ factor. Here $m$ is the number of constraints and $n$ the number of variables, assuming $A$ has full column rank; in general $n$ becomes $\operatorname{rank}(A)$.</p>
+
+<p>The volumetric barriers already used the right raw ingredient, leverage scores, which measure how much each constraint matters to the local geometry. Their weakness was that they used leverage scores only once, through a determinant, rather than solving for weights that are self-consistent.</p>
+
+<h2 id="the-construction-weight-each-constraint-by-its-lewis-weight">The construction: weight each constraint by its Lewis weight<a class="heading__anchor" href="#the-construction-weight-each-constraint-by-its-lewis-weight" aria-label="Link to this section">#</a></h2>
+
+<p>The Lee&ndash;Sidford barrier is a log-determinant barrier whose constraint weights are the $\ell_p$ Lewis weights of the rescaled constraint matrix. Lewis weights always sum to $n$, not $m$, and that is how the parameter falls from $m$ to $\tilde{O}(n)$.</p>
+
+<p><strong>Leverage scores.</strong> For a matrix $M$ with $m$ rows and rank $n$, the leverage score of row $i$ measures how much that row matters to the column space:</p>
+
+<p>$$\sigma_i(M) = m_i^{\top}\big(M^{\top}M\big)^{-1} m_i, \qquad 0 \le \sigma_i(M) \le 1, \qquad \sum_{i=1}^{m} \sigma_i(M) = n$$</p>
+
+<p>Applied to $S_x^{-1}A$, where $S_x$ is the diagonal matrix of slacks $a_i^{\top}x - b_i$, a leverage score says how strongly constraint $i$ shapes the local geometry at $x$. Rows that point the same way share their importance: 1,000 copies of one constraint have total leverage at most $1$. That is exactly the robustness the log barrier lacks.</p>
+
+<p><strong>Lewis weights.</strong> D. R. Lewis introduced these weights in 1978 for Banach space geometry, and Cohen and Peng (2014) made them algorithmic for $\ell_p$ row sampling. The $\ell_p$ Lewis weights of $M$ are the unique positive vector $w$ that equals the leverage scores of a reweighted copy of $M$:</p>
+
+<p>$$w = \sigma\!\left(W^{\frac12 - \frac1p} M\right), \qquad W = \operatorname{diag}(w)$$</p>
+
+<p>At $p = 2$ they are plain leverage scores. As $p \to \infty$ they become the weights of the John ellipsoid, the largest-volume ellipsoid inside the polytope. For every $p$ they sum to $n$.</p>
+
+<p><strong>The barrier.</strong> In the journal version, Lee and Sidford define, for the polytope $Ax &gt; b$,</p>
+
+<p>$$f_p(x,w) = \ln\det\!\Big(A^{\top} S_x^{-1}\, W^{1-\frac{2}{p}}\, S_x^{-1} A\Big) - \Big(1-\tfrac{2}{p}\Big)\sum_{i=1}^{m} w_i,$$</p>
+
+<p>$$\psi_p(x) = \begin{cases} \max_{w \ge 0}\ \tfrac12 f_p(x,w), &amp; p \ge 2 \\[2pt] \min_{w \ge 0}\ \tfrac12 f_p(x,w), &amp; p \le 2 \end{cases}$$</p>
+
+<p>Setting the derivative in $w_i$ to zero gives exactly the Lewis weight fixed point, so the optimal $w$ is the $\ell_p$ Lewis weights of $S_x^{-1}A$. They call $\psi_p$ the <em>Lewis weight barrier</em>. Their Theorem 3: for $p = \Theta(\log m)$, $\psi_p$ is $O(n\log^{5} m)$-self-concordant, and its gradient and Hessian can be computed to accuracy $\varepsilon$ in $O(mn^{\omega-1} \cdot \log m \cdot \log(m/\varepsilon))$ work.</p>
+
+<p>That result answers an open question from Nesterov and Nemirovski&rsquo;s 1994 book. It is the first barrier for polytopes that is computable in deterministic polynomial time and nearly matches the universal barrier&rsquo;s parameter.</p>
+
+<p><strong>Why $p$ near $\log m$.</strong> A barrier with parameter $\nu$ has Dikin ellipsoids that approximate the polytope to within a factor depending on $\nu$. So a near-optimal barrier must induce near-optimal inscribed ellipsoids, and John&rsquo;s ellipsoid is the best one. The $p = \infty$ version, the log-volume of the John ellipsoid centered at $x$, has the right geometry but is not even differentiable: on the interval $[-1, 1]$ it depends on only the nearer endpoint and has a kink at $0$.</p>
+
+<p>Finite $p$ smooths that kink. Taking $p = \Theta(\log m)$ is the compromise: an $\ell_p$ norm with $p$ near $\log m$ is within a constant factor of $\ell_\infty$ on $\mathbb{R}^{m}$, so the ellipsoids stay near-John, yet the weights move slowly enough as $x$ moves for self-concordance to hold. The $\log^{5} m$ in $\nu$ is the price of that smoothing.</p>
+
+<h2 id="from-barrier-to-algorithm-path-finding-and-tilde-o-m-sqrt-n-">From barrier to algorithm: path finding and $\tilde{O}(m\sqrt{n})$ flow<a class="heading__anchor" href="#from-barrier-to-algorithm-path-finding-and-tilde-o-m-sqrt-n-" aria-label="Link to this section">#</a></h2>
+
+<p>The algorithm Lee and Sidford actually run is not path following on $\psi_p$. It follows a weighted central path and keeps changing which path it follows, a scheme they call <em>path finding</em>. Each iteration costs $\tilde{O}(1)$ linear system solves, and there are $\tilde{O}(\sqrt{n})$ of them.</p>
+
+<p><strong>The right formulation.</strong> Flow problems are naturally LPs with two-sided bounds: minimize $c^{\top}x$ subject to $A^{\top}x = b$ and $l_i \le x_i \le u_i$. For max flow, $x$ is the flow on the $m$ edges, $A$ is the $m \times n$ edge-vertex incidence matrix, and the bounds are capacities. Any barrier for this polytope has $\nu = \Omega(m)$, by the same Nesterov&ndash;Nemirovski lower bound. So textbook theory predicts $\sqrt{m}$ iterations here, which is no better than before.</p>
+
+<p><strong>Weighted central paths.</strong> Give each coordinate a $1$-self-concordant barrier $\phi_i$ for its interval, and weight it:</p>
+
+<p>$$x_t^{\,w} = \arg\min_{A^{\top}x = b}\; t\,c^{\top}x + \sum_{i=1}^{m} w_i\,\phi_i(x_i)$$</p>
+
+<p>The ideal weights are $\ell_p$ Lewis weights of the locally rescaled matrix, with $p = 1 - 1/\log(4m)$, plus a fixed regularizing amount. They total $O(n)$, so each step can raise $t$ by a factor of about $1 + 1/\sqrt{n}$. Without the regularizer and bounds, this path is dual to the central path of the Lewis weight barrier, which is why the two stories match.</p>
+
+<p><strong>Path finding.</strong> Lewis weights cannot be recomputed exactly every step, and approximate weights that jump around would destroy centrality. So the method keeps its own weights $w$ and maintains two invariants: $x$ is near the minimizer for the current $w$, and $w$ is multiplicatively close to the ideal weights at $x$. Each iteration takes a Newton step in $x$, nudges $w$ toward its target, and raises $t$, so it alternates between advancing along a path and switching to a better one.</p>
+
+<p><strong>The norm that beats the lower bound.</strong> Centrality is measured in a mixed norm, $\|\cdot\|_\infty$ plus a multiple of the weighted $\ell_2$ norm. Self-concordance is an $\ell_2$ notion, and the $\Omega(m)$ lower bound comes from $\ell_2$ approximating the box $\ell_\infty$ poorly. Tracking $\ell_\infty$ directly lets box constraints, which are trivial in $\ell_\infty$, stop costing $\sqrt{m}$.</p>
+
+<p><strong>Cost per step.</strong> Lewis weights for $p &lt; 4$ reduce to a few leverage score computations, which Johnson&ndash;Lindenstrauss sketching approximates with $\tilde{O}(1)$ solves of systems $A^{\top}DA$. Keeping $w$ stable under noisy estimates is framed as a two-player game that the paper solves. Theorem 1: an $\varepsilon$-optimal solution in $O(\sqrt{n} \cdot \log^{13} m \cdot \log(mU/\varepsilon))$ linear system solves.</p>
+
+<p><strong>Max flow.</strong> For flows, $A^{\top}DA$ is a graph Laplacian, which Spielman&ndash;Teng-style solvers handle in $\tilde{O}(m)$ time. That gives min-cost max flow in $O(m\sqrt{n} \cdot \log^{18} m \cdot \log M)$ work and $O(\sqrt{n} \cdot \log^{20} m \cdot \log M)$ depth, where $M$ bounds costs and capacities. Compared with Goldberg and Rao&rsquo;s $O(m \cdot \min(\sqrt{m}, n^{2/3}) \cdot \log(n^{2}/m) \cdot \log U)$ from 1998, it is never worse up to log factors and strictly better on any graph that is not sparse.</p>
+
+<p><strong>General LPs.</strong> A companion paper, <em>Efficient Inverse Maintenance</em> (FOCS 2015), reuses work across iterations because the diagonal $D$ changes slowly. It solves an LP with $d$ variables and $n$ constraints in $\tilde{O}((\operatorname{nnz}(A) + d^{2})\sqrt{d} \cdot \log(1/\varepsilon))$ time. Lazy updates to a slowly changing system became the template for everything in the next section.</p>
+
+<h2 id="max-flow-after-2013-fewer-steps-cheaper-steps-then-different">Max flow after 2013: fewer steps, cheaper steps, then different steps<a class="heading__anchor" href="#max-flow-after-2013-fewer-steps-cheaper-steps-then-different" aria-label="Link to this section">#</a></h2>
+
+<p>On sparse graphs $m$ and $n$ are about equal, so $\sqrt{n}$ iterations is no better than $\sqrt{m}$. Getting below $m^{1.5}$ there needed other ideas: fewer iterations, cheaper iterations, or a different kind of iteration. The third won, reaching $m^{1+o(1)}$ in 2022.</p>
+
+<h3 id="fewer-iterations-unit-capacities">Fewer iterations (unit capacities)<a class="heading__anchor" href="#fewer-iterations-unit-capacities" aria-label="Link to this section">#</a></h3>
+
+<p><strong><a href="https://arxiv.org/abs/1307.2205" target="_blank" rel="noopener">Mądry, 2013: $\tilde{O}(m^{10/7})$.</a></strong> This was the first improvement on the $m^{1.5}$ bound for unit-capacity graphs from Even&ndash;Tarjan and Karzanov in the 1970s. Each IPM step is an electrical flow; when it overloads a few edges, Mądry perturbs their resistances to boost the energy, which preconditions the central path. An energy-based potential bounds how often this happens, giving $m^{3/7}$ iterations. A 2016 follow-up handled capacities in $\tilde{O}(m^{10/7} \cdot U^{1/7})$.</p>
+
+<p><strong><a href="https://arxiv.org/abs/1910.14276" target="_blank" rel="noopener">Liu and Sidford, 2019: $m^{11/8+o(1)} \cdot U^{1/4}$.</a></strong> Picking the best perturbation becomes a smoothed $\ell_2$&ndash;$\ell_p$ flow problem, which recent almost-linear solvers handle. That yields a long-step method with a simpler analysis.</p>
+
+<p><strong><a href="https://arxiv.org/abs/2003.08929" target="_blank" rel="noopener">Liu and Sidford and Kathuria, 2020: $m^{4/3+o(1)} \cdot U^{1/3}$.</a></strong> Liu and Sidford maximize a Bregman divergence instead of energy; Kathuria uses potential-reduction steps. The two were merged at FOCS 2020. Axiotis, Mądry and Vladu reached $m^{4/3+o(1)} \cdot \log W$ for unit-capacity min-cost flow in the same year.</p>
+
+<p>The catch is the polynomial dependence on $U$. For general capacities on sparse graphs, Goldberg and Rao&rsquo;s $\tilde{O}(m^{1.5} \cdot \log U)$ still stood.</p>
+
+<h3 id="cheaper-iterations-data-structures">Cheaper iterations (data structures)<a class="heading__anchor" href="#cheaper-iterations-data-structures" aria-label="Link to this section">#</a></h3>
+
+<p>An IPM step changes most coordinates only slightly, so the expensive work can often be reused. Keep $\sqrt{m}$ iterations, but make each one sublinear on average.</p>
+
+<p><strong><a href="https://arxiv.org/abs/2101.07233" target="_blank" rel="noopener">Gao, Liu and Peng, 2021: $\tilde{O}(m^{3/2-1/328} \cdot \log U)$.</a></strong> This was the first improvement on Goldberg&ndash;Rao for sparse graphs with polynomial capacities. It dynamically maintains Mądry&rsquo;s augmenting electrical flows, with data structures that report edges carrying large energy as resistances change.</p>
+
+<p><strong><a href="https://arxiv.org/abs/2112.00722" target="_blank" rel="noopener">van den Brand, Gao, Jambulapati, Lee, Liu, Peng and Sidford, 2021: $\tilde{O}(m^{3/2-1/58} \cdot \log U)$.</a></strong> Faster dynamic spectral vertex sparsifiers, plus a differential-privacy trick (the Gaussian mechanism) that lets estimates survive an adaptive adversary.</p>
+
+<p>On dense graphs the same idea, run on the Lee&ndash;Sidford barrier, reached nearly linear time in 2020&ndash;21; the next section covers that.</p>
+
+<h3 id="different-iterations-the-ell-1-interior-point-method">Different iterations: the $\ell_1$ interior point method<a class="heading__anchor" href="#different-iterations-the-ell-1-interior-point-method" aria-label="Link to this section">#</a></h3>
+
+<p>Chen, Kyng, Liu, Peng, Probst Gutenberg and Sachdeva (2022) solve max flow and min-cost flow in $m^{1+o(1)}$ time. They drop the central path for a potential-reduction method in the spirit of Karmarkar (1984):</p>
+
+<p>$$\Phi(f) = 20m\,\log\!\big(c^{\top}f - F^{\star}\big) + \sum_{e \in E}\Big( (u^{+}_e - f_e)^{-\alpha} + (f_e - u^{-}_e)^{-\alpha} \Big), \qquad \alpha = \frac{1}{1000\,\log(mU)}$$</p>
+
+<p>Each step finds a circulation $\Delta$ that approximately minimizes $g^{\top}\Delta / \|L\Delta\|_1$, where $g$ is the gradient of $\Phi$ and $L$ is a diagonal matrix of edge lengths. This undirected minimum-ratio cycle problem only needs an $m^{o(1)}$ approximation. Each step cuts $\Phi$ by $m^{-o(1)}$, so $m^{1+o(1)}$ steps suffice.</p>
+
+<p>The switch from $\ell_2$ to $\ell_1$ is the key move. An $\ell_2$ step is an electrical flow that touches every edge, while an $\ell_1$ step can be taken to be a single cycle, which is a sparse update. That trades $\sqrt{m}$ dense steps for about $m$ sparse ones, and sparse steps are what dynamic graph data structures are good at.</p>
+
+<p>Good cycles come from low-stretch spanning trees: some fundamental cycle of the tree is within the tree&rsquo;s stretch of the best ratio. The data structure keeps a recursive chain of smaller instances: $j$-tree-style vertex reduction into &ldquo;core graphs&rdquo; alternates with spanners for edge reduction, levels are rebuilt lazily, and the IPM&rsquo;s own stability tames the adaptive adversary. Every cycle is found and applied in amortized $m^{o(1)}$ time.</p>
+
+<h3 id="after-2022">After 2022<a class="heading__anchor" href="#after-2022" aria-label="Link to this section">#</a></h3>
+
+<p><strong><a href="https://arxiv.org/abs/2309.16629" target="_blank" rel="noopener">Deterministic:</a></strong> van den Brand et al. (2023) made the $m^{1+o(1)}$ bound deterministic. A FOCS 2024 paper extended it to decremental graphs and improved the static bounds.</p>
+
+<p><strong><a href="https://arxiv.org/abs/2406.03648" target="_blank" rel="noopener">Combinatorial:</a></strong> Bernstein, Blikstad, Saranurak and Tu (2024) got $n^{2+o(1)} \cdot \log U$ with augmenting paths and push-relabel guided by a directed expander hierarchy. A 2025 follow-up with Jason Li simplified this to $\tilde{O}(n^{2} \cdot \log U)$, shipped a C++ implementation, and gave a deterministic $\tilde{O}(n^{2})$ bound for bipartite matching.</p>
+
+<p><strong><a href="https://arxiv.org/abs/2604.14633" target="_blank" rel="noopener">Augmenting paths on sparser graphs:</a></strong> Li (April 2026) gave an $mn^{1/2+o(1)}$ augmenting-path algorithm for unit-capacity directed graphs, the first such improvement over Dinic on moderately sparse graphs. It uses the 2024 IPM data structure as a black box.</p>
+
+<p><strong><a href="https://arxiv.org/abs/2510.20368" target="_blank" rel="noopener">Strongly polynomial:</a></strong> Orlin&rsquo;s $O(mn)$ from 2013 is still the general bound. Dadush, Orlin, Sidford and Végh (SODA 2026) beat it on structured inputs, including $n^{\omega+o(1)}$ for bipartite $b$-matching.</p>
+
+<h2 id="the-exponent-over-time">The exponent over time<a class="heading__anchor" href="#the-exponent-over-time" aria-label="Link to this section">#</a></h2>
+
+<p>The Lee&ndash;Sidford line shows up only on dense graphs. With $m \approx n^{2}$, $m\sqrt{n}$ is $m^{1.25}$ and $m + n^{1.5}$ is linear; with $m \approx n$, $\sqrt{n}$ equals $\sqrt{m}$, so the same papers leave the sparse lines flat.</p>
+
+<figure>
+  <img src="../assets/lee-sidford-barrier/maxflow-exponent-over-time.png" alt="Best known exponent for exact max flow over time. Dense graphs drop from 1.33 in 2000 to 1.0 around 2021; sparse graphs stay flat at 1.5 until roughly 2021." loading="lazy" />
+  <figcaption>Best known exponent $\alpha$ for exact max flow in $m^{\alpha}$ time, by date of first preprint. Log and $m^{o(1)}$ factors dropped. Bounds from the papers in <em>Sources</em>; the 1970s and 1998 bounds as quoted by Lee and Sidford (2019).</figcaption>
+</figure>
+
+<h2 id="where-the-barrier-went-next">Where the barrier went next<a class="heading__anchor" href="#where-the-barrier-went-next" aria-label="Link to this section">#</a></h2>
+
+<p>The barrier&rsquo;s biggest payoff came from pairing $\sqrt{\operatorname{rank}}$ iterations with data structures that make each iteration nearly free. That combination gave nearly linear time for tall dense LPs and for flows on graphs with $m \ge n^{1.5}$, a year before the general almost-linear result.</p>
+
+<p><strong><a href="https://arxiv.org/abs/2002.02304" target="_blank" rel="noopener">Tall dense LPs.</a></strong> van den Brand, Lee, Sidford and Song (2020) solve an LP with $d$ variables and $n \ge d$ constraints in $\tilde{O}(nd + d^{3})$ time. They use a robust primal-dual $\tilde{O}(\sqrt{d})$-iteration method modeled on Lee&ndash;Sidford, implemented with heavy hitters, Johnson&ndash;Lindenstrauss sketches and inverse maintenance. Without fast matrix multiplication, that is essentially optimal for dense inputs.</p>
+
+<p><strong>Bipartite matching.</strong> van den Brand, Lee, Nanongkai, Peng, Saranurak, Sidford, Song and Wang (2020) give $\tilde{O}(m + n^{1.5})$ for maximum bipartite matching, which is nearly linear once $m \ge n^{1.5}$. A log-barrier version gets only $\tilde{O}(n\sqrt{m})$; the Lee&ndash;Sidford barrier is what removes the extra factor. The key data structure finds high-energy edges of electrical flows on expanders.</p>
+
+<p><strong><a href="https://arxiv.org/abs/2101.05719" target="_blank" rel="noopener">Min-cost flow, $\ell_1$ regression and MDPs.</a></strong> van den Brand, Lee, Liu, Saranurak, Sidford, Song and Wang (2021) extend this to min-cost flow with capacities in $\tilde{O}(m + n^{1.5})$, $\ell_1$ regression in $\tilde{O}(mn + n^{2.5})$, and discounted MDPs in $\tilde{O}(S^{2}A + S^{2.5})$. Their data structures maintain approximate Lewis-weight variants, which generalize leverage scores and effective resistances. On graphs with $m \ge n^{1.5}$ these bounds carry only polylog overhead, against the $m^{o(1)}$ factor of the general almost-linear algorithms.</p>
+
+<p><strong><a href="https://arxiv.org/abs/2110.15563" target="_blank" rel="noopener">Computing the weights.</a></strong> Fazel, Lee, Padmanabhan and Sidford (2021) compute $\ell_p$ Lewis weights for $p &gt; 2$ to high precision in $\tilde{O}_p(\log(1/\varepsilon))$ leverage-score rounds, which makes the near-optimal barrier computable in polylog depth. In 2026 this got sharper: Gribling, Sidford and Zhang (COLT) use $O(p^{2}\log(m/\varepsilon))$ rounds for $p \ge 4$, and Padmanabhan (September) shows the plain fixed-point iteration works for every $p &gt; 2$, contracting KL divergence by $1 - 2/p$ per step.</p>
+
+<p><strong><a href="https://arxiv.org/abs/1911.05656" target="_blank" rel="noopener">Sampling.</a></strong> Laddha, Lee and Vempala (2020) show the barrier is strongly self-concordant, giving the first Dikin walk that mixes in $\tilde{O}(n^{2})$ steps on any polytope in $\mathbb{R}^{n}$. Gatmiry, Kelner and Vempala (2024) mix a Lewis-weight and log barrier for Riemannian Hamiltonian Monte Carlo, improving mixing from $\tilde{O}(mn^{2/3})$ to $\tilde{O}(m^{1/3} \cdot n^{4/3})$.</p>
+
+<h2 id="open-problems">Open problems<a class="heading__anchor" href="#open-problems" aria-label="Link to this section">#</a></h2>
+
+<p>Twelve years on, the barrier question is settled only up to logarithms. Strong polynomiality, simplicity and true linear time remain open.</p>
+
+<ol>
+  <li><strong>Shaving the logs.</strong> The Lewis weight barrier has $\nu = O(n\log^{5} m)$, and the LP algorithm carries a $\log^{13} m$ factor. The universal and entropic barriers achieve exactly $n$ but are expensive to evaluate. Is there a barrier with $\nu = O(n)$ whose steps cost $\tilde{O}(1)$ linear solves?</li>
+  <li><strong>Fewer than $\sqrt{n}$ iterations.</strong> Self-concordance theory stops at $\sqrt{n}$, but structure can beat it. Unit-capacity flow methods use about $m^{1/3}$ iterations, and Vladu (STOC 2025) gets $\tilde{O}(n^{1/3})$ for problems on M-matrices. Can general LPs be solved in $o(\sqrt{n})$ cheap iterations?</li>
+  <li><strong>Strongly polynomial LP.</strong> Allamigeon, Gaubert and Vandame (2022) show that no self-concordant barrier method is strongly polynomial; they give an LP in dimension $n$ with $2n$ constraints forcing $\Omega(2^{n})$ iterations. That covers the Lewis weight barrier too, so a strongly polynomial LP algorithm needs a different idea.</li>
+  <li><strong>Max flow in $\tilde{O}(m)$, simply.</strong> The $m^{o(1)}$ factor comes from the recursive data structure. Removing it, or matching it with an algorithm simple enough to implement, is open. Combinatorial methods are near-linear only on dense graphs so far.</li>
+  <li><strong>LP in input-sparsity time.</strong> Square LPs are solvable in about matrix multiplication time, $n^{\omega}$ (Cohen, Lee and Song, 2019, and successors). Tall dense LPs run in $\tilde{O}(nd + d^{3})$. How close general LPs can get to the time it takes to read them is unknown.</li>
+</ol>
+
+<h2 id="sources">Sources<a class="heading__anchor" href="#sources" aria-label="Link to this section">#</a></h2>
+
+<p>All links checked on October 2, 2026. Years are first arXiv versions.</p>
+
+<h3 id="barriers-and-linear-programming">Barriers and linear programming<a class="heading__anchor" href="#barriers-and-linear-programming" aria-label="Link to this section">#</a></h3>
+
+<ul class="references-list">
+  <li>Lee and Sidford, <a href="https://arxiv.org/abs/1910.08033" target="_blank" rel="noopener"><em>Solving Linear Programs with Sqrt(rank) Linear System Solves</em></a> (2019; journal version of the two papers below)</li>
+  <li>Lee and Sidford, <a href="https://arxiv.org/abs/1312.6677" target="_blank" rel="noopener"><em>Path Finding I: Solving Linear Programs with Õ(sqrt(rank)) Linear System Solves</em></a> (2013)</li>
+  <li>Lee and Sidford, <a href="https://arxiv.org/abs/1312.6713" target="_blank" rel="noopener"><em>Path Finding II: An Õ(m sqrt(n)) Algorithm for the Minimum Cost Flow Problem</em></a> (2013)</li>
+  <li>Lee and Sidford, <a href="https://arxiv.org/abs/1503.01752" target="_blank" rel="noopener"><em>Efficient Inverse Maintenance and Faster Algorithms for Linear Programming</em></a> (2015)</li>
+  <li>Anstreicher, <a href="https://iro.uiowa.edu/esploro/outputs/journalArticle/Volumetric-path-following-algorithms-for-linear/9984380534202771" target="_blank" rel="noopener"><em>Volumetric path following algorithms for linear programming</em></a> (Math. Programming, 1997)</li>
+  <li>Lee and Yue, <a href="https://arxiv.org/abs/1809.03011" target="_blank" rel="noopener"><em>Universal Barrier is n-Self-Concordant</em></a> (2018)</li>
+  <li>Bubeck and Eldan, <a href="https://arxiv.org/abs/1412.1587" target="_blank" rel="noopener"><em>The entropic barrier: a simple and optimal universal self-concordant barrier</em></a> (2014)</li>
+  <li>Chewi, <a href="https://arxiv.org/abs/2112.10947" target="_blank" rel="noopener"><em>The entropic barrier is n-self-concordant</em></a> (2021)</li>
+  <li>Cohen and Peng, <a href="https://arxiv.org/abs/1412.0588" target="_blank" rel="noopener"><em>ℓp Row Sampling by Lewis Weights</em></a> (2014)</li>
+  <li>Cohen, Lee and Song, <a href="https://arxiv.org/abs/1810.07896" target="_blank" rel="noopener"><em>Solving Linear Programs in the Current Matrix Multiplication Time</em></a> (2018)</li>
+  <li>van den Brand, Lee, Sidford and Song, <a href="https://arxiv.org/abs/2002.02304" target="_blank" rel="noopener"><em>Solving Tall Dense Linear Programs in Nearly Linear Time</em></a> (2020)</li>
+  <li>Allamigeon, Gaubert and Vandame, <a href="https://arxiv.org/abs/2201.02186" target="_blank" rel="noopener"><em>No self-concordant barrier interior point method is strongly polynomial</em></a> (2022)</li>
+  <li>Vladu, <a href="https://arxiv.org/abs/2504.20619" target="_blank" rel="noopener"><em>Breaking the Barrier of Self-Concordant Barriers: Faster Interior Point Methods for M-Matrices</em></a> (2025)</li>
+</ul>
+
+<h3 id="maximum-flow">Maximum flow<a class="heading__anchor" href="#maximum-flow" aria-label="Link to this section">#</a></h3>
+
+<ul class="references-list">
+  <li>Mądry, <a href="https://arxiv.org/abs/1307.2205" target="_blank" rel="noopener"><em>Navigating Central Path with Electrical Flows: from Flows to Matchings, and Back</em></a> (2013)</li>
+  <li>Liu and Sidford, <a href="https://arxiv.org/abs/1910.14276" target="_blank" rel="noopener"><em>Faster Energy Maximization for Faster Maximum Flow</em></a> (2019)</li>
+  <li>Liu and Sidford, <a href="https://arxiv.org/abs/2003.08929" target="_blank" rel="noopener"><em>Faster Divergence Maximization for Faster Maximum Flow</em></a> (2020)</li>
+  <li>Kathuria, <a href="https://arxiv.org/abs/2009.03260" target="_blank" rel="noopener"><em>A Potential Reduction Inspired Algorithm for Exact Max Flow in Almost Õ(m^4/3) Time</em></a> (2020)</li>
+  <li>Axiotis, Mądry and Vladu, <a href="https://arxiv.org/abs/2003.04863" target="_blank" rel="noopener"><em>Circulation Control for Faster Minimum Cost Flow in Unit-Capacity Graphs</em></a> (2020)</li>
+  <li>van den Brand et al., <a href="https://arxiv.org/abs/2009.01802" target="_blank" rel="noopener"><em>Bipartite Matching in Nearly-linear Time on Moderately Dense Graphs</em></a> (2020)</li>
+  <li>van den Brand et al., <a href="https://arxiv.org/abs/2101.05719" target="_blank" rel="noopener"><em>Minimum Cost Flows, MDPs, and ℓ1-Regression in Nearly Linear Time for Dense Instances</em></a> (2021)</li>
+  <li>Gao, Liu and Peng, <a href="https://arxiv.org/abs/2101.07233" target="_blank" rel="noopener"><em>Fully Dynamic Electrical Flows: Sparse Maxflow Faster Than Goldberg-Rao</em></a> (2021)</li>
+  <li>van den Brand et al., <a href="https://arxiv.org/abs/2112.00722" target="_blank" rel="noopener"><em>Faster Maxflow via Improved Dynamic Spectral Vertex Sparsifiers</em></a> (2021)</li>
+  <li>Chen, Kyng, Liu, Peng, Probst Gutenberg and Sachdeva, <a href="https://arxiv.org/abs/2203.00671" target="_blank" rel="noopener"><em>Maximum Flow and Minimum-Cost Flow in Almost-Linear Time</em></a> (2022)</li>
+  <li>van den Brand et al., <a href="https://arxiv.org/abs/2309.16629" target="_blank" rel="noopener"><em>A Deterministic Almost-Linear Time Algorithm for Minimum-Cost Flow</em></a> (2023)</li>
+  <li>van den Brand et al., <a href="https://arxiv.org/abs/2407.10830" target="_blank" rel="noopener"><em>Almost-Linear Time Algorithms for Decremental Graphs: Min-Cost Flow and More via Duality</em></a> (2024)</li>
+  <li>Bernstein, Blikstad, Saranurak and Tu, <a href="https://arxiv.org/abs/2406.03648" target="_blank" rel="noopener"><em>Maximum Flow by Augmenting Paths in n^(2+o(1)) Time</em></a> (2024)</li>
+  <li>Bernstein, Blikstad, Li, Saranurak and Tu, <a href="https://arxiv.org/abs/2510.17182" target="_blank" rel="noopener"><em>Combinatorial Maximum Flow via Weighted Push-Relabel on Shortcut Graphs</em></a> (2025)</li>
+  <li>Dadush, Orlin, Sidford and Végh, <a href="https://arxiv.org/abs/2510.20368" target="_blank" rel="noopener"><em>From Incremental Transitive Cover to Strongly Polynomial Maximum Flow</em></a> (2025)</li>
+  <li>Li, <a href="https://arxiv.org/abs/2604.14633" target="_blank" rel="noopener"><em>Balancing Weights, Directed Sparsification, and Augmenting Paths</em></a> (2026)</li>
+</ul>
+
+<h3 id="lewis-weights-and-sampling">Lewis weights and sampling<a class="heading__anchor" href="#lewis-weights-and-sampling" aria-label="Link to this section">#</a></h3>
+
+<ul class="references-list">
+  <li>Fazel, Lee, Padmanabhan and Sidford, <a href="https://arxiv.org/abs/2110.15563" target="_blank" rel="noopener"><em>Computing Lewis Weights to High Precision</em></a> (2021)</li>
+  <li>Gribling, Sidford and Zhang, <a href="https://arxiv.org/abs/2606.29186" target="_blank" rel="noopener"><em>Computing Lewis weights to high precision using local relative smoothness</em></a> (2026)</li>
+  <li>Padmanabhan, <a href="https://arxiv.org/abs/2609.04338" target="_blank" rel="noopener"><em>Computing Lewis Weights to High Precision by Fixed-Point Iteration</em></a> (2026)</li>
+  <li>Laddha, Lee and Vempala, <a href="https://arxiv.org/abs/1911.05656" target="_blank" rel="noopener"><em>Strong Self-Concordance and Sampling</em></a> (2019)</li>
+  <li>Gatmiry, Kelner and Vempala, <a href="https://proceedings.mlr.press/v247/gatmiry24a.html" target="_blank" rel="noopener"><em>Sampling Polytopes with Riemannian HMC: Faster Mixing via the Lewis Weights Barrier</em></a> (COLT 2024)</li>
+</ul>
+        </div>
+
+      <nav class="pager" aria-label="Post navigation">
+<a class="pager__link pager__link--prev" href="resources-on-optimization-theory.html" rel="prev">
+          <span class="pager__dir">← Previous</span>
+          <span class="pager__title">Resources on Optimization Theory</span>
+        </a>
+<span class="pager__link pager__link--empty" aria-hidden="true"></span>
+      </nav>
+      </article>
+    <aside class="article-sidebar">
+      <nav class="toc" aria-labelledby="toc-title" data-toc>
+        <p class="eyebrow" id="toc-title">On this page</p>
+        <ul class="toc__list">
+          <li class="toc__item toc__item--h2"><a href="#why-sqrt-m-path-following-and-the-barrier-parameter">Why $\sqrt{m}$: path following and the barrier parameter</a></li>
+          <li class="toc__item toc__item--h2"><a href="#before-2014-a-good-parameter-or-cheap-steps-never-both">Before 2014: a good parameter or cheap steps, never both</a></li>
+          <li class="toc__item toc__item--h2"><a href="#the-construction-weight-each-constraint-by-its-lewis-weight">The construction: weight each constraint by its Lewis weight</a></li>
+          <li class="toc__item toc__item--h2"><a href="#from-barrier-to-algorithm-path-finding-and-tilde-o-m-sqrt-n-">From barrier to algorithm: path finding and $\tilde{O}(m\sqrt{n})$ flow</a></li>
+          <li class="toc__item toc__item--h2"><a href="#max-flow-after-2013-fewer-steps-cheaper-steps-then-different">Max flow after 2013: fewer steps, cheaper steps, then different steps</a></li>
+          <li class="toc__item toc__item--h3"><a href="#fewer-iterations-unit-capacities">Fewer iterations (unit capacities)</a></li>
+          <li class="toc__item toc__item--h3"><a href="#cheaper-iterations-data-structures">Cheaper iterations (data structures)</a></li>
+          <li class="toc__item toc__item--h3"><a href="#different-iterations-the-ell-1-interior-point-method">Different iterations: the $\ell_1$ interior point method</a></li>
+          <li class="toc__item toc__item--h3"><a href="#after-2022">After 2022</a></li>
+          <li class="toc__item toc__item--h2"><a href="#the-exponent-over-time">The exponent over time</a></li>
+          <li class="toc__item toc__item--h2"><a href="#where-the-barrier-went-next">Where the barrier went next</a></li>
+          <li class="toc__item toc__item--h2"><a href="#open-problems">Open problems</a></li>
+          <li class="toc__item toc__item--h2"><a href="#sources">Sources</a></li>
+          <li class="toc__item toc__item--h3"><a href="#barriers-and-linear-programming">Barriers and linear programming</a></li>
+          <li class="toc__item toc__item--h3"><a href="#maximum-flow">Maximum flow</a></li>
+          <li class="toc__item toc__item--h3"><a href="#lewis-weights-and-sampling">Lewis weights and sampling</a></li>
+        </ul>
+      </nav>
+      <nav class="archive" aria-labelledby="archive-title">
+        <p class="eyebrow" id="archive-title">Randomness and Computation</p>
+        <ul class="archive__list">
+          <li><a href="some-interesting-problems-in-hf-interviews.html"><span class="archive__dot" aria-hidden="true"></span><span>Some Interesting Problems in HF Interviews</span></a></li>
+          <li><a href="functional-analysis-for-markov-chain-mixing-time.html"><span class="archive__dot" aria-hidden="true"></span><span>Functional Analysis for Markov Chain Mixing Time</span></a></li>
+          <li><a href="steins-method-from-characterizations-to-quantitative-approximation.html"><span class="archive__dot" aria-hidden="true"></span><span>Stein's Method: From Characterizations to Quantitative Approximation</span></a></li>
+          <li><a href="random-series-and-slln.html"><span class="archive__dot" aria-hidden="true"></span><span>Random Series and SLLN</span></a></li>
+          <li><a href="polytopes-in-high-dimension.html"><span class="archive__dot" aria-hidden="true"></span><span>Polytopes in High Dimension</span></a></li>
+          <li><a href="models-in-statistical-physics-and-some-algorithmic-correlations.html"><span class="archive__dot" aria-hidden="true"></span><span>Models in Statistical Physics and Some Algorithmic Correlations</span></a></li>
+          <li><a href="some-interesting-examples-related-to-probability.html"><span class="archive__dot" aria-hidden="true"></span><span>Some Interesting Examples Related to Probability</span></a></li>
+          <li><a href="resources-on-optimization-theory.html"><span class="archive__dot" aria-hidden="true"></span><span>Resources on Optimization Theory</span></a></li>
+          <li><a href="lee-sidford-barrier-and-almost-linear-max-flow.html" aria-current="true"><span class="archive__dot" aria-hidden="true"></span><span>The Lee–Sidford Barrier and the Road to Almost-Linear Max Flow</span></a></li>
+        </ul>
+      </nav>
+    </aside>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <p class="site-footer__name">© <span id="year"></span> Zachariah Zhang</p>
+      <nav class="site-footer__nav" aria-label="Footer">
+        <a href="../index.html">About</a>
+        <a href="../blog.html">Writing</a>
+        <a href="https://github.com/Zachariah-dovis" target="_blank" rel="noopener">GitHub</a>
+        <a href="mailto:zachariah.dovis@gmail.com">Email</a>
+      </nav>
+      <p class="site-footer__note">Randomness and Computation · notes on high-dimensional phenomena</p>
+    </div>
+  </footer>
+
+  <script src="../script.js" defer></script>
+</body>
+</html>
