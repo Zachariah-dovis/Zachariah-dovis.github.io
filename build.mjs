@@ -24,7 +24,15 @@ const GITHUB = 'https://github.com/Zachariah-dovis';
 const EMAIL = 'zachariah.dovis@gmail.com';
 
 /* ------------------------------------------------------------------ *
- * Authoritative post list. Order == blog index order == prev/next order.
+ * Authoritative post list — write it OLDEST FIRST.
+ *
+ * The list is reversed below so the blog index, the sidebar archive and the
+ * prev/next pager all run newest → oldest. Keeping the source oldest-first
+ * means appending a new post is a one-line change at the end.
+ *
+ * Note: the eight notes below all share a date (they arrived in one upload),
+ * so their relative order is the order written here; only their position
+ * relative to newer posts is meaningful.
  * ------------------------------------------------------------------ */
 const AUTHORED = [
   {
@@ -42,7 +50,7 @@ const AUTHORED = [
   {
     slug: 'steins-method-from-characterizations-to-quantitative-approximation',
     title: "Stein's Method: From Characterizations to Quantitative Approximation",
-    tag: 'Probability Theory',
+    tag: 'Probability',
     blurb: 'An introduction to characterizing operators, Stein equations, Gaussian and Poisson approximation, exchangeable pairs, bias couplings, and the generator viewpoint.',
   },
   {
@@ -82,7 +90,7 @@ const AUTHORED = [
     blurb: 'How an efficiently computable barrier broke the √m iteration bound, and how the line of work it started ended in almost-linear time max flow.',
     date: '2026-10-02T00:00:00',
   },
-].map((p, i) => ({ ...p, index: i, href: `posts/${p.slug}.html` }));
+].reverse().map((p, i) => ({ ...p, index: i, href: `posts/${p.slug}.html` }));
 
 /* ------------------------------------------------------------------ *
  * Small helpers
@@ -500,7 +508,7 @@ function buildIndex() {
         <a class="section-more" href="blog.html">All ${AUTHORED.length} notes <span aria-hidden="true">→</span></a>
       </div>
       <ul class="latest">
-${AUTHORED.slice(-3)
+${AUTHORED.slice(0, 3)
   .map(
     (p) => `        <li class="latest__item">
           <a class="latest__link" href="${p.href}">
