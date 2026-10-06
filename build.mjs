@@ -93,6 +93,40 @@ const AUTHORED = [
 ].reverse().map((p, i) => ({ ...p, index: i, href: `posts/${p.slug}.html` }));
 
 /* ------------------------------------------------------------------ *
+ * Videos — newest first.
+ *
+ * `file` must live under assets/videos/. Keep the encoded file well under
+ * GitHub Pages' 100 MB per-file ceiling; the source renders are far larger
+ * (the Busy Beaver master is 176 MB) and are transcoded down on the way in.
+ * ------------------------------------------------------------------ */
+const VIDEOS = [
+  {
+    slug: 'busy-beaver',
+    title: 'The Busy Beaver',
+    subtitle: 'where mathematics runs out',
+    date: '2026-10-06T00:00:00',
+    duration: '4:47',
+    file: 'assets/videos/busy-beaver.mp4',
+    poster: 'assets/videos/busy-beaver-poster.jpg',
+    captions: 'assets/videos/busy-beaver.en.vtt',
+    tags: ['Computability', 'Turing machines', 'Independence'],
+    blurb:
+      'The Busy Beaver function is finite, exact, and — unless mathematics itself is broken — provably out of reach. A 3D tour from a three-state Turing machine up to the point where ZF set theory runs out.',
+    bullets: [
+      'What a Turing machine is, and the halting problem in miniature',
+      'BB(1) through BB(5), closing on the 5-state champion',
+      'Why BB(6) resists, and the independence results that bound what ZF can prove',
+    ],
+    still: {
+      src: 'assets/videos/busy-beaver-independence.jpg',
+      alt: 'A glowing red bar chart of the BB(6) search space, labelled 6 \u2264 N_ZF \u2264 432 and \u201cAaronson\u2019s conjecture (2020): ZF cannot settle BB(20)\u201d.',
+      caption:
+        'Aaronson’s conjecture (2020): ZF set theory cannot settle BB(20) — the value is fixed, yet unprovable.',
+    },
+  },
+];
+
+/* ------------------------------------------------------------------ *
  * Small helpers
  * ------------------------------------------------------------------ */
 const escapeAttr = (s) => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
@@ -228,7 +262,7 @@ ${math}${jsonLd ? `  <script type="application/ld+json">\n${jsonLd}\n  </script>
 `;
 }
 
-function topbar({ homeHref, blogHref, aboutHref, isHome = false, isBlog = false, isPost = false }) {
+function topbar({ homeHref, blogHref, videosHref = 'videos.html', aboutHref, isHome = false, isBlog = false, isPost = false, isVideos = false }) {
   const link = (href, label, active) =>
     `<a href="${href}"${active ? ' aria-current="page"' : ''}>${label}</a>`;
   return `<body class="page">
@@ -249,6 +283,7 @@ function topbar({ homeHref, blogHref, aboutHref, isHome = false, isBlog = false,
       <nav class="nav" aria-label="Primary">
         ${link(aboutHref, 'About', isHome)}
         ${link(blogHref, 'Writing', isBlog || isPost)}
+        ${link(videosHref, 'Videos', isVideos)}
         <a class="nav__ext" href="${GITHUB}" target="_blank" rel="noopener">GitHub<span class="sr-only"> (opens in a new tab)</span></a>
       </nav>
     </div>
@@ -256,7 +291,7 @@ function topbar({ homeHref, blogHref, aboutHref, isHome = false, isBlog = false,
 `;
 }
 
-function footer({ homeHref, blogHref, scriptHref = 'script.js' }) {
+function footer({ homeHref, blogHref, videosHref = 'videos.html', scriptHref = 'script.js' }) {
   return `
   <footer class="site-footer">
     <div class="site-footer__inner">
@@ -264,6 +299,7 @@ function footer({ homeHref, blogHref, scriptHref = 'script.js' }) {
       <nav class="site-footer__nav" aria-label="Footer">
         <a href="${homeHref}">About</a>
         <a href="${blogHref}">Writing</a>
+        <a href="${videosHref}">Videos</a>
         <a href="${GITHUB}" target="_blank" rel="noopener">GitHub</a>
         <a href="mailto:${EMAIL}">Email</a>
       </nav>
@@ -502,6 +538,16 @@ function buildIndex() {
       </div>
     </section>
 
+    <section class="home-section" id="videos" aria-labelledby="videos-title">
+      <div class="home-section__head">
+        <h2 class="section-title" id="videos-title">Videos</h2>
+        <a class="section-more" href="videos.html">${VIDEOS.length === 1 ? 'Watch' : `All ${VIDEOS.length} videos`} <span aria-hidden="true">→</span></a>
+      </div>
+      <ul class="video-list">
+${VIDEOS.slice(0, 2).map((v) => videoCard(v, 'home')).join('\n')}
+      </ul>
+    </section>
+
     <section class="home-section" aria-labelledby="latest-title">
       <div class="home-section__head">
         <h2 class="section-title" id="latest-title">Recent notes</h2>
@@ -679,6 +725,7 @@ function buildPost(slug) {
     topbar({
       homeHref: '../index.html',
       blogHref: '../blog.html',
+      videosHref: '../videos.html',
       aboutHref: '../index.html#about',
       isPost: true,
     }) +
@@ -709,7 +756,107 @@ ${postNav(slug)}      </article>
 ${sidebar({ toc, slug })}    </div>
   </main>
 ` +
-    footer({ homeHref: '../index.html', blogHref: '../blog.html', scriptHref: '../script.js' })
+    footer({ homeHref: '../index.html', blogHref: '../blog.html', videosHref: '../videos.html', scriptHref: '../script.js' })
+  );
+}
+
+/* ------------------------------------------------------------------ *
+ * Video pieces
+ * ------------------------------------------------------------------ */
+
+/** Shared, self-contained player markup. `context` is 'home' or 'page'. */
+function videoPlayer(v, context) {
+  const pre = context === 'page' ? '' : '';
+  return `        <video class="video-frame" controls preload="metadata" playsinline
+               poster="${pre}${v.poster}" width="1920" height="1080">
+          <source src="${pre}${v.file}" type="video/mp4" />
+          <track kind="captions" srclang="en" label="English" src="${pre}${v.captions}" default />
+          Your browser cannot play this video.
+          <a href="${pre}${v.file}">Download ${v.title} (MP4)</a>.
+        </video>`;
+}
+
+function videoCard(v, context) {
+  const tagRow = v.tags.map((t) => `<span class="video-tag">${t}</span>`).join('');
+  const bullets =
+    context === 'page' && v.bullets
+      ? `          <ul class="video-points">\n${v.bullets.map((b) => `            <li>${b}</li>`).join('\n')}\n          </ul>\n`
+      : '';
+  const still =
+    context === 'page' && v.still
+      ? `          <figure class="video-still">\n            <img src="${v.still.src}" alt="${escapeAttr(v.still.alt)}" loading="lazy" />\n            <figcaption>${v.still.caption}</figcaption>\n          </figure>\n`
+      : '';
+  return `        <li class="video-card">
+          <div class="video-card__player">
+${videoPlayer(v, context)}
+          </div>
+          <div class="video-card__body">
+            <p class="video-card__meta">
+              <span class="video-card__duration">${v.duration}</span>
+              <span class="dot" aria-hidden="true"></span>
+              <time datetime="${isoDate(new Date(v.date))}">${fmtDate(new Date(v.date))}</time>
+            </p>
+            <h3 class="video-card__title">${v.title}</h3>
+            <p class="video-card__subtitle">${v.subtitle}</p>
+            <p class="video-card__blurb">${v.blurb}</p>
+${bullets}${still}            <p class="video-card__tags">${tagRow}</p>
+          </div>
+        </li>`;
+}
+
+function buildVideos() {
+  const jsonLd = JSON.stringify(
+    {
+      '@context': 'https://schema.org',
+      '@type': 'ItemList',
+      name: `Videos · ${SITE_NAME}`,
+      itemListElement: VIDEOS.map((v, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        item: {
+          '@type': 'VideoObject',
+          name: v.title,
+          description: v.blurb,
+          uploadDate: isoDate(new Date(v.date)),
+          duration: `PT${v.duration.split(':')[0]}M${v.duration.split(':')[1]}S`,
+          contentUrl: `${SITE}/${v.file}`,
+          thumbnailUrl: `${SITE}/${v.poster}`,
+        },
+      })),
+    },
+    null,
+    2
+  );
+
+  return (
+    head({
+      title: `Videos · ${SITE_NAME}`,
+      description:
+        'Animated explainers on theoretical computer science — computability, Turing machines, and the limits of proof.',
+      cssHref: 'styles.css',
+      canonical: `${SITE}/videos.html`,
+      jsonLd,
+    }) +
+    topbar({ homeHref: 'index.html', blogHref: 'blog.html', aboutHref: 'index.html#about', isVideos: true }) +
+    `
+  <main id="main" class="shell">
+    <header class="page-head">
+      <div class="page-head__art" aria-hidden="true">${polytopeArt({ className: 'polytope polytope--mark', size: 1.6 })}</div>
+      <p class="eyebrow">Animated explainers</p>
+      <h1 class="page-title">Videos</h1>
+      <p class="page-lede">
+        Short films on theoretical computer science, rendered from scratch — Turing machines,
+        computability, and the places where proof runs out.
+      </p>
+      <p class="page-meta">${VIDEOS.length} ${VIDEOS.length === 1 ? 'video' : 'videos'} · with captions</p>
+    </header>
+
+    <ul class="video-list video-list--page">
+${VIDEOS.map((v) => videoCard(v, 'page')).join('\n')}
+    </ul>
+  </main>
+` +
+    footer({ homeHref: 'index.html', blogHref: 'blog.html', videosHref: 'videos.html' })
   );
 }
 
@@ -725,8 +872,10 @@ function emit(rel, contents) {
 
 emit('index.html', buildIndex());
 emit('blog.html', buildBlog());
+emit('videos.html', buildVideos());
 for (const p of AUTHORED) emit(`posts/${p.slug}.html`, buildPost(p.slug));
 
 console.log(`✓ rebuilt ${written.length} pages:`);
 for (const f of written) console.log(`  · ${f}`);
 console.log(`\n  Articles processed: ${AUTHORED.length}`);
+console.log(`  Videos processed:   ${VIDEOS.length}`);

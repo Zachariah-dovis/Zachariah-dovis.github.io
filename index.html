@@ -60,6 +60,7 @@
       <nav class="nav" aria-label="Primary">
         <a href="#about" aria-current="page">About</a>
         <a href="blog.html">Writing</a>
+        <a href="videos.html">Videos</a>
         <a class="nav__ext" href="https://github.com/Zachariah-dovis" target="_blank" rel="noopener">GitHub<span class="sr-only"> (opens in a new tab)</span></a>
       </nav>
     </div>
@@ -108,6 +109,37 @@
           <a class="btn btn--ghost" href="https://github.com/Zachariah-dovis" target="_blank" rel="noopener">GitHub</a>
         </div>
       </div>
+    </section>
+
+    <section class="home-section" id="videos" aria-labelledby="videos-title">
+      <div class="home-section__head">
+        <h2 class="section-title" id="videos-title">Videos</h2>
+        <a class="section-more" href="videos.html">Watch <span aria-hidden="true">→</span></a>
+      </div>
+      <ul class="video-list">
+        <li class="video-card">
+          <div class="video-card__player">
+        <video class="video-frame" controls preload="metadata" playsinline
+               poster="assets/videos/busy-beaver-poster.jpg" width="1920" height="1080">
+          <source src="assets/videos/busy-beaver.mp4" type="video/mp4" />
+          <track kind="captions" srclang="en" label="English" src="assets/videos/busy-beaver.en.vtt" default />
+          Your browser cannot play this video.
+          <a href="assets/videos/busy-beaver.mp4">Download The Busy Beaver (MP4)</a>.
+        </video>
+          </div>
+          <div class="video-card__body">
+            <p class="video-card__meta">
+              <span class="video-card__duration">4:47</span>
+              <span class="dot" aria-hidden="true"></span>
+              <time datetime="2026-10-06">Oct 6, 2026</time>
+            </p>
+            <h3 class="video-card__title">The Busy Beaver</h3>
+            <p class="video-card__subtitle">where mathematics runs out</p>
+            <p class="video-card__blurb">The Busy Beaver function is finite, exact, and — unless mathematics itself is broken — provably out of reach. A 3D tour from a three-state Turing machine up to the point where ZF set theory runs out.</p>
+            <p class="video-card__tags"><span class="video-tag">Computability</span><span class="video-tag">Turing machines</span><span class="video-tag">Independence</span></p>
+          </div>
+        </li>
+      </ul>
     </section>
 
     <section class="home-section" aria-labelledby="latest-title">
@@ -161,6 +193,7 @@
       <nav class="site-footer__nav" aria-label="Footer">
         <a href="index.html">About</a>
         <a href="blog.html">Writing</a>
+        <a href="videos.html">Videos</a>
         <a href="https://github.com/Zachariah-dovis" target="_blank" rel="noopener">GitHub</a>
         <a href="mailto:zachariah.dovis@gmail.com">Email</a>
       </nav>

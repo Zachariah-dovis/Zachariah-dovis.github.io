@@ -1291,6 +1291,139 @@ main { flex: 1 0 auto; }
   color: var(--ink);
 }
 
+/* == 11b video section ==================================================== */
+.video-list { margin: 0; padding: 0; list-style: none; display: grid; gap: 1.2rem; }
+
+.video-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  gap: 0;
+  /*
+   * NOT `align-items: stretch`: a stretched grid item has its height dictated by
+   * the row, which defeats `aspect-ratio` on the video and squashes the frame.
+   * Each column takes its own natural height instead.
+   */
+  align-items: start;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius-lg);
+  background: rgba(255, 255, 255, 0.58);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition: border-color 180ms var(--ease), box-shadow 180ms var(--ease);
+}
+.video-card:hover { border-color: var(--line-strong); box-shadow: var(--shadow-md); }
+
+/* The player frame. `height: auto` keeps the video's own 16:9 ratio intact. */
+.video-frame {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+  background: #0b0b0a;
+  border: 0;
+  border-right: 1px solid var(--line-soft);
+}
+
+.video-card__player { min-width: 0; background: #0b0b0a; }
+
+.video-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: clamp(1.1rem, 2.2vw, 1.8rem);
+  min-width: 0;
+}
+
+.video-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin: 0;
+  font-family: var(--font-ui);
+  font-size: 0.74rem;
+  font-weight: 600;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--copper);
+}
+.video-card__meta .dot {
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  background: var(--muted-2);
+}
+.video-card__meta time { color: var(--muted-2); font-weight: 500; }
+.video-card__duration { color: var(--copper); }
+
+.video-card__title {
+  margin: 0;
+  font-size: clamp(1.25rem, 1.05rem + 0.9vw, 1.7rem);
+  letter-spacing: -0.022em;
+}
+
+.video-card__subtitle {
+  margin: 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--muted);
+}
+
+.video-card__blurb {
+  margin: 0.35rem 0 0;
+  color: var(--muted);
+  font-size: 0.96rem;
+  line-height: 1.68;
+}
+
+.video-points {
+  margin: 0.6rem 0 0;
+  padding-left: 1.15rem;
+  color: var(--muted);
+  font-size: 0.93rem;
+  line-height: 1.6;
+}
+.video-points li { margin: 0.28em 0; }
+.video-points li::marker { color: var(--copper); }
+
+.video-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: auto 0 0;
+  padding-top: 0.9rem;
+}
+.video-tag {
+  padding: 0.22rem 0.6rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.6);
+  font-family: var(--font-ui);
+  font-size: 0.74rem;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+/* The dedicated videos page: player on top, prose underneath. */
+.video-list--page { gap: 2rem; }
+.video-list--page .video-card {
+  grid-template-columns: minmax(0, 1fr);
+  background: var(--surface);
+}
+.video-list--page .video-frame { border-right: 0; border-bottom: 1px solid var(--line-soft); }
+.video-list--page .video-card__body { padding: clamp(1.2rem, 3vw, 2.2rem); }
+.video-list--page .video-card__blurb,
+.video-list--page .video-points { max-width: 62ch; }
+
+@media (max-width: 880px) {
+  .video-card { grid-template-columns: minmax(0, 1fr); }
+  .video-frame { border-right: 0; border-bottom: 1px solid var(--line-soft); }
+}
+
+@media print {
+  .video-list { display: none; }
+}
+
 /* == 12 footer ============================================================ */
 .site-footer {
   flex: none;
@@ -1402,4 +1535,21 @@ main { flex: 1 0 auto; }
   .article-content .statement { break-inside: avoid; background: none !important; }
   .article-content h2, .article-content h3 { break-after: avoid; }
   .heading__anchor { display: none; }
+}
+
+/* A still pulled from the video, shown on the videos page. */
+.video-still { margin: 1.2rem 0 0; }
+.video-still img {
+  display: block;
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: #0b0b0a;
+}
+.video-still figcaption {
+  margin-top: 0.6rem;
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--muted-2);
 }

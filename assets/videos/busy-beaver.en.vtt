@@ -1,0 +1,361 @@
+WEBVTT
+
+1
+00:00:01.150 --> 00:00:02.532
+Here is a whole number.
+
+2
+00:00:02.632 --> 00:00:03.692
+It's finite.
+
+3
+00:00:03.742 --> 00:00:04.855
+It's exact.
+
+4
+00:00:05.055 --> 00:00:09.689
+And unless mathematics itself is broken,
+no proof will ever tell us what it is.
+
+5
+00:00:10.139 --> 00:00:14.324
+To see why, we need the simplest
+computer imaginable, and a game.
+
+6
+00:00:17.874 --> 00:00:22.877
+A Turing machine is an endless tape of
+zeros, a head, and a tiny rule book.
+
+7
+00:00:23.127 --> 00:00:27.607
+At each step, it reads the cell under the
+head, writes a bit, moves left or right,
+
+8
+00:00:27.647 --> 00:00:28.829
+and switches state.
+
+9
+00:00:28.879 --> 00:00:31.587
+Until it hits the one rule that says: halt.
+
+10
+00:00:32.637 --> 00:00:36.553
+In 1962, Tibor Radó turned this into a game.
+
+11
+00:00:36.653 --> 00:00:39.729
+With n states, build the
+machine that runs the longest.
+
+12
+00:00:39.769 --> 00:00:41.546
+But it must eventually stop.
+
+13
+00:00:41.896 --> 00:00:43.949
+Some machines halt almost at once.
+
+14
+00:00:43.989 --> 00:00:45.367
+Most run forever.
+
+15
+00:00:45.517 --> 00:00:50.115
+The longest run that still ends is
+called BB(n): the busy beaver number.
+
+16
+00:00:51.265 --> 00:00:54.058
+One state: the best you can do is one step.
+
+17
+00:00:54.158 --> 00:00:55.589
+Two states: six.
+
+18
+00:00:55.689 --> 00:00:57.350
+Three states: twenty-one.
+
+19
+00:00:57.450 --> 00:00:59.711
+Four states: one hundred and seven.
+
+20
+00:00:59.761 --> 00:01:02.971
+A value not proven until 1983.
+
+21
+00:01:04.121 --> 00:01:05.523
+Then, five states.
+
+22
+00:01:05.673 --> 00:01:06.574
+In 1989,
+
+23
+00:01:06.614 --> 00:01:11.270
+Heiner Marxen and Jürgen Buntrock found
+
+24
+00:01:11.310 --> 00:01:16.165
+a machine that runs for 47,176,870 steps.
+
+25
+00:01:16.465 --> 00:01:17.774
+And then, it stops.
+
+26
+00:01:19.124 --> 00:01:21.606
+Look inside, and it's doing arithmetic.
+
+27
+00:01:21.656 --> 00:01:26.108
+It carries a number, and keeps replacing
+it with about five-thirds of itself.
+
+28
+00:01:26.158 --> 00:01:30.367
+Fourteen hops later, the number
+is 2 mod 3, and the machine halts.
+
+29
+00:01:31.117 --> 00:01:36.622
+Proving that nothing beats it took until
+2024, when an online collaboration,
+
+30
+00:01:36.662 --> 00:01:38.717
+the Busy Beaver Challenge,
+
+31
+00:01:38.757 --> 00:01:44.437
+sorted all 181 million essentially
+different five-state machines into halters
+
+32
+00:01:44.477 --> 00:01:45.544
+and non-halters.
+
+33
+00:01:45.594 --> 00:01:48.553
+Every step, checked by a
+computer proof assistant.
+
+34
+00:01:49.903 --> 00:01:51.016
+Six states.
+
+35
+00:01:51.066 --> 00:01:51.659
+In 2022,
+
+36
+00:01:51.699 --> 00:01:55.343
+Pavel Kropitz found a machine that runs for
+
+37
+00:01:55.383 --> 00:01:58.463
+more than ten tetrated to fifteen steps:
+
+38
+00:01:58.503 --> 00:02:00.660
+a power tower of fifteen tens.
+
+39
+00:02:01.310 --> 00:02:04.897
+In 2025, a contributor known as mxdys found
+
+40
+00:02:04.937 --> 00:02:08.130
+one that runs longer than a tower of twos,
+
+41
+00:02:08.170 --> 00:02:13.852
+whose height is a tower of twos,
+whose height is a tower of ten twos.
+
+42
+00:02:14.602 --> 00:02:17.902
+Radó proved this explosion is unavoidable:
+
+43
+00:02:17.942 --> 00:02:21.339
+BB eventually outgrows
+every computable function.
+
+44
+00:02:22.689 --> 00:02:24.692
+But size is not what stops us.
+
+45
+00:02:24.842 --> 00:02:28.929
+Hiding among the six-state machines
+is one nicknamed Antihydra.
+
+46
+00:02:28.979 --> 00:02:31.565
+Strip away the tape,
+and this is all it does.
+
+47
+00:02:32.015 --> 00:02:33.138
+Start with 8.
+
+48
+00:02:33.188 --> 00:02:36.833
+Multiply by three halves,
+rounding down, again and again.
+
+49
+00:02:36.873 --> 00:02:39.020
+Each even number scores two points.
+
+50
+00:02:39.060 --> 00:02:40.806
+Each odd number loses one.
+
+51
+00:02:40.856 --> 00:02:43.816
+If the score ever goes
+negative, the machine halts.
+
+52
+00:02:44.566 --> 00:02:47.909
+It has been run for over 270 billion rounds.
+
+53
+00:02:47.959 --> 00:02:51.982
+The score just keeps drifting upward,
+like a coin rigged in its favor.
+
+54
+00:02:52.532 --> 00:02:54.374
+It almost surely runs forever.
+
+55
+00:02:54.474 --> 00:02:59.232
+But proving it means predicting the parity
+of numbers multiplied by three halves,
+
+56
+00:02:59.272 --> 00:03:04.239
+again and again: a cousin of the Collatz
+problem, about which Paul Erdős said:
+
+57
+00:03:04.439 --> 00:03:07.447
+“Mathematics may not be
+ready for such problems.”
+
+58
+00:03:07.997 --> 00:03:11.686
+Until someone solves it,
+BB(6) remains out of reach.
+
+59
+00:03:13.236 --> 00:03:14.593
+And here's the twist.
+
+60
+00:03:14.693 --> 00:03:19.876
+Goldbach's conjecture, that every even
+number above 2 is a sum of two primes,
+
+61
+00:03:19.916 --> 00:03:24.353
+fits inside a 25-state machine
+that hunts for a counterexample.
+
+62
+00:03:24.453 --> 00:03:28.167
+The Riemann hypothesis fits inside 744.
+
+63
+00:03:28.717 --> 00:03:33.423
+So if you knew BB(25), you could
+settle Goldbach by brute force.
+
+64
+00:03:33.473 --> 00:03:35.299
+Run the machine that many steps.
+
+65
+00:03:35.349 --> 00:03:37.974
+If it hasn't halted by then, it never will.
+
+66
+00:03:39.524 --> 00:03:44.184
+Now, build a machine that searches every
+proof in Zermelo–Fraenkel set theory,
+
+67
+00:03:44.224 --> 00:03:47.840
+the foundation of modern
+mathematics, for a contradiction.
+
+68
+00:03:47.940 --> 00:03:50.929
+It halts only if mathematics
+contradicts itself.
+
+69
+00:03:51.479 --> 00:03:55.139
+If set theory could pin down
+BB for that machine's size,
+
+70
+00:03:55.179 --> 00:04:00.070
+it could prove the machine never halts,
+which means proving its own consistency.
+
+71
+00:04:00.270 --> 00:04:01.861
+And Gödel showed it can't.
+
+72
+00:04:03.011 --> 00:04:07.032
+In 2016, the first explicit machine beyond
+
+73
+00:04:07.072 --> 00:04:10.478
+set theory's reach had 7,910 states.
+
+74
+00:04:10.678 --> 00:04:12.916
+The record has been falling ever since.
+
+75
+00:04:13.066 --> 00:04:14.736
+748.
+
+76
+00:04:14.836 --> 00:04:16.566
+745.
+
+77
+00:04:16.666 --> 00:04:18.307
+549.
+
+78
+00:04:18.457 --> 00:04:22.558
+And, in a claim from 2025: 432.
+
+79
+00:04:23.908 --> 00:04:28.760
+So somewhere between six states and four
+hundred thirty-two, mathematics runs out.
+
+80
+00:04:28.910 --> 00:04:31.412
+Aaronson suspects it's as close as twenty.
+
+81
+00:04:32.362 --> 00:04:37.476
+Out past that edge, every busy beaver is
+still a perfectly ordinary whole number.
+
+82
+00:04:38.426 --> 00:04:40.529
+We will simply never prove which one.
