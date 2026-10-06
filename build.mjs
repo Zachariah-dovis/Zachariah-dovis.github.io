@@ -109,6 +109,7 @@ const VIDEOS = [
     file: 'assets/videos/busy-beaver.mp4',
     poster: 'assets/videos/busy-beaver-poster.jpg',
     captions: 'assets/videos/busy-beaver.en.vtt',
+    credit: 'Animation, narration and score by Claude Opus 5.5',
     tags: ['Computability', 'Turing machines', 'Independence'],
     blurb:
       'The Busy Beaver function is finite, exact, and — unless mathematics itself is broken — provably out of reach. A 3D tour from a three-state Turing machine up to the point where ZF set theory runs out.',
@@ -799,7 +800,8 @@ ${videoPlayer(v, context)}
             <h3 class="video-card__title">${v.title}</h3>
             <p class="video-card__subtitle">${v.subtitle}</p>
             <p class="video-card__blurb">${v.blurb}</p>
-${bullets}${still}            <p class="video-card__tags">${tagRow}</p>
+${bullets}${still}            <p class="video-card__credit">${v.credit}</p>
+            <p class="video-card__tags">${tagRow}</p>
           </div>
         </li>`;
 }
@@ -821,6 +823,7 @@ function buildVideos() {
           duration: `PT${v.duration.split(':')[0]}M${v.duration.split(':')[1]}S`,
           contentUrl: `${SITE}/${v.file}`,
           thumbnailUrl: `${SITE}/${v.poster}`,
+          ...(v.credit ? { creator: { '@type': 'SoftwareApplication', name: 'Claude Opus 5.5' } } : {}),
         },
       })),
     },

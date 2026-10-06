@@ -1553,3 +1553,14 @@ main { flex: 1 0 auto; }
   line-height: 1.5;
   color: var(--muted-2);
 }
+
+/* Attribution line for a video. Sits with the tags, set apart by an accent rule. */
+.video-card__credit {
+  margin: 1rem 0 0;
+  padding-left: 0.7rem;
+  border-left: 2px solid var(--gold-soft);
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--muted-2);
+}
