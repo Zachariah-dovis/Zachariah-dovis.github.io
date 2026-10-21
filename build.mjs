@@ -30,58 +30,52 @@ const EMAIL = 'zachariah.dovis@gmail.com';
  * prev/next pager all run newest → oldest. Keeping the source oldest-first
  * means appending a new post is a one-line change at the end.
  *
- * Note: the eight notes below all share a date (they arrived in one upload),
- * so their relative order is the order written here; only their position
- * relative to newer posts is meaningful.
+ * Note: several notes arrived in one upload, so git would stamp them all with
+ * the same date. Those carry an explicit, backdated `date` instead, and the
+ * list stays in chronological order.
  * ------------------------------------------------------------------ */
 const AUTHORED = [
-  {
-    slug: 'some-interesting-problems-in-hf-interviews',
-    title: 'Some Interesting Problems in HF Interviews',
-    tag: 'Problems',
-    blurb: 'Problems I have been asked, or have asked others, in quantitative-research interviews.',
-  },
   {
     slug: 'functional-analysis-for-markov-chain-mixing-time',
     title: 'Functional Analysis for Markov Chain Mixing Time',
     tag: 'Markov Chains',
     blurb: 'A compact summary of functional-analytic tools for MCMC: contraction of divergences, log-Sobolev inequalities, heat semigroups, entropy decay, and concentration.',
+    date: '2024-07-14T00:00:00',
   },
   {
     slug: 'steins-method-from-characterizations-to-quantitative-approximation',
     title: "Stein's Method: From Characterizations to Quantitative Approximation",
     tag: 'Probability',
     blurb: 'An introduction to characterizing operators, Stein equations, Gaussian and Poisson approximation, exchangeable pairs, bias couplings, and the generator viewpoint.',
+    date: '2024-11-17T00:00:00',
   },
   {
     slug: 'random-series-and-slln',
     title: 'Random Series and SLLN',
     tag: 'Probability',
     blurb: 'Convergence of series of random variables: three classical criteria, Kolmogorov’s inequality, and a second proof of the strong law of large numbers.',
+    date: '2025-03-29T00:00:00',
   },
   {
     slug: 'polytopes-in-high-dimension',
     title: 'Polytopes in High Dimension',
     tag: 'Convex Geometry',
     blurb: 'Exact and approximate Carathéodory theorems, covering numbers, and why a polytope with polynomially many vertices is exponentially smaller than a ball.',
+    date: '2025-08-07T00:00:00',
   },
   {
     slug: 'models-in-statistical-physics-and-some-algorithmic-correlations',
     title: 'Models in Statistical Physics and Some Algorithmic Correlations',
     tag: 'Statistical Physics',
     blurb: 'A note on spin systems, Ising/Potts models, the hardcore model, proper colorings, and the spectral-independence framework for approximate counting and sampling.',
-  },
-  {
-    slug: 'some-interesting-examples-related-to-probability',
-    title: 'Some Interesting Examples Related to Probability',
-    tag: 'Probability',
-    blurb: 'A collection of counterintuitive examples, kept up to date as I collect more.',
+    date: '2025-11-20T00:00:00',
   },
   {
     slug: 'resources-on-optimization-theory',
     title: 'Resources on Optimization Theory',
     tag: 'Optimization',
     blurb: 'First-order methods, cutting-plane methods and interior-point methods, with the references I actually return to.',
+    date: '2026-08-23T00:00:00',
   },
   {
     slug: 'lee-sidford-barrier-and-almost-linear-max-flow',
