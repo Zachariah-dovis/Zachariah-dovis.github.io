@@ -61,7 +61,6 @@
         <a href="#about" aria-current="page">About</a>
         <a href="blog.html">Writing</a>
         <a href="videos.html">Videos</a>
-        <a class="nav__ext" href="https://github.com/Zachariah-dovis" target="_blank" rel="noopener">GitHub<span class="sr-only"> (opens in a new tab)</span></a>
       </nav>
     </div>
   </header>
@@ -81,109 +80,64 @@
     </g>
   </svg></div>
       <div class="hero__inner">
-        <p class="eyebrow">Quantitative Research · Probability · Algorithms</p>
         <h1 class="hero__title" id="hero-title">Zachariah Zhang</h1>
-        <p class="hero__lede">
-          I am interested in the <em>high-dimensional phenomenon</em> in algorithms, probability,
-          machine learning, and convex geometry.
-        </p>
-        <p class="hero__body">
-          I recently graduated from Peking University with a Bachelor of Science degree, and I am
-          currently working as a junior quantitative researcher at Goku Tech.
-        </p>
-
-        <ul class="chips" aria-label="Research interests">
-          <li class="chip">High-dimensional phenomena</li>
-          <li class="chip">Probability theory</li>
-          <li class="chip">Algorithms</li>
-          <li class="chip">Convex geometry</li>
-          <li class="chip">Machine learning</li>
-        </ul>
+        <p class="hero__role">Quantitative researcher at Goku Tech <span>B.S., Peking University</span></p>
+        <p class="hero__lede">I write about probability, algorithms, and <em>high-dimensional geometry</em>.</p>
 
         <div class="hero__actions">
-          <a class="btn btn--primary" href="blog.html">
-            Read the notes
-            <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          <a class="btn btn--primary" href="#selected-writing">
+            Read selected notes <span aria-hidden="true">↓</span>
           </a>
-          <a class="btn" href="mailto:zachariah.dovis@gmail.com">Email</a>
-          <a class="btn btn--ghost" href="https://github.com/Zachariah-dovis" target="_blank" rel="noopener">GitHub</a>
         </div>
       </div>
+    </section>
+
+    <section class="home-section" id="selected-writing" aria-labelledby="selected-title">
+      <div class="home-section__head">
+        <h2 class="section-title" id="selected-title">Selected Writing</h2>
+        <a class="section-more" href="blog.html">All notes <span aria-hidden="true">→</span></a>
+      </div>
+      <ul class="selected-notes">
+        <li>
+          <a href="posts/lee-sidford-barrier-and-almost-linear-max-flow.html">
+            <p class="selected-notes__tag">Optimization</p>
+            <h3>The Lee–Sidford Barrier and the Road to Almost-Linear Max Flow</h3>
+            <p class="selected-notes__blurb">How an efficiently computable barrier broke the √m iteration bound, and how the line of work it started ended in almost-linear time max flow.</p>
+          </a>
+        </li>
+        <li>
+          <a href="posts/steins-method-from-characterizations-to-quantitative-approximation.html">
+            <p class="selected-notes__tag">Probability</p>
+            <h3>Stein's Method: From Characterizations to Quantitative Approximation</h3>
+            <p class="selected-notes__blurb">An introduction to characterizing operators, Stein equations, Gaussian and Poisson approximation, exchangeable pairs, bias couplings, and the generator viewpoint.</p>
+          </a>
+        </li>
+        <li>
+          <a href="posts/polytopes-in-high-dimension.html">
+            <p class="selected-notes__tag">Convex Geometry</p>
+            <h3>Polytopes in High Dimension</h3>
+            <p class="selected-notes__blurb">Exact and approximate Carathéodory theorems, covering numbers, and why a polytope with polynomially many vertices is exponentially smaller than a ball.</p>
+          </a>
+        </li>
+      </ul>
     </section>
 
     <section class="home-section" id="videos" aria-labelledby="videos-title">
       <div class="home-section__head">
         <h2 class="section-title" id="videos-title">Videos</h2>
-        <a class="section-more" href="videos.html">Watch <span aria-hidden="true">→</span></a>
+        <a class="section-more" href="videos.html">All videos <span aria-hidden="true">→</span></a>
       </div>
       <ul class="video-list">
-        <li class="video-card">
-          <div class="video-card__player">
-        <video class="video-frame" controls preload="metadata" playsinline
-               poster="assets/videos/busy-beaver-poster.jpg" width="1920" height="1080">
-          <source src="assets/videos/busy-beaver.mp4" type="video/mp4" />
-          <track kind="captions" srclang="en" label="English" src="assets/videos/busy-beaver.en.vtt" default />
-          Your browser cannot play this video.
-          <a href="assets/videos/busy-beaver.mp4">Download The Busy Beaver (MP4)</a>.
-        </video>
-          </div>
-          <div class="video-card__body">
-            <p class="video-card__meta">
-              <span class="video-card__duration">4:47</span>
-              <span class="dot" aria-hidden="true"></span>
-              <time datetime="2026-10-06">Oct 6, 2026</time>
-            </p>
-            <h3 class="video-card__title">The Busy Beaver</h3>
-            <p class="video-card__subtitle">where mathematics runs out</p>
-            <p class="video-card__blurb">The Busy Beaver function is finite, exact, and — unless mathematics itself is broken — provably out of reach. A 3D tour from a three-state Turing machine up to the point where ZF set theory runs out.</p>
-            <p class="video-card__credit">Animation, narration and score by Claude Opus 5.5</p>
-            <p class="video-card__tags"><span class="video-tag">Computability</span><span class="video-tag">Turing machines</span><span class="video-tag">Independence</span></p>
-          </div>
-        </li>
-      </ul>
-    </section>
-
-    <section class="home-section" aria-labelledby="latest-title">
-      <div class="home-section__head">
-        <h2 class="section-title" id="latest-title">Recent notes</h2>
-        <a class="section-more" href="blog.html">All 7 notes <span aria-hidden="true">→</span></a>
-      </div>
-      <ul class="latest">
-        <li class="latest__item">
-          <a class="latest__link" href="posts/lee-sidford-barrier-and-almost-linear-max-flow.html">
-            <span class="latest__tag">Optimization</span>
-            <span class="latest__title">The Lee–Sidford Barrier and the Road to Almost-Linear Max Flow</span>
-            <span class="latest__blurb">How an efficiently computable barrier broke the √m iteration bound, and how the line of work it started ended in almost-linear time max flow.</span>
-            <span class="latest__go" aria-hidden="true">Read →</span>
+        <li>
+          <a class="video-preview" href="videos.html#busy-beaver">
+            <img src="assets/videos/busy-beaver-poster.jpg" width="1920" height="1080" alt="" loading="lazy" />
+            <div>
+              <h3><span class="sr-only">Watch </span>The Busy Beaver</h3>
+              <p class="video-preview__duration">4:47</p>
+            </div>
+            <span class="video-preview__go" aria-hidden="true">Watch →</span>
           </a>
         </li>
-        <li class="latest__item">
-          <a class="latest__link" href="posts/resources-on-optimization-theory.html">
-            <span class="latest__tag">Optimization</span>
-            <span class="latest__title">Resources on Optimization Theory</span>
-            <span class="latest__blurb">First-order methods, cutting-plane methods and interior-point methods, with the references I actually return to.</span>
-            <span class="latest__go" aria-hidden="true">Read →</span>
-          </a>
-        </li>
-        <li class="latest__item">
-          <a class="latest__link" href="posts/models-in-statistical-physics-and-some-algorithmic-correlations.html">
-            <span class="latest__tag">Statistical Physics</span>
-            <span class="latest__title">Models in Statistical Physics and Some Algorithmic Correlations</span>
-            <span class="latest__blurb">A note on spin systems, Ising/Potts models, the hardcore model, proper colorings, and the spectral-independence framework for approximate counting and sampling.</span>
-            <span class="latest__go" aria-hidden="true">Read →</span>
-          </a>
-        </li>
-      </ul>
-    </section>
-
-    <section class="home-section" aria-labelledby="work-title">
-      <div class="home-section__head">
-        <h2 class="section-title" id="work-title">Elsewhere</h2>
-      </div>
-      <ul class="elsewhere">
-        <li><a href="https://github.com/Zachariah-dovis" target="_blank" rel="noopener"><span>GitHub</span><span class="elsewhere__note">Code and notes</span></a></li>
-        <li><a href="posts/functional-analysis-for-markov-chain-mixing-time.html"><span>Randomness and Computation</span><span class="elsewhere__note">Writing on high dimension</span></a></li>
-        <li><a href="mailto:zachariah.dovis@gmail.com"><span>zachariah.dovis@gmail.com</span><span class="elsewhere__note">Always happy to talk maths</span></a></li>
       </ul>
     </section>
   </main>
@@ -192,13 +146,10 @@
     <div class="site-footer__inner">
       <p class="site-footer__name">© <span id="year"></span> Zachariah Zhang</p>
       <nav class="site-footer__nav" aria-label="Footer">
-        <a href="index.html">About</a>
-        <a href="blog.html">Writing</a>
-        <a href="videos.html">Videos</a>
+        <a href="blog.html">Randomness and Computation</a>
         <a href="https://github.com/Zachariah-dovis" target="_blank" rel="noopener">GitHub</a>
         <a href="mailto:zachariah.dovis@gmail.com">Email</a>
       </nav>
-      <p class="site-footer__note">Randomness and Computation · notes on high-dimensional phenomena</p>
     </div>
   </footer>
 

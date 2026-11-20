@@ -30,9 +30,8 @@ const EMAIL = 'zachariah.dovis@gmail.com';
  * prev/next pager all run newest → oldest. Keeping the source oldest-first
  * means appending a new post is a one-line change at the end.
  *
- * Note: several notes arrived in one upload, so git would stamp them all with
- * the same date. Those carry an explicit, backdated `date` instead, and the
- * list stays in chronological order.
+ * Notes imported in one batch use explicit dates to spread them across the
+ * archive.
  * ------------------------------------------------------------------ */
 const AUTHORED = [
   {
@@ -40,42 +39,42 @@ const AUTHORED = [
     title: 'Functional Analysis for Markov Chain Mixing Time',
     tag: 'Markov Chains',
     blurb: 'A compact summary of functional-analytic tools for MCMC: contraction of divergences, log-Sobolev inequalities, heat semigroups, entropy decay, and concentration.',
-    date: '2024-07-14T00:00:00',
+    date: '2024-07-02T00:00:00',
   },
   {
     slug: 'steins-method-from-characterizations-to-quantitative-approximation',
     title: "Stein's Method: From Characterizations to Quantitative Approximation",
     tag: 'Probability',
     blurb: 'An introduction to characterizing operators, Stein equations, Gaussian and Poisson approximation, exchangeable pairs, bias couplings, and the generator viewpoint.',
-    date: '2024-11-17T00:00:00',
+    date: '2024-12-01T00:00:00',
   },
   {
     slug: 'random-series-and-slln',
     title: 'Random Series and SLLN',
     tag: 'Probability',
     blurb: 'Convergence of series of random variables: three classical criteria, Kolmogorov’s inequality, and a second proof of the strong law of large numbers.',
-    date: '2025-03-29T00:00:00',
+    date: '2025-03-05T00:00:00',
   },
   {
     slug: 'polytopes-in-high-dimension',
     title: 'Polytopes in High Dimension',
     tag: 'Convex Geometry',
     blurb: 'Exact and approximate Carathéodory theorems, covering numbers, and why a polytope with polynomially many vertices is exponentially smaller than a ball.',
-    date: '2025-08-07T00:00:00',
+    date: '2025-07-24T00:00:00',
   },
   {
     slug: 'models-in-statistical-physics-and-some-algorithmic-correlations',
     title: 'Models in Statistical Physics and Some Algorithmic Correlations',
     tag: 'Statistical Physics',
     blurb: 'A note on spin systems, Ising/Potts models, the hardcore model, proper colorings, and the spectral-independence framework for approximate counting and sampling.',
-    date: '2025-11-20T00:00:00',
+    date: '2025-12-05T00:00:00',
   },
   {
     slug: 'resources-on-optimization-theory',
     title: 'Resources on Optimization Theory',
     tag: 'Optimization',
     blurb: 'First-order methods, cutting-plane methods and interior-point methods, with the references I actually return to.',
-    date: '2026-08-23T00:00:00',
+    date: '2026-09-01T00:00:00',
   },
   {
     slug: 'lee-sidford-barrier-and-almost-linear-max-flow',
@@ -260,6 +259,9 @@ ${math}${jsonLd ? `  <script type="application/ld+json">\n${jsonLd}\n  </script>
 function topbar({ homeHref, blogHref, videosHref = 'videos.html', aboutHref, isHome = false, isBlog = false, isPost = false, isVideos = false }) {
   const link = (href, label, active) =>
     `<a href="${href}"${active ? ' aria-current="page"' : ''}>${label}</a>`;
+  const githubLink = isHome ? '' : `
+        <a class="nav__ext" href="${GITHUB}" target="_blank" rel="noopener">GitHub<span class="sr-only"> (opens in a new tab)</span></a>`;
+
   return `<body class="page">
   <a class="skip-link" href="#main">Skip to content</a>
   <div class="grain" aria-hidden="true"></div>
@@ -278,27 +280,31 @@ function topbar({ homeHref, blogHref, videosHref = 'videos.html', aboutHref, isH
       <nav class="nav" aria-label="Primary">
         ${link(aboutHref, 'About', isHome)}
         ${link(blogHref, 'Writing', isBlog || isPost)}
-        ${link(videosHref, 'Videos', isVideos)}
-        <a class="nav__ext" href="${GITHUB}" target="_blank" rel="noopener">GitHub<span class="sr-only"> (opens in a new tab)</span></a>
+        ${link(videosHref, 'Videos', isVideos)}${githubLink}
       </nav>
     </div>
   </header>
 `;
 }
 
-function footer({ homeHref, blogHref, videosHref = 'videos.html', scriptHref = 'script.js' }) {
+function footer({ homeHref, blogHref, videosHref = 'videos.html', scriptHref = 'script.js', isHome = false }) {
+  const siteLinks = isHome
+    ? `        <a href="${blogHref}">${BLOG_NAME}</a>`
+    : `        <a href="${homeHref}">About</a>
+        <a href="${blogHref}">Writing</a>
+        <a href="${videosHref}">Videos</a>`;
+  const note = isHome ? '' : `
+      <p class="site-footer__note">${BLOG_NAME} · notes on high-dimensional phenomena</p>`;
+
   return `
   <footer class="site-footer">
     <div class="site-footer__inner">
       <p class="site-footer__name">© <span id="year"></span> ${SITE_NAME}</p>
       <nav class="site-footer__nav" aria-label="Footer">
-        <a href="${homeHref}">About</a>
-        <a href="${blogHref}">Writing</a>
-        <a href="${videosHref}">Videos</a>
+${siteLinks}
         <a href="${GITHUB}" target="_blank" rel="noopener">GitHub</a>
         <a href="mailto:${EMAIL}">Email</a>
-      </nav>
-      <p class="site-footer__note">${BLOG_NAME} · notes on high-dimensional phenomena</p>
+      </nav>${note}
     </div>
   </footer>
 
@@ -418,7 +424,26 @@ function ribbon() {
 `;
 }
 
-function sidebar({ archiveHrefPrefix = '', toc = [], slug }) {
+function tocList(toc, indent) {
+  const items = toc.map(
+    (t) => `${indent}  <li class="toc__item toc__item--h${t.level}"><a href="#${t.id}">${t.text}</a></li>`
+  );
+  return `${indent}<ul class="toc__list">\n${items.join('\n')}\n${indent}</ul>`;
+}
+
+function inlineToc(toc) {
+  if (toc.length < 2) return '';
+  return `        <details class="toc--inline">
+          <summary>On this page</summary>
+          <nav aria-label="On this page" data-toc>
+${tocList(toc, '            ')}
+          </nav>
+        </details>
+
+`;
+}
+
+function sidebar({ toc, slug }) {
   const active = (s) => (s === slug ? ' aria-current="true"' : '');
   const archive = AUTHORED.map(
     (p) => `          <li><a href="${p.slug}.html"${active(p.slug)}><span class="archive__dot" aria-hidden="true"></span><span>${p.title}</span></a></li>`
@@ -428,9 +453,7 @@ function sidebar({ archiveHrefPrefix = '', toc = [], slug }) {
   const tocBlock = toc.length >= 2
     ? `      <nav class="toc" aria-labelledby="toc-title" data-toc>
         <p class="eyebrow" id="toc-title">On this page</p>
-        <ul class="toc__list">
-${toc.map((t) => `          <li class="toc__item toc__item--h${t.level}"><a href="#${t.id}">${t.text}</a></li>`).join('\n')}
-        </ul>
+${tocList(toc, '        ')}
       </nav>
 `
     : '';
@@ -471,7 +494,12 @@ ${cell(next, 'next')}
  * ------------------------------------------------------------------ */
 
 function buildIndex() {
-  const latest = AUTHORED[AUTHORED.length - 1]; // most recently added note
+  const selected = [
+    'lee-sidford-barrier-and-almost-linear-max-flow',
+    'steins-method-from-characterizations-to-quantitative-approximation',
+    'polytopes-in-high-dimension',
+  ].map((slug) => AUTHORED.find((post) => post.slug === slug)).filter(Boolean);
+
   const jsonLd = JSON.stringify(
     {
       '@context': 'https://schema.org',
@@ -503,60 +531,31 @@ function buildIndex() {
     <section class="hero" id="about" aria-labelledby="hero-title">
       <div class="hero__art" aria-hidden="true">${polytopeArt({ className: 'polytope polytope--hero' })}</div>
       <div class="hero__inner">
-        <p class="eyebrow">Quantitative Research · Probability · Algorithms</p>
         <h1 class="hero__title" id="hero-title">${SITE_NAME}</h1>
-        <p class="hero__lede">
-          I am interested in the <em>high-dimensional phenomenon</em> in algorithms, probability,
-          machine learning, and convex geometry.
-        </p>
-        <p class="hero__body">
-          I recently graduated from Peking University with a Bachelor of Science degree, and I am
-          currently working as a junior quantitative researcher at Goku Tech.
-        </p>
-
-        <ul class="chips" aria-label="Research interests">
-          <li class="chip">High-dimensional phenomena</li>
-          <li class="chip">Probability theory</li>
-          <li class="chip">Algorithms</li>
-          <li class="chip">Convex geometry</li>
-          <li class="chip">Machine learning</li>
-        </ul>
+        <p class="hero__role">Quantitative researcher at Goku Tech <span>B.S., Peking University</span></p>
+        <p class="hero__lede">I write about probability, algorithms, and <em>high-dimensional geometry</em>.</p>
 
         <div class="hero__actions">
-          <a class="btn btn--primary" href="blog.html">
-            Read the notes
-            <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+          <a class="btn btn--primary" href="#selected-writing">
+            Read selected notes <span aria-hidden="true">↓</span>
           </a>
-          <a class="btn" href="mailto:${EMAIL}">Email</a>
-          <a class="btn btn--ghost" href="${GITHUB}" target="_blank" rel="noopener">GitHub</a>
         </div>
       </div>
     </section>
 
-    <section class="home-section" id="videos" aria-labelledby="videos-title">
+    <section class="home-section" id="selected-writing" aria-labelledby="selected-title">
       <div class="home-section__head">
-        <h2 class="section-title" id="videos-title">Videos</h2>
-        <a class="section-more" href="videos.html">${VIDEOS.length === 1 ? 'Watch' : `All ${VIDEOS.length} videos`} <span aria-hidden="true">→</span></a>
+        <h2 class="section-title" id="selected-title">Selected Writing</h2>
+        <a class="section-more" href="blog.html">All notes <span aria-hidden="true">→</span></a>
       </div>
-      <ul class="video-list">
-${VIDEOS.slice(0, 2).map((v) => videoCard(v, 'home')).join('\n')}
-      </ul>
-    </section>
-
-    <section class="home-section" aria-labelledby="latest-title">
-      <div class="home-section__head">
-        <h2 class="section-title" id="latest-title">Recent notes</h2>
-        <a class="section-more" href="blog.html">All ${AUTHORED.length} notes <span aria-hidden="true">→</span></a>
-      </div>
-      <ul class="latest">
-${AUTHORED.slice(0, 3)
+      <ul class="selected-notes">
+${selected
   .map(
-    (p) => `        <li class="latest__item">
-          <a class="latest__link" href="${p.href}">
-            <span class="latest__tag">${p.tag}</span>
-            <span class="latest__title">${p.title}</span>
-            <span class="latest__blurb">${p.blurb}</span>
-            <span class="latest__go" aria-hidden="true">Read →</span>
+    (p) => `        <li>
+          <a href="${p.href}">
+            <p class="selected-notes__tag">${p.tag}</p>
+            <h3>${p.title}</h3>
+            <p class="selected-notes__blurb">${p.blurb}</p>
           </a>
         </li>`
   )
@@ -564,24 +563,24 @@ ${AUTHORED.slice(0, 3)
       </ul>
     </section>
 
-    <section class="home-section" aria-labelledby="work-title">
+    <section class="home-section" id="videos" aria-labelledby="videos-title">
       <div class="home-section__head">
-        <h2 class="section-title" id="work-title">Elsewhere</h2>
+        <h2 class="section-title" id="videos-title">Videos</h2>
+        <a class="section-more" href="videos.html">All videos <span aria-hidden="true">→</span></a>
       </div>
-      <ul class="elsewhere">
-        <li><a href="${GITHUB}" target="_blank" rel="noopener"><span>GitHub</span><span class="elsewhere__note">Code and notes</span></a></li>
-        <li><a href="${latest.href}"><span>${BLOG_NAME}</span><span class="elsewhere__note">Writing on high dimension</span></a></li>
-        <li><a href="mailto:${EMAIL}"><span>${EMAIL}</span><span class="elsewhere__note">Always happy to talk maths</span></a></li>
+      <ul class="video-list">
+${VIDEOS.slice(0, 2).map(videoPreview).join('\n')}
       </ul>
     </section>
   </main>
 ` +
-    footer({ homeHref: 'index.html', blogHref: 'blog.html' })
+    footer({ blogHref: 'blog.html', isHome: true })
   );
 }
 
 function buildBlog() {
-  const total = AUTHORED.length;
+  const posts = AUTHORED.map((post) => ({ ...post, published: gitDate(post.slug) }));
+  const total = posts.length;
   const jsonLd = JSON.stringify(
     {
       '@context': 'https://schema.org',
@@ -589,18 +588,19 @@ function buildBlog() {
       name: BLOG_NAME,
       url: `${SITE}/blog.html`,
       author: { '@type': 'Person', name: SITE_NAME },
-      blogPost: AUTHORED.map((p) => ({
+      blogPost: posts.map((p) => ({
         '@type': 'BlogPosting',
         headline: p.title,
         url: `${SITE}/${p.href}`,
         keywords: p.tag,
+        ...(p.published ? { datePublished: isoDate(p.published) } : {}),
       })),
     },
     null,
     2
   );
 
-  const tags = [...new Set(AUTHORED.map((p) => p.tag))];
+  const tags = [...new Set(posts.map((p) => p.tag))];
 
   return (
     head({
@@ -633,7 +633,7 @@ function buildBlog() {
         <button class="filter is-active" type="button" data-filter="all" aria-pressed="true">All<span class="filter__count">${total}</span></button>
 ${tags
   .map((t) => {
-    const n = AUTHORED.filter((p) => p.tag === t).length;
+    const n = posts.filter((p) => p.tag === t).length;
     return `        <button class="filter" type="button" data-filter="${escapeAttr(t)}" aria-pressed="false">${t}<span class="filter__count">${n}</span></button>`;
   })
   .join('\n')}
@@ -649,15 +649,15 @@ ${tags
       <p class="results" role="status" aria-live="polite" data-results></p>
 
       <ol class="post-list" data-post-list>
-${AUTHORED.map((p) => {
-  const d = gitDate(p.slug);
+${posts.map((p) => {
+  const d = p.published;
   return `        <li class="post-card" data-tag="${escapeAttr(p.tag)}" data-title="${escapeAttr(p.title.toLowerCase())}" data-blurb="${escapeAttr(p.blurb.toLowerCase())}">
           <a class="post-card__link" href="${p.href}">
             <span class="post-card__num" aria-hidden="true">${String(p.index + 1).padStart(2, '0')}</span>
             <span class="post-card__main">
               <span class="post-card__meta">
                 <span class="post-card__tag">${p.tag}</span>
-                ${d ? `<span class="post-card__sep" aria-hidden="true">·</span><span class="post-card__date">${fmtDate(d)}</span>` : ''}
+                ${d ? `<span class="post-card__sep" aria-hidden="true">·</span><time class="post-card__date" datetime="${isoDate(d)}">${fmtDate(d)}</time>` : ''}
               </span>
               <span class="post-card__title">${p.title}</span>
               <span class="post-card__blurb">${p.blurb}</span>
@@ -743,7 +743,7 @@ ${ribbon()}        <a class="back-link" href="../blog.html">
           </p>
         </header>
 
-        <div class="article-content">
+${inlineToc(toc)}        <div class="article-content">
 ${content}
         </div>
 
@@ -759,31 +759,42 @@ ${sidebar({ toc, slug })}    </div>
  * Video pieces
  * ------------------------------------------------------------------ */
 
-/** Shared, self-contained player markup. `context` is 'home' or 'page'. */
-function videoPlayer(v, context) {
-  const pre = context === 'page' ? '' : '';
+function videoPreview(v) {
+  return `        <li>
+          <a class="video-preview" href="videos.html#${v.slug}">
+            <img src="${v.poster}" width="1920" height="1080" alt="" loading="lazy" />
+            <div>
+              <h3><span class="sr-only">Watch </span>${v.title}</h3>
+              <p class="video-preview__duration">${v.duration}</p>
+            </div>
+            <span class="video-preview__go" aria-hidden="true">Watch →</span>
+          </a>
+        </li>`;
+}
+
+function videoPlayer(v) {
   return `        <video class="video-frame" controls preload="metadata" playsinline
-               poster="${pre}${v.poster}" width="1920" height="1080">
-          <source src="${pre}${v.file}" type="video/mp4" />
-          <track kind="captions" srclang="en" label="English" src="${pre}${v.captions}" default />
+               poster="${v.poster}" width="1920" height="1080">
+          <source src="${v.file}" type="video/mp4" />
+          <track kind="captions" srclang="en" label="English" src="${v.captions}" default />
           Your browser cannot play this video.
-          <a href="${pre}${v.file}">Download ${v.title} (MP4)</a>.
+          <a href="${v.file}">Download ${v.title} (MP4)</a>.
         </video>`;
 }
 
-function videoCard(v, context) {
+function videoCard(v) {
   const tagRow = v.tags.map((t) => `<span class="video-tag">${t}</span>`).join('');
   const bullets =
-    context === 'page' && v.bullets
+    v.bullets
       ? `          <ul class="video-points">\n${v.bullets.map((b) => `            <li>${b}</li>`).join('\n')}\n          </ul>\n`
       : '';
   const still =
-    context === 'page' && v.still
+    v.still
       ? `          <figure class="video-still">\n            <img src="${v.still.src}" alt="${escapeAttr(v.still.alt)}" loading="lazy" />\n            <figcaption>${v.still.caption}</figcaption>\n          </figure>\n`
       : '';
-  return `        <li class="video-card">
+  return `        <li class="video-card" id="${v.slug}">
           <div class="video-card__player">
-${videoPlayer(v, context)}
+${videoPlayer(v)}
           </div>
           <div class="video-card__body">
             <p class="video-card__meta">
@@ -849,7 +860,7 @@ function buildVideos() {
     </header>
 
     <ul class="video-list video-list--page">
-${VIDEOS.map((v) => videoCard(v, 'page')).join('\n')}
+${VIDEOS.map(videoCard).join('\n')}
     </ul>
   </main>
 ` +

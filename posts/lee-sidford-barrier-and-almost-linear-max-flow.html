@@ -124,6 +124,30 @@
           </p>
         </header>
 
+        <details class="toc--inline">
+          <summary>On this page</summary>
+          <nav aria-label="On this page" data-toc>
+            <ul class="toc__list">
+              <li class="toc__item toc__item--h2"><a href="#why-sqrt-m-path-following-and-the-barrier-parameter">Why $\sqrt{m}$: path following and the barrier parameter</a></li>
+              <li class="toc__item toc__item--h2"><a href="#before-2014-a-good-parameter-or-cheap-steps-never-both">Before 2014: a good parameter or cheap steps, never both</a></li>
+              <li class="toc__item toc__item--h2"><a href="#the-construction-weight-each-constraint-by-its-lewis-weight">The construction: weight each constraint by its Lewis weight</a></li>
+              <li class="toc__item toc__item--h2"><a href="#from-barrier-to-algorithm-path-finding-and-tilde-o-m-sqrt-n-">From barrier to algorithm: path finding and $\tilde{O}(m\sqrt{n})$ flow</a></li>
+              <li class="toc__item toc__item--h2"><a href="#max-flow-after-2013-fewer-steps-cheaper-steps-then-different">Max flow after 2013: fewer steps, cheaper steps, then different steps</a></li>
+              <li class="toc__item toc__item--h3"><a href="#fewer-iterations-unit-capacities">Fewer iterations (unit capacities)</a></li>
+              <li class="toc__item toc__item--h3"><a href="#cheaper-iterations-data-structures">Cheaper iterations (data structures)</a></li>
+              <li class="toc__item toc__item--h3"><a href="#different-iterations-the-ell-1-interior-point-method">Different iterations: the $\ell_1$ interior point method</a></li>
+              <li class="toc__item toc__item--h3"><a href="#after-2022">After 2022</a></li>
+              <li class="toc__item toc__item--h2"><a href="#the-exponent-over-time">The exponent over time</a></li>
+              <li class="toc__item toc__item--h2"><a href="#where-the-barrier-went-next">Where the barrier went next</a></li>
+              <li class="toc__item toc__item--h2"><a href="#open-problems">Open problems</a></li>
+              <li class="toc__item toc__item--h2"><a href="#sources">Sources</a></li>
+              <li class="toc__item toc__item--h3"><a href="#barriers-and-linear-programming">Barriers and linear programming</a></li>
+              <li class="toc__item toc__item--h3"><a href="#maximum-flow">Maximum flow</a></li>
+              <li class="toc__item toc__item--h3"><a href="#lewis-weights-and-sampling">Lewis weights and sampling</a></li>
+            </ul>
+          </nav>
+        </details>
+
         <div class="article-content">
 <p class="article-lede">In 2014, Yin Tat Lee and Aaron Sidford built an efficiently computable barrier that lets an interior point method solve a linear program in $\tilde{O}(\sqrt{\operatorname{rank}})$ iterations instead of $\tilde{O}(\sqrt{m})$. Applied to flows, it gave the first $\tilde{O}(m\sqrt{n})$ min-cost flow algorithm. Eight years later max flow fell to $m^{1+o(1)}$, by a different interior point method that grew out of the same program of cheap, approximately maintained steps.</p>
 

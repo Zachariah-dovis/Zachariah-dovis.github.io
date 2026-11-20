@@ -111,14 +111,17 @@
   /* -------------------------------------------------- active TOC section -- */
   var tocLinks = $$('[data-toc] a[href^="#"]');
   if (tocLinks.length && 'IntersectionObserver' in window) {
-    var byId = {};
+    var byId = Object.create(null);
     var targets = [];
 
     tocLinks.forEach(function (a) {
       var el = document.getElementById(decodeURIComponent(a.getAttribute('href').slice(1)));
       if (!el) return;
-      byId[el.id] = a;
-      targets.push(el);
+      if (!byId[el.id]) {
+        byId[el.id] = [];
+        targets.push(el);
+      }
+      byId[el.id].push(a);
     });
 
     var visible = {};
@@ -142,7 +145,7 @@
       }
 
       tocLinks.forEach(function (a) { a.classList.remove('is-active'); });
-      if (bestId && byId[bestId]) byId[bestId].classList.add('is-active');
+      if (bestId) byId[bestId].forEach(function (a) { a.classList.add('is-active'); });
     }, { rootMargin: '-88px 0px -60% 0px', threshold: [0, 0.25, 0.5, 1] });
 
     targets.forEach(function (el) { spy.observe(el); });
